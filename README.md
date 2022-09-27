@@ -32,11 +32,17 @@ The group decided that we would design with desktop first and but as we have dec
 Jamie Fergus raised an issue about the page refreshing after update and what happens with multiple editors changing data - will there be data racing / locking involved.
 
 The group then decided what we would be doing before the client meeting on Wednesday 28th.
-  -DJ: Basic UX designs to show client tomorrow.
-  -Ethan: Start doing user stories.
-  -Jamie: Start doing user stories.
-  -Daniel: breaking down user stories into front end / back end tasks
-  -John: breaking down user stories into front end / back end tasks
+
+DJ 
+  - Basic UX designs to show client tomorrow.
+Ethan
+  - Start doing user stories.
+Jamie
+  - Start doing user stories.
+Daniel
+  - Breaking down user stories into front end / back end tasks
+John
+  - Breaking down user stories into front end / back end tasks
 
 
 
