@@ -11,15 +11,26 @@
 </head>
 
 <body >
-    <header >
+    <header>
         <h1>Brightsolid</h1>
         <img src="">
     </header>
 
     <main >
-        <div class="container" id="col">
+        <div class="container card" id="col">
             <h2>Compliant</h2>
-                <div class="row card text-bg-success">
+                <div class="row card text-bg-success" id="innerCard">
+                    <h5 class="col">Compliance Rule Name</h5>
+                    <button class="col-auto btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSuccess" aria-expanded="false" aria-controls="collapseSuccess">
+                        Toggle Report
+                      </button>
+                      <div class="collapse" id="collapseSuccess">
+                        <div class="card">
+                          <p>Report Text</p>
+                        </div>
+                      </div>
+                </div>
+                <div class="row card text-bg-success" id="innerCard">
                     <h5 class="col">Compliance Rule Name</h5>
                     <button class="col-auto btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSuccess" aria-expanded="false" aria-controls="collapseSuccess">
                         Toggle Report
@@ -32,9 +43,20 @@
                 </div>
         </div>
 
-        <div class="container"id="col">
-            <h2>Non Compliant</h2>
-            <div class="row card text-bg-danger">
+        <div class="container card"id="col">
+            <h2>Non-Compliant</h2>
+            <div class="row card text-bg-danger" id="innerCard">
+                <h5 class="col">Compliance Rule Name</h5>
+                <button class="col-auto btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDanger" aria-expanded="false" aria-controls="collapseDanger">
+                    Toggle Report
+                  </button>
+                  <div class="collapse" id="collapseDanger">
+                    <div class="card">
+                      <p>Report Text</p>
+                    </div>
+                  </div>
+            </div>
+            <div class="row card text-bg-danger" id="innerCard">
                 <h5 class="col">Compliance Rule Name</h5>
                 <button class="col-auto btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDanger" aria-expanded="false" aria-controls="collapseDanger">
                     Toggle Report
@@ -47,9 +69,20 @@
             </div>
         </div>
 
-        <div class="container" id="col">
+        <div class="container card" id="col">
             <h2>Exceptions</h2>
-            <div class="row card text-bg-warning">
+            <div class="row card text-bg-warning" id="innerCard">
+                <h5 class="col">Compliance Rule Name</h5>
+                <button class="col-auto btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWarning" aria-expanded="false" aria-controls="collapseWarning">
+                    Toggle Report
+                  </button>
+                  <div class="collapse" id="collapseWarning">
+                    <div class="card">
+                      <p>Report Text</p>
+                    </div>
+                  </div>
+            </div>
+            <div class="row card text-bg-warning" id="innerCard">
                 <h5 class="col">Compliance Rule Name</h5>
                 <button class="col-auto btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWarning" aria-expanded="false" aria-controls="collapseWarning">
                     Toggle Report
