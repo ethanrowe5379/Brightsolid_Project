@@ -2,9 +2,6 @@
 
 session_start();
 
-
-
-
 ?>
 <?php 
     include "dbConnect.php";
@@ -17,24 +14,22 @@ session_start();
         $password = ($_POST['psw']);
         
         $password = hash('sha3-256', $password); //Feels like hashing the password from the start is the best idea
-        getUsername($username, $password);
+        getUsername($username, $password, $dbc);
     }
     else{
         errorMessage();
     }
 
     //Checks if the user exists
-    function getUsername($username, $password){
-
-        include "dbConnect.php";
+    function getUsername($username, $password, $dbc){
 
         // Perform query to check if username exists
-        if ($result = $dbc -> query("SELECT user_id, user_name FROM user WHERE user_name='$username'")) {
-        
+        if ($result = $dbc -> query("SELECT role_id, user_name FROM user WHERE user_name='$username' AND user_password='$password'")) { 
+         
             //If one result - user is defined.
             if($result -> num_rows == 1){
                 $row = $result->fetch_assoc();
-                getPassword($row["user_id"], $password);
+                getUserRole($row["role_id"], $dbc);
             }
             else{
                 errorMessage();
@@ -45,29 +40,23 @@ session_start();
         }
     }
 
-    //Checks if the password matches
-    function getPassword($id, $password){
+    //Finds the user role based on the user role ID
+    function getUserRole($roleId, $dbc){
         
-        include "dbConnect.php";
+        if ($result = $dbc -> query("SELECT user_role_name FROM user_role WHERE user_role_id='$roleId'")) {
+            $row = $result->fetch_assoc();
 
-        // Perform query to check if password matches
-        if ($result = $dbc -> query("SELECT Userpassword FROM userpasswords WHERE user_id='$id'")) {
+            $roleName = $row["user_role_name"];
             
-            //If one result - user is defined.
-            if($result -> num_rows == 1){
-                $row = $result->fetch_assoc();
-                
-                if($row['Userpassword'] == $password){
-                    echo "Logged in";
-                    
-                    header("refresh:3;url=Index.php"); //Take to relevant page
-                    mysqli_close($dbc);
-                    return;
-                }
+            if($roleName == "Manager"){
+                echo "Logged in as: Manager"; //FOR TESTING
+                //header("refresh:3;url=Index.php"); //Goes to Manager Dashboard
+            }
+            else if($roleName == "Auditor"){
+                echo "Logged in as: Auditor"; //FOR TESTING
+                  //header("refresh:3;url=Index.php"); //Goes to Auditor dashboard
             }
         }
-
-        errorMessage(); //Can have this hear because otherwise they will just get logged in and yup
     }
 
     //Sends the login error message but also redirects the user
@@ -78,7 +67,6 @@ session_start();
 
     mysqli_close($dbc);
 ?>
-
 
 <html lang="en">
     <head>
