@@ -1,6 +1,14 @@
 <?php 
-    include "dbConnect.php";
 
+session_start();
+
+
+
+
+?>
+<?php 
+    include "dbConnect.php";
+    
     //If fields are not empty
     if(isset($_POST['uname']) && $_POST['psw'])
     {
@@ -51,8 +59,6 @@
                 
                 if($row['Userpassword'] == $password){
                     echo "Logged in";
-
-                    
                     
                     header("refresh:3;url=Index.php"); //Take to relevant page
                     mysqli_close($dbc);
@@ -66,9 +72,27 @@
 
     //Sends the login error message but also redirects the user
     function errorMessage(){
-        echo "Incorrect password or username";
+        $_SESSION['loginstatus'] = "Incorrect username or password.";
         header("refresh:2;url=Index.php"); //Goes back to login page after x seconds
     }
 
     mysqli_close($dbc);
 ?>
+
+
+<html lang="en">
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="Login.css">
+        <title>Logging In</title>
+    </head>
+
+    <body id="LoggingInPage">
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status" id="LoginSpinner">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </body>
+</html>
