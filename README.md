@@ -85,7 +85,7 @@ Brain:A
   -the plan is up to you, we advise you to not wait until the third week to write the report. Do 	work now rather than later.  Having a plan that will look ahead to not only Monday but further.  
 
 
-## Meeting 4 (Monday 28th) - scrum 
+## Meeting 4 (Monday 28th) - scrum 1
 
 ### Members Present: 
 
@@ -147,3 +147,53 @@ Daniel
  
 
 Group talked about the best way for us to carry out risk assessment and Moscow of the user stories. The group decided to split the project into multiple sprints. 
+
+
+
+## Meeting 5 (Friday 30th) - scrum 2
+### Members Present:
+DJ Dorren, Ethan Rowe, Jamie Fergus, Daniel Jakubek, John Harrow
+
+### Members Not Present:
+
+### Apologies:
+n/a
+
+### Summary of Conversation:
+Daniel Jakubek - yesterday I started working on the log ibn system 
+- managed to get the compliance manager log in done 
+- log in system works need to add a redirect to dashboard
+- had some issues with DB connect 
+- the database we're using is very simple at the moment so we need to put that into the actual DB
+- Plan for today is to make it look like DJ's designs
+
+Jamie -  has there been any hashing yet?
+
+Daniel - yes all paswords are shashed and input compaired using sha256
+	- John do you have any issues to add?
+
+John - no issues not mentioned
+
+
+Jamie - yesterday I worked on creating the DB had a couple issues with some of the Primary keys such as the non compliance table - theres anther table that links but theres not ref
+	- we might also need to figure out how to store the timestap variables
+
+Daniel - the thing with the primary keys got updated this morning and with timestamp could we just use the date.
+
+jamie - I'm not sure as it needs to store the date and time including ms which isn't included in timestamp or date.
+	we also need to store json and i've just done long blob currently
+
+ethan - So far we have a basic view for what well use for the compliance manager and auditor - were just getting
+
+Jamie - just to add the developmental isn't as up to date as I was working on anthor branch
+
+DJ - I worked with Jamie and Ethan on some pair programming on both the database and the dashboards 
+	- I also played around a bit with the styling this morning to see if I could fix a couple styling issues that I will continue to work on today
+
+Daniel - plans for today then?
+
+Ethan - Jamie DJ and I will be working on connecting the database and the queries.
+
+Daniel - Can we use SQLI?
+
+Everyone - Yes
