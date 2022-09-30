@@ -16,56 +16,97 @@
     ?>
     <header>
         <h1>Brightsolid</h1>
-        <?php
-          // $sql = "SELECT * FROM rule";
-          // $result = $db->query($sql);
-          // while($row = $result->fetch_assoc()){
-          //   echo($row['user_name']);
-          // }
-        ?>
         <img src="">
     </header>
 
     <main >
         <div class="container card" id="col">
             <h2>Compliant</h2>
-                <?php 
-                  $sql = "SELECT rule_id, rule_name FROM rule";
+            <?php 
+                  $sql = "SELECT t1.rule_id, t1.rule_name
+                          FROM rule t1
+                          LEFT JOIN exception_audit t2 
+                          ON t2.rule_id = t1.rule_id
+                          LEFT JOIN non_complience_audit t3 
+                          ON t3.rule_id = t1.rule_id
+                          WHERE t2.rule_id IS NULL AND t3.rule_id IS NULL;";
                   $result = $db->query($sql);
-                  while($row = $result->fetch_assoc()){
-                  echo '<div class="row card text-bg-success" id="innerCard">
-                      <h5 class="col">' . $row['rule_name'] . '</h5>
-                      <button class="col-auto btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#compliance' . $row['rule_id'] . '" aria-expanded="false" aria-controls="compliance' . $row['rule_id'] . '">
-                          Toggle Report
-                        </button>
-                        <div class="collapse" id="compliance' . $row['rule_id'] . '">
-                          <div class="card">
-                            <p>Lorem Ipsum</p>
-                          </div>
-                        </div>
-                  </div>';
+                  
+                  
+                  if($result->num_rows == 0){
+                      echo("No Rules Compliant");
+                  }else{
+                    while($row = $result->fetch_assoc()){
+                    echo '<div class="row card text-bg-success" id="innerCard">
+                          <h5 class="col">' . $row['rule_name'] . '</h5>
+                          <button class="col-auto btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#compliance' . $row['rule_id'] . '" aria-expanded="false" aria-controls="compliance' . $row['rule_id'] . '">
+                              Toggle Report
+                            </button>
+                            <div class="collapse" id="compliance' . $row['rule_id'] . '">
+                              <div class="card">
+                                <p>Lorem Ipsum</p>
+                              </div>
+                            </div>
+                      </div>';
                   }
+                }
                 ?>
         </div>
 
         <div class="container card"id="col">
             <h2>Non-Compliant</h2>
-                <div class="row card text-bg-success" id="innerCard">
-                      <h5 class="col">Rule #?</h5>
-                      <button class="col-auto btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#compliance21" aria-expanded="false" aria-controls="compliance21">
-                          Toggle Report
-                        </button>
-                        <div class="collapse" id="compliance21">
-                          <div class="card">
-                            <p style="color:black;">hello</p>
-                          </div>
-                        </div>
-                </div>
+            <?php 
+                  $sql = "SELECT r.rule_id, r.rule_name FROM rule r, exception_audit ea
+                          WHERE r.rule_id = ea.rule_id";
+                  $result = $db->query($sql);
+                  
+                  
+                  if($result->num_rows == 0){
+                      echo("No Rules Compliant");
+                  }else{
+                    while($row = $result->fetch_assoc()){
+                      echo '<div class="row card text-bg-success" id="innerCard">
+                            <h5 class="col">' . $row['rule_name'] . '</h5>
+                            <button class="col-auto btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#compliance' . $row['rule_id'] . '" aria-expanded="false" aria-controls="compliance' . $row['rule_id'] . '">
+                                Toggle Report
+                              </button>
+                              <div class="collapse" id="compliance' . $row['rule_id'] . '">
+                                <div class="card">
+                                  <p>Lorem Ipsum</p>
+                                </div>
+                              </div>
+                        </div>';
+                    }
+                  }
+                ?>
         </div>
 
         <div class="container card" id="col">
             <h2>Exceptions</h2>
-            
+            <?php 
+                  $sql = "SELECT r.rule_id, r.rule_name FROM rule r, non_complience_audit nca
+                          WHERE r.rule_id = nca.rule_id";
+                  $result = $db->query($sql);
+                  
+                  
+                  if($result->num_rows == 0){
+                      echo("No Rules Compliant");
+                  }else{
+                    while($row = $result->fetch_assoc()){
+                      echo '<div class="row card text-bg-success" id="innerCard">
+                            <h5 class="col">' . $row['rule_name'] . '</h5>
+                            <button class="col-auto btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#compliance' . $row['rule_id'] . '" aria-expanded="false" aria-controls="compliance' . $row['rule_id'] . '">
+                                Toggle Report
+                              </button>
+                              <div class="collapse" id="compliance' . $row['rule_id'] . '">
+                                <div class="card">
+                                  <p>Lorem Ipsum</p>
+                                </div>
+                              </div>
+                        </div>';
+                    }
+                  }
+                ?>
         </div>
 
     </main>
