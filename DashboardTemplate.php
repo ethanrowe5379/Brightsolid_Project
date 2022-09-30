@@ -50,7 +50,17 @@
 
         <div class="container card"id="col">
             <h2>Non-Compliant</h2>
-            
+                <div class="row card text-bg-success" id="innerCard">
+                      <h5 class="col">Rule #?</h5>
+                      <button class="col-auto btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#compliance21" aria-expanded="false" aria-controls="compliance21">
+                          Toggle Report
+                        </button>
+                        <div class="collapse" id="compliance21">
+                          <div class="card">
+                            <p style="color:black;">hello</p>
+                          </div>
+                        </div>
+                </div>
         </div>
 
         <div class="container card" id="col">
