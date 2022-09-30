@@ -1,3 +1,11 @@
+/*
+Script to create all the table in the database needed for the BrightSolid project
+
+
+*/
+
+-- **********************************************************************
+
 DROP DATABASE IF EXISTS `jamiefergusdb`;
 
 CREATE DATABASE `jamiefergusdb`;
