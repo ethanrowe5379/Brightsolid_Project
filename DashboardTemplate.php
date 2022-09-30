@@ -7,12 +7,22 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-        <link rel="stylesheet" href="DashboardTemplate.css">
+    <link rel="stylesheet" href="DashboardTemplate.css">
 </head>
 
 <body >
+    <?php 
+        include "connectDB.php";
+    ?>
     <header>
         <h1>Brightsolid</h1>
+        <?php
+          $sql = "SELECT * FROM user";
+          $result = $db->query($sql);
+          while($row = $result->fetch_assoc()){
+            echo($row['user_name']);
+          }
+        ?>
         <img src="">
     </header>
 
