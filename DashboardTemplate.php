@@ -17,7 +17,7 @@
     <header>
         <h1>Brightsolid</h1>
         <?php
-          // $sql = "SELECT * FROM user";
+          // $sql = "SELECT * FROM rule";
           // $result = $db->query($sql);
           // while($row = $result->fetch_assoc()){
           //   echo($row['user_name']);
@@ -29,70 +29,33 @@
     <main >
         <div class="container card" id="col">
             <h2>Compliant</h2>
-                <?php echo '<div class="row card text-bg-success" id="innerCard">
-                    <h5 class="col">Compliance Name #1</h5>
-                    <button class="col-auto btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSuccess" aria-expanded="false" aria-controls="collapseSuccess">
-                        Toggle Report
-                      </button>
-                      <div class="collapse" id="collapseSuccess">
-                        <div class="card">
-                          <p>Lorem Ipsum</p>
+                <?php 
+                  $sql = "SELECT rule_id, rule_name FROM rule";
+                  $result = $db->query($sql);
+                  while($row = $result->fetch_assoc()){
+                  echo '<div class="row card text-bg-success" id="innerCard">
+                      <h5 class="col">' . $row['rule_name'] . '</h5>
+                      <button class="col-auto btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#compliance' . $row['rule_id'] . '" aria-expanded="false" aria-controls="compliance' . $row['rule_id'] . '">
+                          Toggle Report
+                        </button>
+                        <div class="collapse" id="compliance' . $row['rule_id'] . '">
+                          <div class="card">
+                            <p>Lorem Ipsum</p>
+                          </div>
                         </div>
-                      </div>
-                </div>';
+                  </div>';
+                  }
                 ?>
         </div>
 
         <div class="container card"id="col">
             <h2>Non-Compliant</h2>
-            <div class="row card text-bg-danger" id="innerCard">
-                <h5 class="col">Compliance Rule Name</h5>
-                <button class="col-auto btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDanger" aria-expanded="false" aria-controls="collapseDanger">
-                    Toggle Report
-                  </button>
-                  <div class="collapse" id="collapseDanger">
-                    <div class="card">
-                      <p>Report Text</p>
-                    </div>
-                  </div>
-            </div>
-            <div class="row card text-bg-danger" id="innerCard">
-                <h5 class="col">Compliance Rule Name</h5>
-                <button class="col-auto btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDanger" aria-expanded="false" aria-controls="collapseDanger">
-                    Toggle Report
-                  </button>
-                  <div class="collapse" id="collapseDanger">
-                    <div class="card">
-                      <p>Report Text</p>
-                    </div>
-                  </div>
-            </div>
+            
         </div>
 
         <div class="container card" id="col">
             <h2>Exceptions</h2>
-            <div class="row card text-bg-warning" id="innerCard">
-                <h5 class="col">Compliance Rule Name</h5>
-                <button class="col-auto btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWarning" aria-expanded="false" aria-controls="collapseWarning">
-                    Toggle Report
-                  </button>
-                  <div class="collapse" id="collapseWarning">
-                    <div class="card">
-                      <p>Report Text</p>
-                    </div>
-                  </div>
-            </div>
-            <div class="row card text-bg-warning" id="innerCard">
-                <h5 class="col">Compliance Rule Name</h5>
-                <button class="col-auto btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWarning" aria-expanded="false" aria-controls="collapseWarning">
-                    Toggle Report
-                  </button>
-                  <div class="collapse" id="collapseWarning">
-                    <div class="card">
-                      <p>Report Text</p>
-                    </div>
-                  </div>
-            </div>
+            
         </div>
 
     </main>
