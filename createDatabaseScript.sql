@@ -35,7 +35,6 @@ CREATE TABLE user_role(
     user_role_name varchar(255) NOT NULL
 );
 
-
 CREATE TABLE resource_type(
 	resource_type_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     resource_type_name varchar(255) NOT NULL,
@@ -63,8 +62,6 @@ CREATE TABLE user(
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
     FOREIGN KEY (role_id) REFERENCES user_role(user_role_id)
 );
-
-
 
 CREATE TABLE resource(
 	resource_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -142,4 +139,3 @@ CREATE TABLE non_compliance(
     FOREIGN KEY (resource_id) REFERENCES resource(resource_id),
     FOREIGN KEY (rule_id) REFERENCES rule(rule_id)
 );
-
