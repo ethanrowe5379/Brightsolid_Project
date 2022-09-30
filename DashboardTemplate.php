@@ -17,11 +17,11 @@
     <header>
         <h1>Brightsolid</h1>
         <?php
-          $sql = "SELECT * FROM user";
-          $result = $db->query($sql);
-          while($row = $result->fetch_assoc()){
-            echo($row['user_name']);
-          }
+          // $sql = "SELECT * FROM user";
+          // $result = $db->query($sql);
+          // while($row = $result->fetch_assoc()){
+          //   echo($row['user_name']);
+          // }
         ?>
         <img src="">
     </header>
@@ -29,28 +29,18 @@
     <main >
         <div class="container card" id="col">
             <h2>Compliant</h2>
-                <div class="row card text-bg-success" id="innerCard">
-                    <h5 class="col">Compliance Rule Name</h5>
+                <?php echo '<div class="row card text-bg-success" id="innerCard">
+                    <h5 class="col">Compliance Name #1</h5>
                     <button class="col-auto btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSuccess" aria-expanded="false" aria-controls="collapseSuccess">
                         Toggle Report
                       </button>
                       <div class="collapse" id="collapseSuccess">
                         <div class="card">
-                          <p>Report Text</p>
+                          <p>Lorem Ipsum</p>
                         </div>
                       </div>
-                </div>
-                <div class="row card text-bg-success" id="innerCard">
-                    <h5 class="col">Compliance Rule Name</h5>
-                    <button class="col-auto btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSuccess" aria-expanded="false" aria-controls="collapseSuccess">
-                        Toggle Report
-                      </button>
-                      <div class="collapse" id="collapseSuccess">
-                        <div class="card">
-                          <p>Report Text</p>
-                        </div>
-                      </div>
-                </div>
+                </div>';
+                ?>
         </div>
 
         <div class="container card"id="col">
