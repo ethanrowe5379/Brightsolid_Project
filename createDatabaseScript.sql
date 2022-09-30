@@ -137,9 +137,9 @@ CREATE TABLE exception_audit(
 );
 
 CREATE TABLE non_compliance(
-resource_id int NOT NULL,
-rule_id int NOT NULL,
-FOREIGN KEY (resource_id) REFERENCES resource(resource_id),
-FOREIGN KEY (rule_id) REFERENCES rule(rule_id)
+    resource_id int NOT NULL,
+    rule_id int NOT NULL,
+    FOREIGN KEY (resource_id) REFERENCES resource(resource_id),
+    FOREIGN KEY (rule_id) REFERENCES rule(rule_id)
 );
 
