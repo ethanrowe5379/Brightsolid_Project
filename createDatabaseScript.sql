@@ -123,6 +123,7 @@ CREATE TABLE exception_audit(
     user_id int NOT NULL,
     customer_id int NOT NULL,
     rule_id int NOT NULL,
+    action varchar(255) NOT NULL,
     action_dt varchar(255) NOT NULL,                                                /*  *1  */
     old_exception_value varchar(255) NOT NULL,
     new_exception_value varchar(255) NOT NULL,
