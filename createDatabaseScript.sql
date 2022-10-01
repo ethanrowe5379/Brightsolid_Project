@@ -1,12 +1,16 @@
 /*
-Script to create all the table in the database needed for the BrightSolid project
+A script to create all the tables needed for the BrightSolid project database
 
 TODO
 
-*1  -   Need to figure out what datatype to use for the timestampz datatype
-*2  -   Need to figure out what datatype "last_updated_by" is supposed to be currently set to int but could possibly be varchar
-*3  -   Need to ask client if this is a nessary variable, a primary key will need to be created in the "non_complience" table
-*4  -   Need to check datatype, longblob is usually large enough, however there might be a better datatype to use
+1.	Need to figure out what datatype to use for the following timestampz datatypes : 
+		-	last_updated										(resource table)
+		-	action_dt											(non_complience_audit table)
+		-	review_date, last_updated							(exception table)
+		-	action_dt, old_review_time, new_review_time			(exception_audit table)
+            
+2.	Need to ask client if non_complience_id is a nessary variable, a primary key might need to be created in the "non_complience" table
+3.	Need to check datatype, longblob is usually large enough, however there might be a better datatype to use for resource_metadata
 
 */
 
@@ -72,8 +76,8 @@ CREATE TABLE resource(
     account_id int NOT NULL,
     resource_type_id int NOT NULL,
     resource_name varchar(255) NOT NULL,
-    last_updated varchar(255) NOT NULL,			                                    /*  *1  */
-    resource_metadata longblob NOT NULL,		                                    /*  *4  */
+    last_updated varchar(255) NOT NULL,
+    resource_metadata longblob NOT NULL,
     PRIMARY KEY (resource_id),
     FOREIGN KEY (account_id) REFERENCES account(account_id),
     FOREIGN KEY (resource_type_id) REFERENCES resource_type(resource_type_id)
@@ -90,12 +94,12 @@ CREATE TABLE resource(
 
 CREATE TABLE non_complience_audit(
 	non_complience_audit_id int NOT NULL AUTO_INCREMENT,
-    non_complience_id int NOT NULL,                                             /*  *3  */
+    non_complience_id int NOT NULL,
     resource_id int NOT NULL,
     rule_id int NOT NULL,
     user_id int NOT NULL,
     action varchar(255) NOT NULL,
-    action_dt varchar(255) NOT NULL,			                                    /*  *1  */
+    action_dt varchar(255) NOT NULL,
     PRIMARY KEY (non_complience_audit_id),
     FOREIGN KEY (resource_id) REFERENCES resource(resource_id),
     FOREIGN KEY (rule_id) REFERENCES rule(rule_id),
@@ -106,11 +110,11 @@ CREATE TABLE exception(
 	exception_id int NOT NULL AUTO_INCREMENT,
     customer_id int NOT NULL,
     rule_id int NOT NULL,
-    last_updated_by int NOT NULL,                                                   /*  *2  */
+    last_updated_by int NOT NULL,
     exception_value varchar(255) NOT NULL,
     justification varchar(255) NOT NULL,
-    review_date varchar(255) NOT NULL,                                              /*  *1  */
-    last_updated varchar(255) NOT NULL,                                             /*  *1  */
+    review_date varchar(255) NOT NULL,
+    last_updated varchar(255) NOT NULL,
     PRIMARY KEY(exception_id),
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
     FOREIGN KEY (rule_id) REFERENCES rule(rule_id),
@@ -124,13 +128,13 @@ CREATE TABLE exception_audit(
     customer_id int NOT NULL,
     rule_id int NOT NULL,
     action varchar(255) NOT NULL,
-    action_dt varchar(255) NOT NULL,                                                /*  *1  */
+    action_dt varchar(255) NOT NULL,
     old_exception_value varchar(255) NOT NULL,
     new_exception_value varchar(255) NOT NULL,
     old_justification varchar(255) NOT NULL,
     new_justification varchar(255) NOT NULL,
-    old_review_time varchar(255) NOT NULL,                                          /*  *1  */
-    new_review_time varchar(255) NOT NULL,                                          /*  *1  */
+    old_review_time varchar(255) NOT NULL,
+    new_review_time varchar(255) NOT NULL,
     PRIMARY KEY(exception_audit_id),
     FOREIGN KEY (exception_id) REFERENCES exception(exception_id),
     FOREIGN KEY (user_id) REFERENCES user(user_id),
