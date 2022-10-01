@@ -32,13 +32,13 @@ CREATE TABLE platform(
 
 CREATE TABLE customer(
 	customer_id int NOT NULL AUTO_INCREMENT,
-    customer_name varchar(255) NOT NULL
+    customer_name varchar(255) NOT NULL,
     PRIMARY KEY(customer_id)
 );
 
 CREATE TABLE user_role(
 	user_role_id int NOT NULL AUTO_INCREMENT,
-    user_role_name varchar(255) NOT NULL
+    user_role_name varchar(255) NOT NULL,
     PRIMARY KEY (user_role_id)
 );
 
