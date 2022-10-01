@@ -1,9 +1,5 @@
 <?php 
-
-session_start();
-
-?>
-<?php 
+    session_start();
     include "dbConnect.php";
     
     //If fields are not empty
@@ -47,15 +43,27 @@ session_start();
             $row = $result->fetch_assoc();
 
             $roleName = $row["user_role_name"];
-            
-            if($roleName == "Manager"){
-                echo "Logged in as: Manager"; //FOR TESTING
-                //header("refresh:3;url=Index.php"); //Goes to Manager Dashboard
-            }
-            else if($roleName == "Auditor"){
-                echo "Logged in as: Auditor"; //FOR TESTING
-                  //header("refresh:3;url=Index.php"); //Goes to Auditor dashboard
-            }
+            $_SESSION['userRole'] = $roleName;
+
+            sendToPage($roleName);
+        }
+    }
+
+    //Sends user to correct page/dashboard
+    function sendToPage($roleName){
+        switch($roleName){
+            case "Manager":
+                //header("refresh:3;url=ManagerDashboard.php");
+                break;
+            case "Auditor":
+                //header("refresh:3;url=AuditorDashboard.php");
+                break;
+            case "Admin":
+                header("refresh:1;url=AdminPortal.php");
+                break;
+            default:
+                header("refresh:3;url=Index.php");
+                break;
         }
     }
 

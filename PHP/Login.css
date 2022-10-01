@@ -1,7 +1,7 @@
 body {font-family: Arial, Helvetica, sans-serif;}
 /* form {border: 3px solid #f1f1f1;} */
 
-input[type=text], input[type=password] {
+input[type=text], input[type=password], input[type=number] {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -14,7 +14,7 @@ input[type=text], input[type=password] {
   color: red;
 }
 
-#LoginSubmit {
+#LoginSubmit, #CreateUser {
   background-color: black;
   color: white;
   padding: 14px 20px;
@@ -24,7 +24,7 @@ input[type=text], input[type=password] {
   width: 100%;
 }
 
-#LoginSubmit:hover {
+#LoginSubmit:hover, #CreateUser:hover {
   opacity: 0.8;
 }
     
@@ -43,8 +43,8 @@ span.psw {
     max-width: 60%;
 }
 
-#LoginForm{
-    margin-top: 45px;
+#LoginForm, #CreateUserForm{
+  margin-top: 45px;
 }
 
 #LoginSpinner{
