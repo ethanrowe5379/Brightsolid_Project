@@ -87,7 +87,7 @@ CREATE TABLE resource(
 	rule_id int NOT NULL AUTO_INCREMENT,
     rule_name varchar(255) NOT NULL,
     resource_type_id int NOT NULL,
-    rule_description varchar(255) NOT NULL,
+    rule_description varchar(511) NOT NULL,
     PRIMARY KEY (rule_id),
     FOREIGN KEY (resource_type_id) REFERENCES resource_type(resource_type_id)
 );
