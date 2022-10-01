@@ -90,7 +90,7 @@ CREATE TABLE resource(
 
 CREATE TABLE non_complience_audit(
 	non_complience_audit_id int NOT NULL AUTO_INCREMENT,
-    /*non_complience_id int NOT NULL */                                             /*  *3  */
+    non_complience_id int NOT NULL,                                             /*  *3  */
     resource_id int NOT NULL,
     rule_id int NOT NULL,
     user_id int NOT NULL,
