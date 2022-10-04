@@ -20,12 +20,17 @@
     function getUsername($username, $password, $dbc){
 
         // Perform query to check if username exists
-        if ($result = $dbc -> query("SELECT role_id, user_name FROM user WHERE user_name='$username' AND user_password='$password'")) { 
+        if ($result = $dbc -> query("SELECT role_id, user_name, customer_id, user_id FROM user WHERE user_name='$username' AND user_password='$password'")) { 
          
             //If one result - user is defined.
             if($result -> num_rows == 1){
                 $row = $result->fetch_assoc();
-                getUserRole($row["role_id"], $dbc);
+
+                $_SESSION['customerID'] = $row["customer_id"];
+                $_SESSION['userID'] = $row["user_id"];
+                $_SESSION['userName'] = $row["user_name"];
+
+                getUserRole($row["role_id"], $dbc);  
             }
             else{
                 errorMessage();
@@ -52,13 +57,15 @@
     //Sends user to correct page/dashboard
     function sendToPage($roleName){
         switch($roleName){
-            case "Manager":
+            case "manager":
                 //header("refresh:3;url=ManagerDashboard.php");
+                echo "Role: " . $roleName;
                 break;
-            case "Auditor":
+            case "auditor":
                 //header("refresh:3;url=AuditorDashboard.php");
+                echo "Role: " . $roleName;
                 break;
-            case "Admin":
+            case "admin":
                 header("refresh:1;url=AdminPortal.php");
                 break;
             default:
@@ -91,4 +98,20 @@
             </div>
         </div>
     </body>
+      
+  <form action="ExceptionTest.php" method="post">
+        <button class="btn btn-primary" type="submit" name="crtException">Create Exception</button>
+    </form>
+
 </html>
+
+
+
+<?php
+  if(isset($_POST['crtException']))
+    logOutUser();
+
+  function logOutUser(){
+      header("Location: ExceptionTest.php");
+  }
+?>
