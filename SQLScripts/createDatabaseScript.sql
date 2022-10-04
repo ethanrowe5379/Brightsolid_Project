@@ -65,7 +65,6 @@ CREATE TABLE user(
     user_name varchar(255) NOT NULL,
     customer_id int NOT NULL,
     role_id int NOT NULL,
-    user_password varchar(64) NOT NULL,
     PRIMARY KEY (user_id),
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
     FOREIGN KEY (role_id) REFERENCES user_role(user_role_id)
@@ -116,10 +115,12 @@ CREATE TABLE exception(
     justification varchar(255) NOT NULL,
     review_date varchar(255) NOT NULL,
     last_updated varchar(255) NOT NULL,
+    resource_id int NOT NULL,
     PRIMARY KEY(exception_id),
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
     FOREIGN KEY (rule_id) REFERENCES rule(rule_id),
     FOREIGN KEY (last_updated_by) REFERENCES user(user_id)
+    FOREIGN KEY (resource_id) REFERENCES resource(resource_id)
 );
 
 CREATE TABLE exception_audit(
