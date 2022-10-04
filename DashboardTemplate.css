@@ -7,9 +7,9 @@ header{
     width: 100%;
 }
 
-.container{
+/* .container{
     background-color: #797978 ;
-}
+} */
 
 #innerCard{
     margin-bottom: 5px;
@@ -17,9 +17,6 @@ header{
     margin-left:-10px;
 }
 
-#table{
-    width:80%;
-}
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
@@ -48,11 +45,11 @@ header{
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
-    .container{
+    /* .container{
         width: 30%;
         display:inline-block;
         font-size: medium;
-    }
+    } */
 
 
     *{

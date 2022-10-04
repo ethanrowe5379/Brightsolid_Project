@@ -107,19 +107,20 @@
             }
             ?>
         </div> -->
-
-    <table class="table table-striped table-sm" id="table">
+    <div class="container">
+    <table class="table table-striped table-hover">
       <thead>
         <tr>
           <th scope="col">Rule Name</th>
           <th scope="col">Rule Description</th>
-          <th scope="col">Compliance Status</th>
+          <th scope="col">Resource Name</th>
         </tr>
       </thead>
       <tbody>
         <?php
-        $sql = "SELECT r.rule_name, r.rule_description, rs.resource_name FROM rule r, resource rs, exception es
-                SORT BY";
+        $sql = "SELECT rule.rule_id, rule.rule_name, rule.rule_description, resource.resource_name FROM rule ,resource, account
+                WHERE rule.resource_type_id = resource.resource_type_id AND resource.account_id = account.account_id AND account.customer_id = 1
+                ";
         $result = $db->query($sql);
 
 
@@ -131,7 +132,7 @@
                   <tr>
                     <th>'. $row['rule_name'] .'</th>
                     <th>'. $row['rule_description'] .'</th>
-                    <th></th>
+                    <th>' . $row['resource_name'] . '</th>
                   </tr>
                   ';
           }
@@ -139,7 +140,7 @@
         ?>
       </tbody>
     </table>
-
+    </div >
   </main>
 
 
@@ -147,5 +148,5 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 </body>
-
+<link rel="stylesheet" href="DashboardTemplate.css">
 </html>
