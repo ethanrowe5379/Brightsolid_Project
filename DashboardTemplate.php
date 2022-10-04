@@ -47,14 +47,16 @@
                     <th>';
                     
                     $sqlResource = "SELECT * FROM resource
-                                    LEFT JOIN non_compliance 
-                                    ON resource.resource_id = non_compliance.resource_id
-                                    WHERE resource.resource_type_id = " . $row['resource_type_id'] . "
-                                    ORDER BY resource.resource_type_id ASC;";
+                    LEFT JOIN non_compliance
+                    ON resource.resource_id = non_compliance.resource_id 
+                    WHERE resource.resource_type_id = " . $row['resource_type_id'] . ";";
+
                     $resultResource = $db->query($sqlResource);
 
                     while ($rowResource = $resultResource->fetch_assoc()) {
-                      echo $rowResource['resource_name'] . ", ";
+                      if($rowResource['rule_id'] == NULL){
+                        echo $rowResource['resource_name'] . ", ";
+                      }
                     }
                     echo '</th>
                   </tr>;
@@ -79,8 +81,6 @@
         $sql = "SELECT rule_id, rule_name, rule_description, resource_type_id FROM rule 
         ORDER BY resource_type_id ASC;";
 
-        
-
         $result = $db->query($sql);
 
 
@@ -93,12 +93,10 @@
                     <th>'. $row['rule_description'] .'</th>
                     <th>';
                     
-                    $sqlResource = "SELECT * FROM non_compliance
-                                    LEFT JOIN resource 
-                                    ON resource.resource_id = non_compliance.resource_id
-                                    WHERE resource.resource_type_id = " . $row['resource_type_id'] . "
-                                    ORDER BY resource.resource_type_id ASC;";
+                    $sqlResource = "SELECT * FROM resource, non_compliance WHERE non_compliance.resource_id = resource.resource_id AND resource.resource_type_id = " . $row['resource_type_id'] . ";";
+
                     $resultResource = $db->query($sqlResource);
+
                     if ($resultResource->num_rows == 0) {
                       echo "No Non-Compliant Resources";
                     } else {
