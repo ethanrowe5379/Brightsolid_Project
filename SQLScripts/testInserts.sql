@@ -11,7 +11,10 @@ VALUES
 
 INSERT INTO user_role
 VALUES
-	(1, 'system')
+	(1, 'system'),
+	(2, 'auditor'),
+	(3, 'manager'),
+	(4, 'admin')
 ;
 
 INSERT INTO resource_type
@@ -35,7 +38,10 @@ VALUES
 
 INSERT INTO user
 VALUES
-	(1, 'system', 1, 1)
+	(1, 'system', 1, 1,'7833dc6e82e9378117bcb03128ac8fdd95d9073161ebc963783b3010dd847ff3'),
+	(2, 'user1', 1, 2,'7833dc6e82e9378117bcb03128ac8fdd95d9073161ebc963783b3010dd847ff3'),
+	(3, 'user2', 1, 3,'7833dc6e82e9378117bcb03128ac8fdd95d9073161ebc963783b3010dd847ff3'),
+	(4, 'admin', 1, 4,'8d71292c2d52e804d6e43412655bf3ec8020354446913b30e0813baaf675651e')
 ;
 
 INSERT INTO resource
