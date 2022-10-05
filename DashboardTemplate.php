@@ -65,9 +65,14 @@
                           </thead>
                           <tbody>
                           ';
-                            $sqlResources = "SELECT resource.resource_id, resource.resource_name, non_compliance.rule_id 
-                            FROM resource LEFT JOIN non_compliance ON resource.resource_id = non_compliance.resource_id 
-                            WHERE resource.resource_type_id = " . $row['resource_type_id'] . ";";
+                            $sqlResources = "SELECT rule.rule_id, rule.rule_name, resource.resource_id, resource.resource_name, non_compliance.rule_id AS 'noncompliant', exception.rule_id AS 'exception' FROM resource
+                            JOIN rule
+                            ON resource.resource_type_id = rule.resource_type_id
+                            LEFT JOIN exception
+                            ON rule.rule_id = exception.rule_id AND resource.resource_name = exception.exception_value
+                            LEFT JOIN non_compliance
+                            ON resource.resource_id = non_compliance.resource_id AND rule.rule_id = non_compliance.rule_id
+                            WHERE rule.rule_id = " . $row['rule_id'] . ";";
                             
                             $resultResources = $db->query($sqlResources);
 
@@ -77,7 +82,7 @@
                                 echo '<td>'. $rowResources['resource_name'] . '</td>';
                                 echo '<td>';
                                 
-                                if($rowResources['rule_id'] == NULL){
+                                if($rowResources['noncompliant'] == NULL){
                                   echo 'Compliant';
                                 }else{
                                   echo 'Non-Compliant';
