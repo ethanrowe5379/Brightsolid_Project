@@ -65,4 +65,66 @@
       </div>
     </content>
   </body>
+
+
+
+
+
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CreateExceptionModal">Create Exception</button>
+
+  <div class="modal fade" id="CreateExceptionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5">Exception Creation</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+         
+          <div id="CreateException">
+              <form action="ExceptionBackEnd.php" method="post" autocomplete="off"> 
+                  <div class="container">
+                      <h1>Create Exception</h1>
+
+                      <input type="number" min="1" placeholder="Enter Resource ID" name="resourceID" required><br>
+                      <input type="number" min="1" placeholder="Enter Rule ID" name="ruleID" required><br>
+                      <input type="text" placeholder="Enter Exception Value" name="expValue" required><br>
+                      <input type="text" placeholder="Enter Justification" name="justValue" required><br>
+                      <input type="datetime-local" step="1" id ="reviewDate" name="rvwDate" required><br>
+                      <input type="text" placeholder="" name="currentDate" id="currentDate" required readonly><br>
+
+                      <?php 
+                        //Sets the current time for the form input when creating an exception
+                        $currentTime = date("Y-m-d h:i:sa");
+                        $reviewMin = date("Y-m-d");
+                        
+                        echo 
+                        "
+                          <script>
+                            document.getElementById('currentDate').value = '$currentTime';
+                          </script>  
+                        ";
+                      ?>
+
+                      <script>
+                        let thisTime = new Date().toISOString().slice(0, -8) //The current time (min)
+                        
+                        const reviewDate = document.getElementById('reviewDate');
+                        reviewDate.min = thisTime;
+                      </script>
+
+                      <!-- WE ALREADY HAVE CUSTOMER ID AND USER name but to make it better we will need to get it from Jaime and DJ -->
+                      <button class="btn btn-primary" type="submit" id="createExceptionConfirm">Create Exception</button>
+
+                  </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 </html>

@@ -80,29 +80,4 @@
             echo $e;
         }
     }
-
-
-
-
-
-/* so what we want to do is get all that funky data and plop it into the table  */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ?>

@@ -58,11 +58,11 @@
     function sendToPage($roleName){
         switch($roleName){
             case "manager":
-                //header("refresh:3;url=ManagerDashboard.php");
+                header("refresh:3;url=Index.php");
                 echo "Role: " . $roleName;
                 break;
             case "auditor":
-                //header("refresh:3;url=AuditorDashboard.php");
+                header("refresh:3;url=Index.php");
                 echo "Role: " . $roleName;
                 break;
             case "admin":
@@ -98,11 +98,6 @@
             </div>
         </div>
     </body>
-      
-  <form action="ExceptionTest.php" method="post">
-        <button class="btn btn-primary" type="submit" name="crtException">Create Exception</button>
-    </form>
-
 </html>
 
 
