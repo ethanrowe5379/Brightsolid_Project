@@ -33,7 +33,7 @@
       <tbody>
         <?php
         $sql = "SELECT rule_id, rule_name, rule_description, resource_type_id FROM rule 
-        ORDER BY resource_type_id ASC;";
+        ORDER BY rule_id ASC;";
 
         $result = $db->query($sql);
 
