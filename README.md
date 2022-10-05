@@ -1,6 +1,6 @@
 # Brightsolid_Project
 
-## Meeting 1 (Monday 26th)
+## Meeting (Monday 26th)
 ### Members Present:
 DJ Dorren, Ethan Rowe, Jamie Fergus
 
@@ -15,7 +15,7 @@ During this meeting all members present discussed their skills relevant to the p
 As it was early in the project and not all members where present nothing further was discussed.
 
 
-## Meeting 2 (Tuesday 27th)
+## Meeting (Tuesday 27th)
 ### Members Present:
 DJ Dorren, Ethan Rowe, Jamie Fergus, Daniel Jakubek, John Harrow
 
@@ -50,7 +50,7 @@ John
 
 
 
-## Meeting 3 Client Meeting 1 (Wednesday 28th)
+## Meeting Client Meeting 1 (Wednesday 28th)
 ### Members Present:
 DJ Dorren, Ethan Rowe, Jamie Fergus, Daniel Jakubek
 
@@ -85,7 +85,7 @@ Brain:A
   -the plan is up to you, we advise you to not wait until the third week to write the report. Do 	work now rather than later.  Having a plan that will look ahead to not only Monday but further.  
 
 
-## Meeting 4 (Monday 28th) - scrum 1
+## Meeting (Monday 28th)
 
 ### Members Present: 
 
@@ -150,7 +150,7 @@ Group talked about the best way for us to carry out risk assessment and Moscow o
 
 
 
-## Meeting 5 (Friday 30th)
+## Meeting (Friday 30th)
 ### Members Present:
 DJ Dorren, Ethan Rowe, Jamie Fergus, Daniel Jakubek, John Harrow
 
@@ -193,3 +193,48 @@ DJ - I worked with Jamie and Ethan on some pair programming on both the database
 Daniel - plans for today then?
 
 Ethan - we'll [Jamie DJ Ethan] will be working on connecting the database and the queries.
+
+## Meeting (5th oct)
+### Members Present:
+DJ Dorren, Ethan Rowe, Jamie Fergus, Daniel Jakubek, John Harrow
+
+### Members Not Present:
+n/a
+
+### Apologies:
+n/a
+
+### Summary of Conversation:
+
+Daniel 
+	- I worked on creating the exceptions yesterday we got everything from the database and the deletion
+	- Right now it doesn't get the rule ID and resource ID automanticxally to make the exception
+	- Goal for today is just to make it look nice
+
+John 
+	- Thats what we got done yesterday nothing to add
+
+Jamie 
+	- Yesterday DJ and I where working on the dashboard
+	- Added a button on the table in the dashboard that opens an offCanvas
+	- We where helping John and Ethan with some database issues
+	- Ethan we might need to talk to you about the dashboard as we where thinking about redesigning it
+	- Currently we're showing what is basiclly the detailed view on the dashboard.
+	- Would be good to run you [Ethan] through what we've done.
+
+DJ	
+	- Plans for today, just making sure everyones on the same page as the brief is quite ambiguous
+	- then continuing what we where doing yesterday with the detailed view
+
+Ethan	
+	- Was working on the SQL statements localy for story 12 as it's a big one
+	- I do need to wait for you guys to be done with the front end.
+
+Jamie	
+	- As we're changing some stuff in the database we should probably come together today so we're all working on the same thing
+
+Daniel	
+	- I did add the new CSV files to the github on the branch we're working on so we'll push that to the dev branch soon.
+
+Jamie 	
+	- I'd also like to change the database out of my name aswell.
