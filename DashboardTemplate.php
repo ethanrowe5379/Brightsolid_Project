@@ -46,7 +46,52 @@
                     <th>'. $row['rule_id'] .'</th>
                     <th>'. $row['rule_name'] .'</th>
                     <th>'. $row['rule_description'] .'</th>
-                    <th></th>
+                    
+                    <th> <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom_'. $row['rule_id'] .'" aria-controls="offcanvasBottom">Toggle Detailed Report</button>
+                    
+                    <div class="h-100 offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom_'. $row['rule_id'] .'" aria-labelledby="offcanvasBottomLabel">
+                      <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasBottomLabel">Detailed Report for rule '. $row['rule_id'] .' <br> '. $row['rule_name'] .'</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                      </div>
+                      <div class="offcanvas-body small">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th scope="col">Resource ID</th>
+                              <th scope="col">Resource Name</th>
+                              <th scope="col">Compliance Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          ';
+                            $sqlResources = "SELECT resource.resource_id, resource.resource_name, non_compliance.rule_id 
+                            FROM resource LEFT JOIN non_compliance ON resource.resource_id = non_compliance.resource_id 
+                            WHERE resource.resource_type_id = " . $row['resource_type_id'] . ";";
+                            
+                            $resultResources = $db->query($sqlResources);
+
+                            while ($rowResources = $resultResources->fetch_assoc()) {
+                              echo '<tr>';
+                                echo '<th scope="row">'. $rowResources['resource_id']  . '</th>';
+                                echo '<td>'. $rowResources['resource_name'] . '</td>';
+                                echo '<td>';
+                                
+                                if($rowResources['rule_id'] == NULL){
+                                  echo 'Compliant';
+                                }else{
+                                  echo 'Non-Compliant';
+                                }
+                                echo '</td>';
+
+                              echo '</tr>';
+                            }
+                          echo'  
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    </th>
                   </tr>;
                   ';
           }
