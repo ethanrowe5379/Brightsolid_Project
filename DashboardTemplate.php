@@ -24,9 +24,10 @@
     <table class="table table-striped table-bordered table-hover">
       <thead>
         <tr>
+          <th scope="col">ID</th>
           <th scope="col">Rule Name</th>
           <th scope="col">Rule Description</th>
-          <th scope="col">Resource Name</th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -42,6 +43,7 @@
         } else {
           while ($row = $result->fetch_assoc()) {
             echo '<tr>
+                    <th>'. $row['rule_id'] .'</th>
                     <th>'. $row['rule_name'] .'</th>
                     <th>'. $row['rule_description'] .'</th>
                     <th>';
