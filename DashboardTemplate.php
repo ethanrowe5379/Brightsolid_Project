@@ -46,21 +46,7 @@
                     <th>'. $row['rule_id'] .'</th>
                     <th>'. $row['rule_name'] .'</th>
                     <th>'. $row['rule_description'] .'</th>
-                    <th>';
-                    
-                    $sqlResource = "SELECT * FROM resource
-                    LEFT JOIN non_compliance
-                    ON resource.resource_id = non_compliance.resource_id 
-                    WHERE resource.resource_type_id = " . $row['resource_type_id'] . ";";
-
-                    $resultResource = $db->query($sqlResource);
-
-                    while ($rowResource = $resultResource->fetch_assoc()) {
-                      if($rowResource['rule_id'] == NULL){
-                        echo $rowResource['resource_name'] . ", ";
-                      }
-                    }
-                    echo '</th>
+                    <th></th>
                   </tr>;
                   ';
           }
