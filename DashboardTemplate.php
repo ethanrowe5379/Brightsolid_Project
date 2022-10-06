@@ -140,52 +140,6 @@
         ?>
       </tbody>
     </table>
-
-    <h1>Non-Compliant</h1>
-    <table class="table table-striped table-bordered table-hover">
-      <thead>
-        <tr>
-          <th scope="col">Rule Name</th>
-          <th scope="col">Rule Description</th>
-          <th scope="col">Resource Name</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php
-        $sql = "SELECT rule_id, rule_name, rule_description, resource_type_id FROM rule 
-        ORDER BY resource_type_id ASC;";
-
-        $result = $db->query($sql);
-
-
-        if ($result->num_rows == 0) {
-          echo ("No Rules Compliant");
-        } else {
-          while ($row = $result->fetch_assoc()) {
-            echo '<tr>
-                    <th>'. $row['rule_name'] .'</th>
-                    <th>'. $row['rule_description'] .'</th>
-                    <th>';
-                    
-                    $sqlResource = "SELECT * FROM resource, non_compliance WHERE non_compliance.resource_id = resource.resource_id AND resource.resource_type_id = " . $row['resource_type_id'] . ";";
-
-                    $resultResource = $db->query($sqlResource);
-
-                    if ($resultResource->num_rows == 0) {
-                      echo "No Non-Compliant Resources";
-                    } else {
-                    while ($rowResource = $resultResource->fetch_assoc()) {
-                      echo $rowResource['resource_name'] . ", ";
-                    }
-                  }
-                    echo '</th>
-                  </tr>;
-                  ';
-          }
-        }
-        ?>
-      </tbody>
-    </table>
     </div >
   </main>
   <footer>
