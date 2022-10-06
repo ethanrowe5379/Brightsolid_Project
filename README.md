@@ -1,6 +1,6 @@
 # Brightsolid_Project
 
-## Meeting (Monday 26th)
+## Meeting (26th Sept)
 ### Members Present:
 DJ Dorren, Ethan Rowe, Jamie Fergus
 
@@ -15,7 +15,7 @@ During this meeting all members present discussed their skills relevant to the p
 As it was early in the project and not all members where present nothing further was discussed.
 
 
-## Meeting (Tuesday 27th)
+## Meeting (27th Sept)
 ### Members Present:
 DJ Dorren, Ethan Rowe, Jamie Fergus, Daniel Jakubek, John Harrow
 
@@ -50,7 +50,7 @@ John
 
 
 
-## Meeting Client Meeting 1 (Wednesday 28th)
+## Meeting Client Meeting 1 (28th Sept)
 ### Members Present:
 DJ Dorren, Ethan Rowe, Jamie Fergus, Daniel Jakubek
 
@@ -85,7 +85,7 @@ Brain:A
   -the plan is up to you, we advise you to not wait until the third week to write the report. Do 	work now rather than later.  Having a plan that will look ahead to not only Monday but further.  
 
 
-## Meeting (Monday 28th)
+## Meeting (28th Sept)
 
 ### Members Present: 
 
@@ -150,7 +150,7 @@ Group talked about the best way for us to carry out risk assessment and Moscow o
 
 
 
-## Meeting (Friday 30th)
+## Meeting (30th Sept)
 ### Members Present:
 DJ Dorren, Ethan Rowe, Jamie Fergus, Daniel Jakubek, John Harrow
 
@@ -238,3 +238,46 @@ Daniel
 
 Jamie 	
 	- I'd also like to change the database out of my name aswell.
+	
+
+## Meeting (6th Oct)
+### Members Present:
+DJ Dorren, Ethan Rowe, Jamie Fergus, Daniel Jakubek, John Harrow
+
+### Members Not Present:
+n/a
+
+### Apologies:
+n/a
+
+### Summary of Conversation:
+Daniel & John  
+	
+	- Yesteray working with john again on the exception edit.
+	
+	- Unfortunatly we had some issues with the exception data and tables so we didn't manage to get that done.
+	
+	- Put some issues in the ask a client channel.
+	
+	- Plan for today is to get the edit / update exceptions button done might depend on the answer for the client.
+	
+	- Issues from yesterday: the review date formatting is wrong becasue of the timezone.
+Ethan	
+	
+	- Yesterday was mostly working opn the SQL and making sure they're working.
+	
+	- Was inbetween both groups and helping you huys out.
+	
+	- The last SQL statement I gave you should be working not found any errors in testing.
+	
+	- Today I will be working on the getting my HTML sorted for suspending exceptions.
+Jamie & DJ
+	
+	- We'll create a pull request for our detailed review page so that can get built upon and you guys can review it.
+	
+	- Yesterday we where working on the detailed view and some of the dashboard.
+	
+	- Today we might have a look at some of the charts on the dashboard.
+	
+	- We had some issues with the CSS of the offCanvas but we can look at that again today.
+
