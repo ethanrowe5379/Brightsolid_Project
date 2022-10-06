@@ -45,12 +45,14 @@
             while ($row = $result->fetch_assoc()) {
               echo '<tr>
                       <th>'. $row['rule_id'] .'</th>
-                      <th>'. $row['rule_name'] .'</th>
-                      <th>'. $row['rule_description'] .'</th>
+                      <td>'. $row['rule_name'] .'</td>
+                      <td>'. $row['rule_description'] .'</td>
                       <td></td>
                       
-                      <th> <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom_'. $row['rule_id'] .'" aria-controls="offcanvasBottom">Toggle Detailed Report</button>
+                      <td> 
                       
+                      <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom_'. $row['rule_id'] .'" aria-controls="offcanvasBottom">Toggle Detailed Report</button>
+                    
                       <div class="h-100 offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom_'. $row['rule_id'] .'" aria-labelledby="offcanvasBottomLabel">
                         <div class="offcanvas-header">
                           <h5 class="offcanvas-title" id="offcanvasBottomLabel">Detailed Report for rule '. $row['rule_id'] .' <br> '. $row['rule_name'] .'</h5>
@@ -134,7 +136,7 @@
                           </table>
                         </div>
                       </div>
-                      </th>
+                      </td>
                     </tr>
                     ';
             }
