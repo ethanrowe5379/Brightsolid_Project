@@ -1,10 +1,10 @@
 
 <?php
       $db = new mysqli(
-        "localhost",
-        "root", //username
-        "password", //password
-        "brightsolidproject" //database name
+        "silva.computing.dundee.ac.uk",
+        "jamiefergus", //username
+        "AC32006", //password
+        "jamiefergusdb" //database name
     );
 
   if (!$db) {
