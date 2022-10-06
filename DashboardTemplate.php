@@ -82,7 +82,7 @@
                                 echo '<td>'. $rowResources['resource_name'] . '</td>';
                                 echo '<td>';
                                 
-                                if($rowResources['noncompliant'] == NULL){
+                                if($rowResources['noncompliant'] == NULL or $rowResources['exception'] != NULL){
                                   echo 'Compliant';
                                 }else{
                                   echo 'Non-Compliant';
