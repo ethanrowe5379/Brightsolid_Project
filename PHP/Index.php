@@ -20,7 +20,12 @@
   //         break;
   //     }
   // }
+  $date = date("Y-m-d H:i:s.v");
+    echo"
 
+    ";
+
+  
 ?>
 <html lang="en">
 <head>
@@ -66,10 +71,6 @@
     </content>
   </body>
 
-
-
-
-
   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CreateExceptionModal">Create Exception</button>
 
   <div class="modal fade" id="CreateExceptionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -95,7 +96,7 @@
 
                       <?php 
                         //Sets the current time for the form input when creating an exception
-                        $currentTime = date("Y-m-d h:i:sa");
+                        $currentTime = date("Y-m-d H:i:s.v");
                         $reviewMin = date("Y-m-d");
                         
                         echo 
@@ -125,6 +126,94 @@
       </div>
     </div>
   </div>
+</div>
+
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditExceptionModal">Edit Exception</button>
+
+<div class="modal fade" id="EditExceptionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5">Exception Editor</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="CreateException">
+            <form action="EditExceptionBackEnd.php" method="post" autocomplete="off"> 
+                <div class="container">
+
+
+
+                    <?php
+                      $testingID = "13";
+                      $sqlQuery = "SELECT justification, exception_value, review_date FROM exception WHERE exception_id='$testingID'";
+
+                      $justificationValue = "";
+                      $exceptionValue = "";
+                      $reviewDateValue = "";
+
+                      include "dbConnect.php";
+                      $result = mysqli_query($dbc, $sqlQuery);
+
+                      //Finds and assigns the latest exception id
+                      if($result){
+                        if($result -> num_rows == 1){
+                          $row = $result->fetch_assoc();
+                          
+                          $justificationValue = $row["justification"];
+                          $exceptionValue = $row["exception_value"];
+                          $reviewDateValue = $row["review_date"];
+                        }
+                      }
+                      
+                      $dbc -> close();
+                    
+                    ?>
+
+                      <label for="updateExceptionID" class="form-label">Exception ID</label>
+                      <input type="text" placeholder="Exception ID" name="updateExceptionID" id="updateExceptionID" value="<?php echo $testingID; ?>" required readonly><br>
+
+                      <label for="updateJustValue" class="form-label">Justification</label>
+                      <input type="text" value="<?php echo $justificationValue; ?>" name="updateJustValue" id="updateJustValue" required><br>
+                      
+                      <label for="updateExpValue" class="form-label">Exception Value</label>
+                      <input type="text" value="<?php echo $exceptionValue; ?>" name="updateExpValue"  id="updateExpValue" required><br>
+                      
+                      <label for="updateRvwDate" class="form-label">Review Date</label>
+                      <input type="datetime-local" step="1" value="<?php echo $reviewDateValue; ?>" name="updateRvwDate" id="updateRvwDate" required><br>
+                      
+                      <label for="updateRvwDate" class="form-label">Current Date</label>
+                      <input type="text" placeholder="" name="updateCurrentDate" id="updateCurrentDate" required readonly><br>
+        
+                    <?php   
+                      echo 
+                      "
+                        <script>
+                          document.getElementById('updateCurrentDate').value = '$currentTime';
+                        </script>  
+                      ";
+                    ?>
+
+                    <script>
+                      let thisTime = new Date().toISOString().slice(0, -8) //The current time (min)
+                      
+                      const reviewDate = document.getElementById('reviewDate');
+                      reviewDate.min = thisTime;
+                    </script>
+
+                    <!-- WE ALREADY HAVE CUSTOMER ID AND USER name but to make it better we will need to get it from Jaime and DJ -->
+                    <button class="btn btn-primary" type="submit" id="createExceptionConfirm">Update Exception</button>
+
+                </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 
 </html>
