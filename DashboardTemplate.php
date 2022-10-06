@@ -20,7 +20,7 @@
 
   <main>
     <div class="container">
-      <h1>Complaint</h1>
+      <h1>Compliance Dashboard</h1>
       <table class="table table-striped table-bordered table-hover">
         <thead>
           <tr>
