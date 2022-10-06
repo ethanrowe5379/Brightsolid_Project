@@ -96,6 +96,40 @@
                           echo'  
                           </tbody>
                         </table>
+
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th scope="col">Exception ID</th>
+                              <th scope="col">Resource Name</th>
+                              <th scope="col">Justification</th>
+                              <th scope="col">Review Date</th>
+                              <th scope="col">Last Updated By</th>
+                              <th scope="col">Last Updated</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            ';
+                            
+                            $sqlExceptions = "SELECT * FROM exception
+                            WHERE exception.rule_id = " . $row['rule_id'] . ";";
+
+                            $resultExceptions = $db->query($sqlExceptions);
+
+                            while ($rowExceptions = $resultExceptions->fetch_assoc()) {
+                              echo '<tr>';
+                                echo '<th scope="row">'. $rowExceptions['exception_id']  . '</th>';
+                                echo '<td>'. $rowExceptions['exception_value'] . '</td>';
+                                echo '<td>'. $rowExceptions['justification'] . '</td>';
+                                echo '<td>'. $rowExceptions['review_date'] . '</td>';
+                                echo '<td>'. $rowExceptions['last_updated_by'] . '</td>';
+                                echo '<td>'. $rowExceptions['last_updated'] . '</td>';
+                              echo '</tr>';
+                            }
+
+                            echo'
+                          </tbody>
+                        </table>
                       </div>
                     </div>
                     </th>
