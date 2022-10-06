@@ -109,7 +109,7 @@
                             </table>
 
                             <table class="table">
-                              <thead>
+                              <thead class="table-dark">
                                 <tr>
                                   <th scope="col">Exception ID</th>
                                   <th scope="col">Resource Name</th>
@@ -122,22 +122,25 @@
                               <tbody>
                                 ';
                                 
-                                $sqlExceptions = "SELECT * FROM exception
+                                $sqlExceptions = "SELECT exception.exception_id, exception.exception_value, exception.justification, exception.review_date, exception.last_updated, user.user_name
+                                FROM exception
+                                LEFT JOIN user
+                                ON exception.last_updated_by = user.user_id
                                 WHERE exception.rule_id = " . $row['rule_id'] . ";";
-
+  
                                 $resultExceptions = $db->query($sqlExceptions);
-
+  
                                 while ($rowExceptions = $resultExceptions->fetch_assoc()) {
                                   echo '<tr>';
                                     echo '<th scope="row">'. $rowExceptions['exception_id']  . '</th>';
                                     echo '<td>'. $rowExceptions['exception_value'] . '</td>';
                                     echo '<td>'. $rowExceptions['justification'] . '</td>';
                                     echo '<td>'. $rowExceptions['review_date'] . '</td>';
-                                    echo '<td>'. $rowExceptions['last_updated_by'] . '</td>';
+                                    echo '<td>'. $rowExceptions['user_name'] . '</td>';
                                     echo '<td>'. $rowExceptions['last_updated'] . '</td>';
                                   echo '</tr>';
                                 }
-
+  
                                 echo'
                               </tbody>
                             </table>
