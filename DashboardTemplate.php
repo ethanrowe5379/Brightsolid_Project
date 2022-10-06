@@ -51,91 +51,91 @@
                       
                       <td> 
                       
-                      <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom_'. $row['rule_id'] .'" aria-controls="offcanvasBottom">Toggle Detailed Report</button>
-                    
-                      <div class="h-100 offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom_'. $row['rule_id'] .'" aria-labelledby="offcanvasBottomLabel">
-                        <div class="offcanvas-header">
-                          <h5 class="offcanvas-title" id="offcanvasBottomLabel">Detailed Report for rule '. $row['rule_id'] .' <br> '. $row['rule_name'] .'</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                        </div>
-                        <div class="offcanvas-body small">
-                          <table class="table">
-                            <thead>
-                              <tr>
-                                <th scope="col">Resource ID</th>
-                                <th scope="col">Resource Name</th>
-                                <th scope="col">Compliance Status</th>
-                                <th scope="col">Exception</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                            ';
-                              $sqlResources = "SELECT rule.rule_id, rule.rule_name, resource.resource_id, resource.resource_name, non_compliance.rule_id AS 'noncompliant', exception.rule_id AS 'exception' FROM resource
-                              JOIN rule
-                              ON resource.resource_type_id = rule.resource_type_id
-                              LEFT JOIN exception
-                              ON rule.rule_id = exception.rule_id AND resource.resource_name = exception.exception_value
-                              LEFT JOIN non_compliance
-                              ON resource.resource_id = non_compliance.resource_id AND rule.rule_id = non_compliance.rule_id
-                              WHERE rule.rule_id = " . $row['rule_id'] . ";";
-                              
-                              $resultResources = $db->query($sqlResources);
-
-                              while ($rowResources = $resultResources->fetch_assoc()) {
-                                echo '<tr>';
-                                  echo '<th scope="row">'. $rowResources['resource_id']  . '</th>';
-                                  echo '<td>'. $rowResources['resource_name'] . '</td>';
-                                  echo '<td>';
-                                  
-                                  if($rowResources['noncompliant'] == NULL or $rowResources['exception'] != NULL){
-                                    echo 'Compliant';
-                                  }else{
-                                    echo 'Non-Compliant';
-                                  }
-                                  echo '</td>';
-                                  
-                                  echo '<td>'. $rowResources['exception'] . '</td>';
-                                echo '</tr>';
-                              }
-                            echo'  
-                            </tbody>
-                          </table>
-
-                          <table class="table">
-                            <thead>
-                              <tr>
-                                <th scope="col">Exception ID</th>
-                                <th scope="col">Resource Name</th>
-                                <th scope="col">Justification</th>
-                                <th scope="col">Review Date</th>
-                                <th scope="col">Last Updated By</th>
-                                <th scope="col">Last Updated</th>
-                              </tr>
-                            </thead>
-                            <tbody>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom_'. $row['rule_id'] .'" aria-controls="offcanvasBottom">Toggle Detailed Report</button>
+                      
+                        <div class="h-100 offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom_'. $row['rule_id'] .'" aria-labelledby="offcanvasBottomLabel">
+                          <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasBottomLabel">Detailed Report for rule '. $row['rule_id'] .' <br> '. $row['rule_name'] .'</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                          </div>
+                          <div class="offcanvas-body small">
+                            <table class="table">
+                              <thead>
+                                <tr>
+                                  <th scope="col">Resource ID</th>
+                                  <th scope="col">Resource Name</th>
+                                  <th scope="col">Compliance Status</th>
+                                  <th scope="col">Exception</th>
+                                </tr>
+                              </thead>
+                              <tbody>
                               ';
-                              
-                              $sqlExceptions = "SELECT * FROM exception
-                              WHERE exception.rule_id = " . $row['rule_id'] . ";";
+                                $sqlResources = "SELECT rule.rule_id, rule.rule_name, resource.resource_id, resource.resource_name, non_compliance.rule_id AS 'noncompliant', exception.rule_id AS 'exception' FROM resource
+                                JOIN rule
+                                ON resource.resource_type_id = rule.resource_type_id
+                                LEFT JOIN exception
+                                ON rule.rule_id = exception.rule_id AND resource.resource_name = exception.exception_value
+                                LEFT JOIN non_compliance
+                                ON resource.resource_id = non_compliance.resource_id AND rule.rule_id = non_compliance.rule_id
+                                WHERE rule.rule_id = " . $row['rule_id'] . ";";
+                                
+                                $resultResources = $db->query($sqlResources);
 
-                              $resultExceptions = $db->query($sqlExceptions);
+                                while ($rowResources = $resultResources->fetch_assoc()) {
+                                  echo '<tr>';
+                                    echo '<th scope="row">'. $rowResources['resource_id']  . '</th>';
+                                    echo '<td>'. $rowResources['resource_name'] . '</td>';
+                                    echo '<td>';
+                                    
+                                    if($rowResources['noncompliant'] == NULL or $rowResources['exception'] != NULL){
+                                      echo 'Compliant';
+                                    }else{
+                                      echo 'Non-Compliant';
+                                    }
+                                    echo '</td>';
+                                    
+                                    echo '<td>'. $rowResources['exception'] . '</td>';
+                                  echo '</tr>';
+                                }
+                              echo'  
+                              </tbody>
+                            </table>
 
-                              while ($rowExceptions = $resultExceptions->fetch_assoc()) {
-                                echo '<tr>';
-                                  echo '<th scope="row">'. $rowExceptions['exception_id']  . '</th>';
-                                  echo '<td>'. $rowExceptions['exception_value'] . '</td>';
-                                  echo '<td>'. $rowExceptions['justification'] . '</td>';
-                                  echo '<td>'. $rowExceptions['review_date'] . '</td>';
-                                  echo '<td>'. $rowExceptions['last_updated_by'] . '</td>';
-                                  echo '<td>'. $rowExceptions['last_updated'] . '</td>';
-                                echo '</tr>';
-                              }
+                            <table class="table">
+                              <thead>
+                                <tr>
+                                  <th scope="col">Exception ID</th>
+                                  <th scope="col">Resource Name</th>
+                                  <th scope="col">Justification</th>
+                                  <th scope="col">Review Date</th>
+                                  <th scope="col">Last Updated By</th>
+                                  <th scope="col">Last Updated</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                ';
+                                
+                                $sqlExceptions = "SELECT * FROM exception
+                                WHERE exception.rule_id = " . $row['rule_id'] . ";";
 
-                              echo'
-                            </tbody>
-                          </table>
+                                $resultExceptions = $db->query($sqlExceptions);
+
+                                while ($rowExceptions = $resultExceptions->fetch_assoc()) {
+                                  echo '<tr>';
+                                    echo '<th scope="row">'. $rowExceptions['exception_id']  . '</th>';
+                                    echo '<td>'. $rowExceptions['exception_value'] . '</td>';
+                                    echo '<td>'. $rowExceptions['justification'] . '</td>';
+                                    echo '<td>'. $rowExceptions['review_date'] . '</td>';
+                                    echo '<td>'. $rowExceptions['last_updated_by'] . '</td>';
+                                    echo '<td>'. $rowExceptions['last_updated'] . '</td>';
+                                  echo '</tr>';
+                                }
+
+                                echo'
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
-                      </div>
                       </td>
                     </tr>
                     ';
