@@ -61,6 +61,7 @@
                               <th scope="col">Resource ID</th>
                               <th scope="col">Resource Name</th>
                               <th scope="col">Compliance Status</th>
+                              <th scope="col">Exception</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -88,7 +89,8 @@
                                   echo 'Non-Compliant';
                                 }
                                 echo '</td>';
-
+                                
+                                echo '<td>'. $rowResources['exception'] . '</td>';
                               echo '</tr>';
                             }
                           echo'  
