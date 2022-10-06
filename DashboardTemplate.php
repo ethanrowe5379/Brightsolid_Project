@@ -27,6 +27,7 @@
             <th scope="col">ID</th>
             <th scope="col">Rule Name</th>
             <th scope="col">Rule Description</th>
+            <th scope="col">Compliance Status</th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -46,6 +47,7 @@
                       <th>'. $row['rule_id'] .'</th>
                       <th>'. $row['rule_name'] .'</th>
                       <th>'. $row['rule_description'] .'</th>
+                      <td></td>
                       
                       <th> <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom_'. $row['rule_id'] .'" aria-controls="offcanvasBottom">Toggle Detailed Report</button>
                       
