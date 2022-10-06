@@ -1,7 +1,7 @@
 body {font-family: Arial, Helvetica, sans-serif;}
 /* form {border: 3px solid #f1f1f1;} */
 
-input[type=text], input[type=password], input[type=number] {
+input[type=datetime-local], input[type=text], input[type=password], input[type=number]{
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -14,7 +14,7 @@ input[type=text], input[type=password], input[type=number] {
   color: red;
 }
 
-#LoginSubmit, #CreateUser {
+#LoginSubmit, #CreateUser, #createExceptionConfirm {
   background-color: black;
   color: white;
   padding: 14px 20px;
@@ -22,6 +22,11 @@ input[type=text], input[type=password], input[type=number] {
   border: none;
   cursor: pointer;
   width: 100%;
+}
+
+/* IMPORTANT */
+.offcanvas{
+  z-index: 1500;
 }
 
 #LoginSubmit:hover, #CreateUser:hover {

@@ -15,8 +15,7 @@
     //If fields are not empty
     if(isset($_POST['uname']) && isset($_POST['urole']) && isset($_POST['psw']) 
         && isset($_POST['repeatPsw']) && isset($_POST['customerID'])){
-
-
+        
         //Set variables
         $username = ($_POST['uname']);
         $password = ($_POST['psw']);
@@ -48,12 +47,15 @@
             errorMessage("Role not available", $dbc);
         }
 
-        // //Checks username availability //ADD BACK IN WHEB DB IS COMPLETE!!! !IMPORTANT
-        // if(!checkCustomerIDAvailability($customerID, $dbc))
-        //     errorMessage("CustomerID not available");
+        //Checks customerID availability
+        if(!checkCustomerIDAvailability($customerID, $dbc)){
+            $canAdd = false;
+            errorMessage("CustomerID not available", $dbc);
+        }
             
         if($canAdd)
             insertUser($username, $customerID, $userRole, $password, $dbc);
+
     }
     else{
         errorMessage("Some fields are empty");
@@ -65,12 +67,12 @@
             
         $lockTable = "LOCK TABLES user WRITE;";
         $unlockTables = "UNLOCK TABLES;";
-        $test = "INSERT INTO `user` (`user_id`,`user_name`,`customer_id`,`role_id`, `user_password`)
-        VALUES(NULL,'$username', 123, '$userRole' ,'$password');";
+        $userInsert = "INSERT INTO `user` (`user_id`,`user_name`,`customer_id`,`role_id`, `user_password`)
+        VALUES(NULL,'$username', '$customerID', '$userRole' ,'$password');";
         
         try{
             mysqli_query($dbc, $lockTable);
-            mysqli_query($dbc, $test);
+            mysqli_query($dbc, $userInsert);
             mysqli_query($dbc, $unlockTables);
 
             errorMessage("User: " . $username . " has been added successfully.", $dbc);
@@ -80,16 +82,16 @@
         }
     }
 
-    // //Checks if the the customer ID is available
-    // function checkCustomerIDAvailability($customerID, $dbc){
-    //     //Connec to the db and check if any username matches input
-    //     if($result = $dbc -> query("SELECT customer_id FROM customer WHERE customer_id='$customerID'")){
-    //         if($result -> num_rows > 0)  //If role matches have been found
-    //             return true;
-    //         return false;
-    //     }
-    //     return false;
-    // }
+    //Checks if the the customer ID is available
+    function checkCustomerIDAvailability($customerID, $dbc){
+        //Connec to the db and check if any username matches input
+        if($result = $dbc -> query("SELECT customer_id FROM customer WHERE customer_id='$customerID'")){
+            if($result -> num_rows > 0)  //If role matches have been found
+                return true;
+            return false;
+        }
+        return false;
+    }
 
     //Checks if the username is not already taken
     function checkRoleAvailability($roleID, $dbc){
