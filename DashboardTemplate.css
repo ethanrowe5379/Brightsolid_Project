@@ -71,3 +71,31 @@ header{
 @media only screen and (min-width: 1200px) {
 
 }
+
+/* IMPORTANT */
+.offcanvas{
+    z-index: 1500;
+  }
+  
+  input[type=datetime-local], input[type=text], input[type=password], input[type=number]{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 2px solid rgb(0, 0, 0);
+    box-sizing: border-box;
+}
+
+#LoginStatus{
+  color: red;
+}
+
+#LoginSubmit, #CreateUser, #createExceptionConfirm {
+  background-color: black;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
