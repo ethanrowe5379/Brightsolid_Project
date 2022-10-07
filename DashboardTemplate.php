@@ -46,8 +46,43 @@
               echo '<tr>
                       <th>'. $row['rule_id'] .'</th>
                       <td>'. $row['rule_name'] .'</td>
-                      <td>'. $row['rule_description'] .'</td>
-                      <td></td>
+                      <td>'. $row['rule_description'] .'</td>';
+
+                      $sqlCountNon_compliance = "SELECT COUNT(rule_id) AS 'count'
+                      FROM non_compliance
+                      WHERE non_compliance.rule_id = " . $row['rule_id'] . ";";
+                      
+                      $sqlCountExceptions = "SELECT COUNT(rule_id) AS 'count'
+                      FROM exception
+                      WHERE exception.rule_id = " . $row['rule_id'] . ";";
+                      
+                      $sqlCountResources = "SELECT COUNT(resource_id) AS 'count'
+                      FROM resource
+                      JOIN rule
+                      ON resource.resource_type_id = rule.resource_type_id
+                      WHERE rule.rule_id = " . $row['rule_id'] . ";";
+
+
+                      $resultCountNon_compliance = $db->query($sqlCountNon_compliance);
+                      $resultCountExceptions = $db->query($sqlCountExceptions);
+                      $resultCountResources = $db->query($sqlCountResources);
+
+
+                      $dataCountNon_compliance = $resultCountNon_compliance->fetch_assoc();
+                      $dataCountExceptions = $resultCountExceptions->fetch_assoc();
+                      $dataCountResources = $resultCountResources->fetch_assoc();
+
+
+                      $totalResources = $dataCountResources['count'];
+                      $totalNon_compliant = $dataCountNon_compliance['count'] - $dataCountExceptions['count'];
+                      
+                      $totalcompliant = $totalResources - $totalNon_compliant;
+                      
+
+                      $compliantStatus = ($totalcompliant/$totalResources)*100;
+
+                      echo'<td>'. $totalcompliant .' / '. $totalResources .'</td>
+                      <!--<td>'. $compliantStatus .'</td>-->
                       
                       <td> 
                       
@@ -69,7 +104,7 @@
                                 </h2>
                               <div id="collapseResources_'. $row['rule_id'] .'" class="accordion-collapse collapse" aria-labelledby="resourceHeading" data-bs-parent="#accordion_'. $row['rule_id'] .'">
                                 <div class="accordion-body">
-                                  
+
                                   <table class="table">
                                     <thead class="table-dark">
                                       <tr>
