@@ -189,7 +189,11 @@
                                       WHERE exception.rule_id = " . $row['rule_id'] . ";";
         
                                       $resultExceptions = $db->query($sqlExceptions);
-        
+                                      
+                                      if($resultExceptions -> num_rows < 1){
+                                        echo '<tr><td>dsklfjd</td></tr>';
+                                      }
+                                                                           
                                       while ($rowExceptions = $resultExceptions->fetch_assoc()) {
                                         echo '<tr>';
                                           echo '<th scope="row">'. $rowExceptions['resource_id']  . '</th>';
