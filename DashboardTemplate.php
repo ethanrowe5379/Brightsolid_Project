@@ -69,7 +69,7 @@
                                 </h2>
                               <div id="collapseResources_'. $row['rule_id'] .'" class="accordion-collapse collapse" aria-labelledby="resourceHeading" data-bs-parent="#accordion_'. $row['rule_id'] .'">
                                 <div class="accordion-body">
-
+                                  
                                   <table class="table">
                                     <thead class="table-dark">
                                       <tr>
