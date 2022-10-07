@@ -137,8 +137,7 @@
                                   <table class="table">
                                     <thead class="table-dark">
                                       <tr>
-                                        <th scope="col">Exception ID</th>
-                                        <th scope="col">Resource Name</th>
+                                        <th scope="col">Resource ID</th>
                                         <th scope="col">Justification</th>
                                         <th scope="col">Review Date</th>
                                         <th scope="col">Last Updated By</th>
@@ -148,7 +147,7 @@
                                     <tbody>
                                       ';
                                       
-                                      $sqlExceptions = "SELECT exception.exception_id, exception.exception_value, exception.justification, exception.review_date, exception.last_updated, user.user_name
+                                      $sqlExceptions = "SELECT exception.exception_id, exception.justification, exception.review_date, exception.last_updated, exception.resource_id,user.user_name
                                       FROM exception
                                       LEFT JOIN user
                                       ON exception.last_updated_by = user.user_id
@@ -158,8 +157,7 @@
         
                                       while ($rowExceptions = $resultExceptions->fetch_assoc()) {
                                         echo '<tr>';
-                                          echo '<th scope="row">'. $rowExceptions['exception_id']  . '</th>';
-                                          echo '<td>'. $rowExceptions['exception_value'] . '</td>';
+                                          echo '<th scope="row">'. $rowExceptions['resource_id']  . '</th>';
                                           echo '<td>'. $rowExceptions['justification'] . '</td>';
                                           echo '<td>'. $rowExceptions['review_date'] . '</td>';
                                           echo '<td>'. $rowExceptions['user_name'] . '</td>';
