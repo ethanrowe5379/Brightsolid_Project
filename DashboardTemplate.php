@@ -105,7 +105,7 @@
                               <div id="collapseResources_'. $row['rule_id'] .'" class="accordion-collapse collapse" aria-labelledby="resourceHeading" data-bs-parent="#accordion_'. $row['rule_id'] .'">
                                 <div class="accordion-body">
 
-                                  <table class="table">
+                                  <table class="table table-detailed-view">
                                     <thead class="table-dark">
                                       <tr>
                                         <th scope="col">Resource ID</th>
@@ -169,7 +169,7 @@
                               <div id="collapseExceptions_'. $row['rule_id'] .'" class="accordion-collapse collapse" aria-labelledby="exceptionHeading">
 
                                 <div class="accordion-body">
-                                  <table class="table">
+                                  <table class="table table-detailed-view">
                                     <thead class="table-dark">
                                       <tr>
                                         <th scope="col">Resource ID</th>
