@@ -281,3 +281,30 @@ Jamie & DJ
 	
 	- We had some issues with the CSS of the offCanvas but we can look at that again today.
 
+
+## Meeting (7th Oct)
+### Members Present:
+DJ Dorren, Ethan Rowe, Jamie Fergus, Daniel Jakubek, John Harrow
+
+### Members Not Present:
+n/a
+
+### Apologies:
+n/a
+
+### Summary of Conversation:
+John & Daniel
+	- Creating the exception button and the update exception
+	- Linked the login with the dashboard
+	- Had some issues with the SQL on the detailed view updating the compliance status so might need to rewrite that.
+
+DJ & Jamie
+	- Yesterday we coninued working on the dashboard and the detailed report
+	- Moved the tables into an acordian drop down
+	- Updated the exception and resource table to show the user who made changes
+	- Ran into some issues with the collapsable tables but sorted now
+	- Adding in the compliance %
+
+Ethan
+	- Yesterday I was trying to get modals working had some issues but got them working now
+	- No other issues
