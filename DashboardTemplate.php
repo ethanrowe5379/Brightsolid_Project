@@ -169,44 +169,52 @@
                               <div id="collapseExceptions_'. $row['rule_id'] .'" class="accordion-collapse collapse" aria-labelledby="exceptionHeading">
 
                                 <div class="accordion-body">
-                                  <table class="table table-detailed-view">
-                                    <thead class="table-dark">
-                                      <tr>
-                                        <th scope="col">Resource ID</th>
-                                        <th scope="col">Justification</th>
-                                        <th scope="col">Review Date</th>
-                                        <th scope="col">Last Updated By</th>
-                                        <th scope="col">Last Updated</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      ';
-                                      
-                                      $sqlExceptions = "SELECT exception.exception_id, exception.justification, exception.review_date, exception.last_updated, exception.resource_id,user.user_name
-                                      FROM exception
-                                      LEFT JOIN user
-                                      ON exception.last_updated_by = user.user_id
-                                      WHERE exception.rule_id = " . $row['rule_id'] . ";";
+                                  ';
+                                
+                                  $sqlExceptions = "SELECT exception.exception_id, exception.justification, exception.review_date, exception.last_updated, exception.resource_id,user.user_name
+                                                    FROM exception
+                                                    LEFT JOIN user
+                                                    ON exception.last_updated_by = user.user_id
+                                                    WHERE exception.rule_id = " . $row['rule_id'] . ";";
         
-                                      $resultExceptions = $db->query($sqlExceptions);
+                                  $resultExceptions = $db->query($sqlExceptions);
                                       
-                                      if($resultExceptions -> num_rows < 1){
-                                        echo '<tr><td>dsklfjd</td></tr>';
-                                      }
-                                                                           
-                                      while ($rowExceptions = $resultExceptions->fetch_assoc()) {
-                                        echo '<tr>';
-                                          echo '<th scope="row">'. $rowExceptions['resource_id']  . '</th>';
-                                          echo '<td>'. $rowExceptions['justification'] . '</td>';
-                                          echo '<td>'. $rowExceptions['review_date'] . '</td>';
-                                          echo '<td>'. $rowExceptions['user_name'] . '</td>';
-                                          echo '<td>'. $rowExceptions['last_updated'] . '</td>';
-                                        echo '</tr>';
-                                      }
-        
+                                  if($resultExceptions -> num_rows < 1){
+                                    echo '<h6 class="noExceptionHeading">There are no exceptions for rule '. $row['rule_id'] .'</h6>';
+                                  }
+                                  else{
+
+                                    echo '
+                                    <table class="table table-detailed-view">
+                                      <thead class="table-dark">
+                                        <tr>
+                                          <th scope="col">Resource ID</th>
+                                          <th scope="col">Justification</th>
+                                          <th scope="col">Review Date</th>
+                                          <th scope="col">Last Updated By</th>
+                                          <th scope="col">Last Updated</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        ';
+                                        
+                                        while ($rowExceptions = $resultExceptions->fetch_assoc()) {
+                                          echo '<tr>';
+                                            echo '<th scope="row">'. $rowExceptions['resource_id']  . '</th>';
+                                            echo '<td>'. $rowExceptions['justification'] . '</td>';
+                                            echo '<td>'. $rowExceptions['review_date'] . '</td>';
+                                            echo '<td>'. $rowExceptions['user_name'] . '</td>';
+                                            echo '<td>'. $rowExceptions['last_updated'] . '</td>';
+                                          echo '</tr>';
+                                        }
+                                        
+                                      
                                       echo'
                                     </tbody>
                                   </table>
+                                  ';
+                                  }
+                                  echo '
                                 </div>
                               </div>
                             </div>
