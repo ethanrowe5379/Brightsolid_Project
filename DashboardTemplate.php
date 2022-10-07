@@ -85,7 +85,7 @@
                                       JOIN rule
                                       ON resource.resource_type_id = rule.resource_type_id
                                       LEFT JOIN exception
-                                      ON rule.rule_id = exception.rule_id AND resource.resource_name = exception.exception_value
+                                      ON rule.rule_id = exception.rule_id AND resource.resource_id = exception.resource_id
                                       LEFT JOIN non_compliance
                                       ON resource.resource_id = non_compliance.resource_id AND rule.rule_id = non_compliance.rule_id
                                       WHERE rule.rule_id = " . $row['rule_id'] . ";";
