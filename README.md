@@ -321,12 +321,12 @@ n/a
 
 ### Summary of Conversation:
 Daniel & John
-	- yesterday john and I worked on the formating.
+	- Yesterday john and I worked on the formating.
 	- Fixed the data so now the date formatting is correct.
 	- Fixed the way we create exceptions by changing the SQL statement so now that works.
 	- Added the log out button but doesn't look pretty but that will be with the final version. 
 	- Plans for today is writting stuff for the report and combining our stuff with Jamie and DJ's newest version.
-	- didn't have any issues yesterday
+	- Didn't have any issues yesterday
 
 DJ & Jamie
 	- Yesterday we continued work on the dashboard.
@@ -334,6 +334,7 @@ DJ & Jamie
 	- We also changed the exception table so it has a less unnessesery data.
 	- Also changed the exception table if there's no exceptions so it doesn't display a table.
 	- Had some issues with the styling for mobile that we'll continue working on.
+
 Ethan 
 	- Currently working on the suspending exceptions
 	- Not much else and no problems / road blocks
