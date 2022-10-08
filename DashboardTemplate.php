@@ -115,7 +115,8 @@ function tbodyInsert($db) {
               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body small">
-              ';
+            <div class="accordion" id="accordion_'. $row['rule_id'] .'">
+            ';
               resourceTableInsert($db, $row);
               exceptionTableInsert($db, $row);
               echo'  
@@ -131,7 +132,6 @@ function tbodyInsert($db) {
 
 function resourceTableInsert($db, $row){
   echo'
-  <div class="accordion" id="accordion_'. $row['rule_id'] .'">
   <div class="accordion-item">
     <h2 class="accordion-header" id="resourceHeading">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseResources_'. $row['rule_id'] .'" aria-expanded="false" aria-controls="collapseResources_'. $row['rule_id'] .'">
@@ -140,55 +140,64 @@ function resourceTableInsert($db, $row){
     </h2>
     <div id="collapseResources_'. $row['rule_id'] .'" class="accordion-collapse collapse" aria-labelledby="resourceHeading" data-bs-parent="#accordion_'. $row['rule_id'] .'">
       <div class="accordion-body">
+      ';
 
-        <table class="table table-detailed-view">
-          <thead class="table-dark">
-            <tr>
-              <th scope="col">Resource ID</th>
-              <th scope="col">Resource Name</th>
-              <th scope="col">Compliance Status</th>
-              <th scope="col">Exception</th>
-            </tr>
-          </thead>
-          <tbody>
+      $sqlResources = "SELECT rule.rule_id, rule.rule_name, resource.resource_id, resource.resource_name, non_compliance.rule_id AS 'noncompliant', exception.rule_id AS 'exception' FROM resource
+                       JOIN rule
+                       ON resource.resource_type_id = rule.resource_type_id
+                       LEFT JOIN exception
+                       ON rule.rule_id = exception.rule_id AND resource.resource_id = exception.resource_id
+                       LEFT JOIN non_compliance
+                       ON resource.resource_id = non_compliance.resource_id AND rule.rule_id = non_compliance.rule_id
+                       WHERE rule.rule_id = " . $row['rule_id'] . ";";
+      
+      $resultResources = $db->query($sqlResources);
+
+      if($resultResources -> num_rows < 1){
+        echo '<h6 class="noResourceHeading">There are no resources for rule '. $row['rule_id'] .'</h6>';
+      }
+      else{
+
+        echo'
+          <table class="table table-detailed-view">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col">Resource ID</th>
+                <th scope="col">Resource Name</th>
+                <th scope="col">Compliance Status</th>
+                <th scope="col">Exception</th>
+              </tr>
+            </thead>
+            <tbody>
+            ';
+              while ($rowResources = $resultResources->fetch_assoc()) {
+                echo '<tr>';
+                  echo '<th scope="row">'. $rowResources['resource_id']  . '</th>';
+                  echo '<td>'. $rowResources['resource_name'] . '</td>';
+                  
+                  echo '<td>';
+                  if($rowResources['noncompliant'] == NULL or $rowResources['exception'] != NULL){
+                    echo 'Compliant';
+                  }else{
+                    echo 'Non-Compliant';
+                  }
+                  echo '</td>';
+
+                  echo '<td>';
+                  if($rowResources['exception'] != NULL){
+                    echo 'Yes';
+                  }
+                  echo '</td>';
+
+
+                echo '</tr>';
+              }
+            echo'  
+            </tbody>
+          </table>
           ';
-            $sqlResources = "SELECT rule.rule_id, rule.rule_name, resource.resource_id, resource.resource_name, non_compliance.rule_id AS 'noncompliant', exception.rule_id AS 'exception' FROM resource
-            JOIN rule
-            ON resource.resource_type_id = rule.resource_type_id
-            LEFT JOIN exception
-            ON rule.rule_id = exception.rule_id AND resource.resource_id = exception.resource_id
-            LEFT JOIN non_compliance
-            ON resource.resource_id = non_compliance.resource_id AND rule.rule_id = non_compliance.rule_id
-            WHERE rule.rule_id = " . $row['rule_id'] . ";";
-            
-            $resultResources = $db->query($sqlResources);
-
-            while ($rowResources = $resultResources->fetch_assoc()) {
-              echo '<tr>';
-                echo '<th scope="row">'. $rowResources['resource_id']  . '</th>';
-                echo '<td>'. $rowResources['resource_name'] . '</td>';
-                
-                echo '<td>';
-                if($rowResources['noncompliant'] == NULL or $rowResources['exception'] != NULL){
-                  echo 'Compliant';
-                }else{
-                  echo 'Non-Compliant';
-                }
-                echo '</td>';
-
-                echo '<td>';
-                if($rowResources['exception'] != NULL){
-                  echo 'Yes';
-                }
-                echo '</td>';
-
-
-              echo '</tr>';
-            }
-          echo'  
-          </tbody>
-        </table>
-
+        }
+      echo'
       </div>
     </div>
   </div>
@@ -203,9 +212,7 @@ function exceptionTableInsert($db, $row){
         View Exceptions
       </button>
     </h2>
-
     <div id="collapseExceptions_'. $row['rule_id'] .'" class="accordion-collapse collapse" aria-labelledby="exceptionHeading">
-
       <div class="accordion-body">
         ';
       
