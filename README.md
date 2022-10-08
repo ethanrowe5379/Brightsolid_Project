@@ -308,3 +308,36 @@ DJ & Jamie
 Ethan
 	- Yesterday I was trying to get modals working had some issues but got them working now
 	- No other issues
+	
+## Meeting (8th Oct)
+### Members Present:
+DJ Dorren, Ethan Rowe, Jamie Fergus, Daniel Jakubek, John Harrow
+
+### Members Not Present:
+n/a
+
+### Apologies:
+n/a
+
+### Summary of Conversation:
+Daniel & John
+	- yesterday john and I worked on the formating.
+	- Fixed the data so now the date formatting is correct.
+	- Fixed the way we create exceptions by changing the SQL statement so now that works.
+	- Added the log out button but doesn't look pretty but that will be with the final version. 
+	- Plans for today is writting stuff for the report and combining our stuff with Jamie and DJ's newest version.
+	- didn't have any issues yesterday
+
+DJ & Jamie
+	- Yesterday we continued work on the dashboard.
+	- We added the compliance status % on the dashboard.
+	- We also changed the exception table so it has a less unnessesery data.
+	- Also changed the exception table if there's no exceptions so it doesn't display a table.
+	- Had some issues with the styling for mobile that we'll continue working on.
+Ethan 
+	- Currently working on the suspending exceptions
+	- Not much else and no problems / road blocks
+
+
+
+
