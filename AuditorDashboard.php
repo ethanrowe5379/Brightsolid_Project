@@ -1,9 +1,34 @@
+<?php 
+
+  session_start();
+
+  //If log out button is pressed
+  if(isset($_POST['LogOut'])){
+    if (isset($_SESSION['userRole'])) 
+    session_destroy();
+    header("Refresh:0");
+  }
+
+  //Only correct user trying to enter this page (MGHT WANT TO PUT THE WHOLE PAGE IN THIS PHP STATMENT)
+  if (isset($_SESSION['userRole'])) {
+    if($_SESSION['userRole'] != "auditor") 
+      header("Location: PHP/Index.php"); //Goes back to login page
+  }
+  else{
+    header("Location: PHP/Index.php"); //Goes back to login page
+  }
+
+
+
+
+?>
+
 <!DOCTYPE html>
 <html>
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard</title>
+  <title>Auditor Dashboard</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
   <link rel="stylesheet" href="DashboardTemplate.css">
@@ -11,11 +36,22 @@
 
 <body>
   <?php
-  include "connectDB.php";
+  include "PHP/dbConnect.php";
   ?>
   <header>
     <h1>Brightsolid</h1>
     <img src="">
+
+    <?php 
+      echo "
+      <p>Logged in as: ".$_SESSION['userName']."</p>
+      <p>Role: ".$_SESSION['userRole']."</p>"
+    ?>
+
+    <form action="AuditorDashboard.php" method="post">
+      <button class="btn btn-primary" type="submit" name="LogOut">Log Out</button>
+    </form>
+
   </header>
 
   <main>
@@ -33,7 +69,7 @@
         </thead>
         <tbody>
           <?php
-          tbodyInsert($db);
+          tbodyInsert($dbc);
           ?>
         </tbody>
       </table>
@@ -43,7 +79,7 @@
 
   </footer>
   <?php
-    $db->close();
+    $dbc->close();
   ?>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 </body>
@@ -52,11 +88,11 @@
 
 <?php
 
-function tbodyInsert($db) {
+function tbodyInsert($dbc) {
   $sql = "SELECT rule_id, rule_name, rule_description, resource_type_id FROM rule 
   ORDER BY rule_id ASC;";
 
-  $result = $db->query($sql);
+  $result = $dbc->query($sql);
 
   if ($result->num_rows == 0) {
     echo ("No Rules Compliant");
@@ -83,9 +119,9 @@ function tbodyInsert($db) {
         WHERE rule.rule_id = " . $row['rule_id'] . ";";
 
 
-        $resultCountNon_compliance = $db->query($sqlCountNon_compliance);
-        $resultCountExceptions = $db->query($sqlCountExceptions);
-        $resultCountResources = $db->query($sqlCountResources);
+        $resultCountNon_compliance = $dbc->query($sqlCountNon_compliance);
+        $resultCountExceptions = $dbc->query($sqlCountExceptions);
+        $resultCountResources = $dbc->query($sqlCountResources);
 
 
         $dataCountNon_compliance = $resultCountNon_compliance->fetch_assoc();
@@ -109,7 +145,7 @@ function tbodyInsert($db) {
         
           <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom_'. $row['rule_id'] .'" aria-controls="offcanvasBottom_'. $row['rule_id'] .'">Detailed Report</button>
           
-          <div class="h-100 offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom_'. $row['rule_id'] .'" aria-labelledby="offcanvasBottom_'. $row['rule_id'] .'_Label">
+          <div class="h-100 offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom_'. $row['rule_id'] .'" aria-labelledbcy="offcanvasBottom_'. $row['rule_id'] .'_Label">
             <div class="offcanvas-header">
               <h5 class="offcanvas-title" id="offcanvasBottom_'. $row['rule_id'] .'_Label">Detailed Report for rule '. $row['rule_id'] .' : '. $row['rule_name'] .'</h5>
               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -117,8 +153,8 @@ function tbodyInsert($db) {
             <div class="offcanvas-body small">
             <div class="accordion" id="accordion_'. $row['rule_id'] .'">
             ';
-              resourceTableInsert($db, $row);
-              exceptionTableInsert($db, $row);
+              resourceTableInsert($dbc, $row);
+              exceptionTableInsert($dbc, $row);
               echo'  
               </div>
             </div>
@@ -130,7 +166,7 @@ function tbodyInsert($db) {
   }
 }
 
-function resourceTableInsert($db, $row){
+function resourceTableInsert($dbc, $row){
   echo'
   <div class="accordion-item">
     <h2 class="accordion-header" id="resourceHeading">
@@ -138,7 +174,7 @@ function resourceTableInsert($db, $row){
         View Resources
       </button>
     </h2>
-    <div id="collapseResources_'. $row['rule_id'] .'" class="accordion-collapse collapse" aria-labelledby="resourceHeading" data-bs-parent="#accordion_'. $row['rule_id'] .'">
+    <div id="collapseResources_'. $row['rule_id'] .'" class="accordion-collapse collapse" aria-labelledbcy="resourceHeading" data-bs-parent="#accordion_'. $row['rule_id'] .'">
       <div class="accordion-body">
       ';
 
@@ -151,7 +187,7 @@ function resourceTableInsert($db, $row){
                        ON resource.resource_id = non_compliance.resource_id AND rule.rule_id = non_compliance.rule_id
                        WHERE rule.rule_id = " . $row['rule_id'] . ";";
       
-      $resultResources = $db->query($sqlResources);
+      $resultResources = $dbc->query($sqlResources);
 
       if($resultResources -> num_rows < 1){
         echo '<h6 class="noResourceHeading">There are no resources for rule '. $row['rule_id'] .'</h6>';
@@ -204,7 +240,7 @@ function resourceTableInsert($db, $row){
   ';
 }
 
-function exceptionTableInsert($db, $row){
+function exceptionTableInsert($dbc, $row){
   echo'
   <div class="accordion-item">
     <h2 class="accordion-header" id="exceptionHeading">
@@ -212,7 +248,7 @@ function exceptionTableInsert($db, $row){
         View Exceptions
       </button>
     </h2>
-    <div id="collapseExceptions_'. $row['rule_id'] .'" class="accordion-collapse collapse" aria-labelledby="exceptionHeading">
+    <div id="collapseExceptions_'. $row['rule_id'] .'" class="accordion-collapse collapse" aria-labelledbcy="exceptionHeading">
       <div class="accordion-body">
         ';
       
@@ -222,7 +258,7 @@ function exceptionTableInsert($db, $row){
                           ON exception.last_updated_by = user.user_id
                           WHERE exception.rule_id = " . $row['rule_id'] . ";";
 
-        $resultExceptions = $db->query($sqlExceptions);
+        $resultExceptions = $dbc->query($sqlExceptions);
             
         if($resultExceptions -> num_rows < 1){
           echo '<h6 class="noExceptionHeading">There are no exceptions for rule '. $row['rule_id'] .'</h6>';
@@ -265,4 +301,5 @@ function exceptionTableInsert($db, $row){
   </div>
   ';
 }
+
 ?>

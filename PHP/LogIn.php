@@ -33,7 +33,7 @@
                 getUserRole($row["role_id"], $dbc);  
             }
             else{
-                errorMessage();
+                errorMessage(); 
             }
         }
         else{
@@ -58,11 +58,11 @@
     function sendToPage($roleName){
         switch($roleName){
             case "manager":
-                header("refresh:3;url=Index.php");
+                header("refresh:3;url=../ManagerDashboard.php");
                 echo "Role: " . $roleName;
                 break;
             case "auditor":
-                header("refresh:3;url=Index.php");
+                header("refresh:3;url=../AuditorDashboard.php");
                 echo "Role: " . $roleName;
                 break;
             case "admin":
