@@ -11,6 +11,8 @@
 
   //Only correct user trying to enter this page (MGHT WANT TO PUT THE WHOLE PAGE IN THIS PHP STATMENT)
   if (isset($_SESSION['userRole'])) {
+
+    //Have a switch to redirect to appropriate PAGE /////////////////////////////////////////////////////////////////////
     if($_SESSION['userRole'] != "manager") 
       header("Location: PHP/Index.php"); //Goes back to login page
   }

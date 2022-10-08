@@ -42,6 +42,9 @@
         //Delete from non_compliance table
         //deleteNonCompliance($resourceID, $ruleID, $dbc);  
     }
+    else{
+        header("Location: Index.php"); ////ADD redirect to respective page via switch
+    }
     
 
     //Inserts new exception data into database

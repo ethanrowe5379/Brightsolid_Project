@@ -50,6 +50,9 @@
         addExceptionAudit($exceptionID, $lastUpdatedBy, $customerID, $ruleID, $lastUpdated, $oldExceptionValue, $newExceptionValue, $oldJustificationValue, $newJustificationValue, $oldReviewDate, $newReviewDate, $dbc);
         header("Location: ../ManagerDashboard.php");
     }
+    else{
+        header("Location: Index.php"); ////ADD redirect to respective page via switch
+    }
 
     //Updates the expcetion table
     function alterException($exceptionID, $lastUpdatedBy, $newJustificationValue, $newExceptionValue, $newReviewDate, $lastUpdated, $dbc){
