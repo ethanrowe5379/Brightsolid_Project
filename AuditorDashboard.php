@@ -57,22 +57,42 @@
   <main>
     <div class="container">
       <h1>Compliance Dashboard</h1>
-      <table class="table table-striped table-bordered table-hover">
-        <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Rule Name</th>
-            <th scope="col">Rule Description</th>
-            <th scope="col">Compliance Status</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php
-          tbodyInsert($dbc);
-          ?>
-        </tbody>
-      </table>
+
+      <?php  
+
+        $accountToBeFound = $_SESSION["customerID"];
+        //$accountToBeFound = 2; // DELETE THIS AFTER TESTING///////////////////////////////////////////////////////////
+        $findAccount = "SELECT account_id FROM account WHERE customer_id='$accountToBeFound';";
+        $resultAccounts = $dbc->query($findAccount);
+
+        $foundAccountID = 0;
+
+        if($resultAccounts -> num_rows == 1){
+          $accountRow = $resultAccounts->fetch_assoc();
+          $foundAccountID = $accountRow["account_id"];
+      ?>
+        <table class="table table-striped table-bordered table-hover">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Rule Name</th>
+              <th scope="col">Rule Description</th>
+              <th scope="col">Compliance Status</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+              tbodyInsert($dbc, $foundAccountID);
+            ?>
+          </tbody>
+        </table>
+      <?php 
+        }
+        else{
+          echo '<h6 class="noResourceHeading">There are accounts for this customer: '.$foundAccountID.'</h6>';
+        } 
+      ?>
     </div >
   </main>
   <footer>
@@ -88,7 +108,7 @@
 
 <?php
 
-function tbodyInsert($dbc) {
+function tbodyInsert($dbc, $foundAccountID) {
   $sql = "SELECT rule_id, rule_name, rule_description, resource_type_id FROM rule 
   ORDER BY rule_id ASC;";
 
@@ -104,19 +124,32 @@ function tbodyInsert($dbc) {
         <td>'. $row['rule_name'] .'</td>
         <td>'. $row['rule_description'] .'</td>';
 
-        $sqlCountNon_compliance = "SELECT COUNT(rule_id) AS 'count'
-        FROM non_compliance
-        WHERE non_compliance.rule_id = " . $row['rule_id'] . ";";
+        $sqlCountNon_compliance = "SELECT COUNT(resource.resource_id) AS 'count' FROM resource
+        JOIN rule
+        ON resource.resource_type_id = rule.resource_type_id
+        LEFT JOIN exception
+        ON rule.rule_id = exception.rule_id AND resource.resource_id = exception.resource_id
+        LEFT JOIN non_compliance
+        ON resource.resource_id = non_compliance.resource_id AND rule.rule_id = non_compliance.rule_id
+        WHERE rule.rule_id = " . $row['rule_id'] . " AND resource.account_id = '$foundAccountID' AND resource.resource_id = non_compliance.resource_id;
+        ";
+
+        // $sqlCountNon_compliance = "SELECT COUNT(rule_id) AS 'count'
+        // FROM non_compliance
+        // WHERE non_compliance.rule_id = " . $row['rule_id'] . ";";
         
         $sqlCountExceptions = "SELECT COUNT(rule_id) AS 'count'
         FROM exception
-        WHERE exception.rule_id = " . $row['rule_id'] . ";";
+        JOIN resource
+        ON resource.resource_id = exception.resource_id
+        WHERE exception.rule_id = ". $row['rule_id']." AND resource.account_id = '$foundAccountID';"; 
+        //Will need to count exceptions where the resource
         
-        $sqlCountResources = "SELECT COUNT(resource_id) AS 'count'
+        $sqlCountResources = "SELECT COUNT(resource.resource_id) AS 'count' 
         FROM resource
         JOIN rule
         ON resource.resource_type_id = rule.resource_type_id
-        WHERE rule.rule_id = " . $row['rule_id'] . ";";
+        WHERE resource.account_id = '$foundAccountID' AND rule.rule_id = " . $row['rule_id'] . ";";  //Can do the account in here
 
 
         $resultCountNon_compliance = $dbc->query($sqlCountNon_compliance);
@@ -134,8 +167,15 @@ function tbodyInsert($dbc) {
         
         $totalcompliant = $totalResources - $totalNon_compliant;
         
+        $compliantStatus = 0;
 
-        $compliantStatus = ($totalcompliant/$totalResources)*100;
+        if($totalcompliant < 1){
+          $totalcompliant = 0;
+        }
+        else{
+          $compliantStatus = ($totalcompliant/$totalResources)*100;
+        }
+        
 
         echo'
         <td>'. $totalcompliant .' / '. $totalResources .'</td>
@@ -153,8 +193,8 @@ function tbodyInsert($dbc) {
             <div class="offcanvas-body small">
             <div class="accordion" id="accordion_'. $row['rule_id'] .'">
             ';
-              resourceTableInsert($dbc, $row);
-              exceptionTableInsert($dbc, $row);
+              resourceTableInsert($dbc, $row, $foundAccountID);
+              exceptionTableInsert($dbc, $row, $foundAccountID);
               echo'  
               </div>
             </div>
@@ -166,7 +206,7 @@ function tbodyInsert($dbc) {
   }
 }
 
-function resourceTableInsert($dbc, $row){
+function resourceTableInsert($dbc, $row, $foundAccountID){
   echo'
   <div class="accordion-item">
     <h2 class="accordion-header" id="resourceHeading">
@@ -178,14 +218,14 @@ function resourceTableInsert($dbc, $row){
       <div class="accordion-body">
       ';
 
-      $sqlResources = "SELECT rule.rule_id, rule.rule_name, resource.resource_id, resource.resource_name, non_compliance.rule_id AS 'noncompliant', exception.rule_id AS 'exception' FROM resource
+      $sqlResources = "SELECT rule.rule_id, rule.rule_name, resource.resource_id, resource.account_id, resource.resource_name, non_compliance.rule_id AS 'noncompliant', exception.rule_id AS 'exception' FROM resource
                        JOIN rule
                        ON resource.resource_type_id = rule.resource_type_id
                        LEFT JOIN exception
                        ON rule.rule_id = exception.rule_id AND resource.resource_id = exception.resource_id
                        LEFT JOIN non_compliance
                        ON resource.resource_id = non_compliance.resource_id AND rule.rule_id = non_compliance.rule_id
-                       WHERE rule.rule_id = " . $row['rule_id'] . ";";
+                       WHERE rule.rule_id = " . $row['rule_id'] . " AND resource.account_id = '$foundAccountID';";
       
       $resultResources = $dbc->query($sqlResources);
 
@@ -240,7 +280,7 @@ function resourceTableInsert($dbc, $row){
   ';
 }
 
-function exceptionTableInsert($dbc, $row){
+function exceptionTableInsert($dbc, $row, $foundAccountID){
   echo'
   <div class="accordion-item">
     <h2 class="accordion-header" id="exceptionHeading">
@@ -252,11 +292,13 @@ function exceptionTableInsert($dbc, $row){
       <div class="accordion-body">
         ';
       
-        $sqlExceptions = "SELECT exception.exception_id, exception.justification, exception.review_date, exception.last_updated, exception.resource_id,user.user_name
-                          FROM exception
-                          LEFT JOIN user
-                          ON exception.last_updated_by = user.user_id
-                          WHERE exception.rule_id = " . $row['rule_id'] . ";";
+        $sqlExceptions = "SELECT exception.exception_id, exception.resource_id, exception.justification, exception.review_date, exception.last_updated, exception.resource_id, user.user_name, resource.resource_id, resource.account_id
+        FROM exception
+        LEFT JOIN user
+        ON exception.last_updated_by = user.user_id
+        JOIN resource
+        ON resource.resource_id = exception.resource_id
+        WHERE exception.rule_id = " . $row['rule_id'] . " AND resource.account_id='$foundAccountID';";
 
         $resultExceptions = $dbc->query($sqlExceptions);
             
