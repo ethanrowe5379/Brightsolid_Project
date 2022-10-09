@@ -340,5 +340,38 @@ Ethan
 	- Not much else and no problems / road blocks
 
 
+## Meeting (9th Oct)
+### Members Present:
+DJ Dorren, Ethan Rowe, Jamie Fergus, Daniel Jakubek, John Harrow
 
+### Members Not Present:
+n/a
+
+### Apologies:
+n/a
+
+### Summary of Conversation:
+Daniel
+- Yesterday I had to wait for stuff to get merged but after that we got everything combined so we have a management and audit different pages all ready to demonstrate tomorrow.
+- Added functions to the managerDashboard.php to make code more readable
+- No issues really
+- Plans for today is putting everything on silvia and writing the report introduction 
+
+Jamie
+-  Worked on the readability of the code for a bit after yesterday's scrum with DJ
+-  Merging the dashboards and started report writing
+-  Continuing with this today.
+
+DJ
+- Worked with Jamie on code readability for a bit 
+- This morning will continue with report work and making a presentation for tomorrow
+
+Ethan 
+- Didn’t get up to much yesterday 
+- Reviewed Jamie's pull request 
+- Today plans are to combine my exception stuff so it’s ready for tomorrow and report writing
+
+John
+- Did the merge request from Jamie yesterday and started working on my section of the report
+- Today I will be continuing the report work and working with Ethan and Daniel on merging Ethans work.
 
