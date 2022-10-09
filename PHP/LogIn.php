@@ -1,7 +1,7 @@
 <?php 
     session_start();
     include "dbConnect.php";
-    
+
     //If fields are not empty
     if(isset($_POST['uname']) && $_POST['psw'])
     {
@@ -33,7 +33,7 @@
                 getUserRole($row["role_id"], $dbc);  
             }
             else{
-                errorMessage();
+                errorMessage(); 
             }
         }
         else{
@@ -58,14 +58,15 @@
     function sendToPage($roleName){
         switch($roleName){
             case "manager":
-                header("refresh:3;url=Index.php");
+                header("refresh:3;url=../ManagerDashboard.php");
                 echo "Role: " . $roleName;
                 break;
             case "auditor":
-                header("refresh:3;url=Index.php");
+                header("refresh:3;url=../AuditorDashboard.php");
                 echo "Role: " . $roleName;
                 break;
             case "admin":
+                echo "Role: " . $roleName;
                 header("refresh:1;url=AdminPortal.php");
                 break;
             default:

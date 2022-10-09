@@ -14,9 +14,8 @@
     $currentDate = "";
 
     //If fields are not empty
-    if(isset($_POST['resourceID']) && isset($_POST['ruleID']) && isset($_POST['expValue']) 
-        && isset($_POST['justValue']) && isset($_POST['rvwDate']) && isset($_POST['currentDate'])
-        && isset($_SESSION['customerID']) && isset($_SESSION['userID']) && isset($_SESSION['userName']))
+    if(isset($_POST['resourceID']) && isset($_POST['ruleID']) && isset($_POST['expValue']) && isset($_POST['justValue']) && 
+    isset($_POST['rvwDate']) && isset($_SESSION['customerID']) && isset($_SESSION['userID']) && isset($_SESSION['userName']))
     {
         
         //Session variables
@@ -29,14 +28,22 @@
         $ruleID = $_POST['ruleID'];
         $expValue = $_POST['expValue'];
         $justValue = $_POST['justValue'];
-        $rvwDate = $_POST['rvwDate'];
-        $currentDate = $_POST['currentDate'];
+
+        //Sets the time and format
+        $reviewDate = date('Y-m-d H:i:s.v', strtotime($_POST['rvwDate']));
+        $rvwDate = getCurrentTime($reviewDate);
+        $currentDate = getCurrentTime(date("Y-m-d H:i:s.v"));
 
         //Add expection
         insertException($customerID, $userID, $userName, $resourceID, $ruleID, $expValue, $justValue, $rvwDate, $currentDate, $dbc);
         addExceptionAudit($customerID, $userID, $userName, $resourceID, $ruleID, $expValue, $justValue, $rvwDate, $currentDate, $dbc);
+        header("Location: ../ManagerDashboard.php");
+
         //Delete from non_compliance table
         //deleteNonCompliance($resourceID, $ruleID, $dbc);  
+    }
+    else{
+        header("Location: Index.php"); ////ADD redirect to respective page via switch
     }
     
 
@@ -112,5 +119,19 @@
         }catch(Exception $e){
             echo $e;
         }
+    }
+
+    //Sets if the current time is in BST or GMT
+    function getCurrentTime($dateToFormat){
+
+        //To check if in BST or GMT was taken from Stack Overflow https://stackoverflow.com/questions/29123753/detect-bst-in-php
+        // $date = date("Y-m-d H:i:s.v");
+        $dateTest = strtotime($dateToFormat); 
+        if (date('I', $dateTest)) {
+            $dateToFormat = $dateToFormat . " +0100";
+        } else {
+            $dateToFormat = $dateToFormat . " +0000";
+        }
+        return $dateToFormat;
     }
 ?>

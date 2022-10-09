@@ -17,7 +17,6 @@ header{
     margin-left:-10px;
 }
 
-
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
     .container{
@@ -94,3 +93,31 @@ header{
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
+
+/* IMPORTANT */
+.offcanvas{
+    z-index: 1500!important;
+}
+
+input[type=datetime-local], input[type=text], input[type=password], input[type=number]{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 2px solid rgb(0, 0, 0);
+    box-sizing: border-box;
+}
+
+#LoginStatus{
+    color: red;
+  }
+  
+  #LoginSubmit, #CreateUser, #createExceptionConfirm {
+    background-color: black;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+  }

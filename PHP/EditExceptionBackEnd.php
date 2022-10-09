@@ -6,8 +6,8 @@
     $oldExceptionValue = "";
     $oldReviewDate = "";
     $ruleID = "";
-
-    $lastUpdated = date("Y-m-d H:i:s.v");
+    
+    $lastUpdated = getCurrentTime(date("Y-m-d H:i:s.v"));
 
     //If fields are not empty
     if(isset($_POST['updateExceptionID']) && isset($_POST['updateJustValue']) && isset($_POST['updateExpValue']) 
@@ -38,8 +38,20 @@
           }
         }
 
+        //Formatting the dates
+        $oldReviewDateFormatting = date('Y-m-d H:i:s.v', strtotime($oldReviewDate));
+        $oldReviewDate = getCurrentTime($oldReviewDateFormatting);
+
+        $newReviewDateFormatting = date('Y-m-d H:i:s.v', strtotime($newReviewDate));
+        $newReviewDate = getCurrentTime($newReviewDateFormatting);
+
+
         alterException($exceptionID, $lastUpdatedBy, $newJustificationValue, $newExceptionValue, $newReviewDate, $lastUpdated, $dbc);
         addExceptionAudit($exceptionID, $lastUpdatedBy, $customerID, $ruleID, $lastUpdated, $oldExceptionValue, $newExceptionValue, $oldJustificationValue, $newJustificationValue, $oldReviewDate, $newReviewDate, $dbc);
+        header("Location: ../ManagerDashboard.php");
+    }
+    else{
+        header("Location: Index.php"); ////ADD redirect to respective page via switch
     }
 
     //Updates the expcetion table
@@ -47,8 +59,6 @@
 
         $lockTable = "LOCK TABLES exception WRITE;";
         $unlockTables = "UNLOCK TABLES;";
-
-       // $lastUpdated = date("Y-m-d H:i:s.v");
 
         $sqlUpdateQuery = "UPDATE exception
             SET last_updated_by = '$lastUpdatedBy', justification = '$newJustificationValue', exception_value = '$newExceptionValue', review_date = '$newReviewDate', last_updated = '$lastUpdated'
@@ -83,5 +93,18 @@
         }catch(Exception $e){
             echo $e;
         }
+    }
+
+    //Sets if the current time is in BST or GMT
+    function getCurrentTime($dateToFormat){
+
+        //To check if in BST or GMT was taken from Stack Overflow https://stackoverflow.com/questions/29123753/detect-bst-in-php
+        $dateTest = strtotime($dateToFormat); 
+        if (date('I', $dateTest)) {
+            $dateToFormat = $dateToFormat . " +0100";
+        } else {
+            $dateToFormat = $dateToFormat . " +0000";
+        }
+        return $dateToFormat;
     }
 ?>
