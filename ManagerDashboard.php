@@ -92,7 +92,7 @@
     ORDER BY rule_id ASC;";
 
     $result = $dbc->query($sql);
-
+    
     if ($result->num_rows == 0) {
       echo ("No Rules Compliant");
     } else {
@@ -195,7 +195,7 @@
         else{
 
           echo'
-            <table class="table table-detailed-view">
+            <table class="table table-bordered table-detailed-view">
               <thead class="table-dark">
                 <tr>
                   <th scope="col">Resource ID</th>
@@ -269,7 +269,7 @@
           else{
 
             echo '
-            <table class="table table-detailed-view">
+            <table class="table table-bordered table-detailed-view">
               <thead class="table-dark">
                 <tr>
                   <th scope="col">Resource ID</th>
@@ -278,6 +278,7 @@
                   <th scope="col">Last Updated By</th>
                   <th scope="col">Last Updated</th>
                   <th scope="col">Edit</th>
+                  <th scope="col">Suspend</th>
                 </tr>
               </thead>
               <tbody>
@@ -294,7 +295,8 @@
                     echo '<td>'. $rowExceptions['review_date'] . '</td>';
                     echo '<td>'. $rowExceptions['user_name'] . '</td>';
                     echo '<td>'. $rowExceptions['last_updated'] . '</td>';
-                    echo '<td>'. editExceptionButton($dbc, $currentResourceID, $currentExceptionID) . '</td>';
+                    echo editExceptionButton($dbc, $currentResourceID, $currentExceptionID);
+                    echo suspendExceptionButton($dbc, $currentExceptionID);
                   echo '</tr>';
                 }
                 
@@ -370,8 +372,8 @@
 
   function editExceptionButton($dbc, $currentResourceID, $currentExceptionID){
     echo '
+
       <td>
-      
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditModal' . $currentExceptionID . '">Update</button>
 
         <div class="modal fade" id="EditModal' . $currentExceptionID . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -439,8 +441,66 @@
           </div>
         </div>
         </div>
+      </td>
+      ';
+  }
 
-        </td>
+  function suspendExceptionButton($dbc, $currentExceptionID){
+    echo '
+    <td>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#SuspendModal' . $currentExceptionID . '">Suspend</button>
+
+        <div class="modal fade" id="SuspendModal' . $currentExceptionID . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5">Suspend Exception Warning!</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+
+              <div class="modal-body">
+                <div id="CreateException">
+                  <form action="PHP/SuspendExceptionBackEnd.php" method="post" autocomplete="off"> 
+                    <div class="container">
+    ';
+                            
+                      $sqlQuery = "SELECT exception_id, exception_value FROM exception WHERE exception_id='$currentExceptionID'";
+
+                      $EditResult = mysqli_query($dbc, $sqlQuery);
+
+                      //Finds and assigns the latest exception id
+                      if($EditResult){
+                        if($EditResult -> num_rows == 1){
+                          $row = $EditResult->fetch_assoc();
+                          
+                          $exceptionID = $row["exception_id"];
+                          $exceptionValue = $row["exception_value"];
+                        }
+                      }
+      echo'
+                        <p>You are about to suspend an exception!</p>
+                        <p>The details of the exception you are about to suspend are below:</p>
+
+                        <label for="suspendExceptionID" class="form-label">Exception ID</label>
+                        <input type="text" placeholder="Exception ID" name="suspendExceptionID" id="suspendExceptionID" value="'. $currentExceptionID .'" required readonly><br>
+
+                        <label for="suspendExceptionValue" class="form-label">Exception Value</label>
+                        <input type="text" name="suspendExceptionValue" id="suspendExceptionValue'. $exceptionValue.'" value="'. $exceptionValue .'"required readonly><br>
+
+                        <p>To continue, press the button below</p>
+
+                        <button class="btn btn-primary" type="submit" id="suspendExceptionConfirm">Suspend Exception</button>
+
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </td>              
       ';
   }
 
