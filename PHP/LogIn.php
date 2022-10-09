@@ -1,7 +1,7 @@
 <?php 
     session_start();
     include "dbConnect.php";
-    
+
     //If fields are not empty
     if(isset($_POST['uname']) && $_POST['psw'])
     {
@@ -66,6 +66,7 @@
                 echo "Role: " . $roleName;
                 break;
             case "admin":
+                echo "Role: " . $roleName;
                 header("refresh:1;url=AdminPortal.php");
                 break;
             default:

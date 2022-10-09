@@ -1,7 +1,7 @@
 <?php 
     session_start();
     if (isset($_SESSION['userRole'])) {
-      if($_SESSION['userRole'] != "Admin") 
+      if($_SESSION['userRole'] != "admin") 
         header("Location: Index.php"); //Goes back to login page
     }
     else{
