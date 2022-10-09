@@ -9,7 +9,7 @@
         $username = ($_POST['uname']);
         $password = ($_POST['psw']);
         
-        $password = hash('sha3-256', $password); //Feels like hashing the password from the start is the best idea
+        $password = hash('sha256', $password); //Feels like hashing the password from the start is the best idea
         getUsername($username, $password, $dbc);
     }
     else{
