@@ -121,3 +121,12 @@ input[type=datetime-local], input[type=text], input[type=password], input[type=n
     cursor: pointer;
     width: 100%;
   }
+
+.navbar{
+    background-color: rgb(241, 180, 52);
+}
+
+main{
+    margin-top: 10vh;
+}
+

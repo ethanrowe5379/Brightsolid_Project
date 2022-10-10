@@ -37,20 +37,36 @@
     include "PHP/dbConnect.php";
   ?>
 
-  <header>
-    <h1>Brightsolid</h1>
-    <img src="">
+    <header>
+      <nav class="navbar .navbar-expand">  <!--add to close to disable hamburger on desktop navbar-expand-lg -->
+        <div class="container-fluid">
+          <img src="PHP/Graphics\BrightSolidLogo.png" alt="BrightSolidLogo" width="200" height="40" class="d-inline-block align-text-top">
 
-    <?php 
-      echo "
-      <p>Logged in as: ".$_SESSION['userName']."</p>
-      <p>Role: ".$_SESSION['userRole']."</p>"
-    ?>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          
+          <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav"></ul>
 
-    <form action="AuditorDashboard.php" method="post">
-      <button class="btn btn-primary" type="submit" name="LogOut">Log Out</button>
-    </form>
-
+            <div class="navbar-text">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <?php echo"<p>Username: ".$_SESSION['userName']."</p>" ?>
+                </li>
+                <li class="nav-item">
+                  <?php echo"<p>Role: ".$_SESSION['userRole']."</p>" ?>
+                </li>
+                <li class="nav-item">
+                  <form action="AuditorDashboard.php" method="post">
+                    <button class="btn btn-primary" type="submit" name="LogOut">Log Out</button>
+                  </form>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
   </header>
 
   <main>
@@ -60,7 +76,7 @@
       <?php  
 
         $accountToBeFound = $_SESSION["customerID"];
-        $accountToBeFound = 2; // DELETE THIS AFTER TESTING///////////////////////////////////////////////////////////
+       // $accountToBeFound = 2; // DELETE THIS AFTER TESTING///////////////////////////////////////////////////////////
         $findAccount = "SELECT account_id FROM account WHERE customer_id='$accountToBeFound';";
         $resultAccounts = $dbc->query($findAccount);
 
@@ -325,9 +341,9 @@
                   <th scope="col">Justification</th>
                   <th scope="col">Review Date</th>
                   <th scope="col">Last Updated By</th>
-                  <th scope="col">Last Updated</th>
                   <th scope="col">Edit</th>
                   <th scope="col">Suspend</th>
+                  <th scope="col">Audit</th>
                 </tr>
               </thead>
               <tbody>
@@ -343,9 +359,9 @@
                     echo '<td>'. $rowExceptions['justification'] . '</td>';
                     echo '<td>'. $rowExceptions['review_date'] . '</td>';
                     echo '<td>'. $rowExceptions['user_name'] . '</td>';
-                    echo '<td>'. $rowExceptions['last_updated'] . '</td>';
                     echo editExceptionButton($dbc, $currentResourceID, $currentExceptionID);
                     echo suspendExceptionButton($dbc, $currentExceptionID);
+                    echo viewExpcetionAudit($dbc, $currentExceptionID);
                   echo '</tr>';
                 }
                 
@@ -553,4 +569,68 @@
       ';
   }
 
+
+  /* We will need the expcetion ID*/
+  function viewExpcetionAudit($dbc, $currentExceptionID){
+
+    echo'
+    <td> <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AuditModal'.$currentExceptionID.'">Audit</button>';
+    
+  
+    $sqlQuery = "SELECT action, action_dt, old_review_date, exception_id FROM exception_audit WHERE exception_id='$currentExceptionID';";
+    $auditResult = mysqli_query($dbc, $sqlQuery);
+
+    //Finds and assigns the latest exception id
+
+        echo'
+        <div class="modal fade" id="AuditModal'.$currentExceptionID.'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+
+              <div class="modal-header">
+                <h1 class="modal-title fs-5">Exception Audit</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+          ';
+              if($auditResult){
+                if($auditResult -> num_rows > 0){
+
+                  echo'
+                      
+                      <div class="container-flex">
+                        <table class="table table-bordered table-detailed-view">
+                        <thead class="table-dark">
+                          <tr>
+                            <th scope="col">Exception ID</th>
+                            <th scope="col">Action</th>
+                            <th scope="col">Action Date</th>
+                            <th scope="col">Old Review Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                  ';
+                          while ($rowExceptions = $auditResult->fetch_assoc()) {
+                            echo '<tr>';
+                              echo '<th scope="row">'. $rowExceptions['exception_id']  . '</th>';
+                              echo '<th>'. $rowExceptions['action']  . '</th>';
+                              echo '<td>'. $rowExceptions['action_dt'] . '</td>';
+                              echo '<td>'. $rowExceptions['old_review_date'] . '</td>';
+                            echo '</tr>';
+                          }
+                    echo'
+                        </tbody>
+                        </table>
+                      </div>
+                    ';
+                }
+                else{
+                  echo '<h6 class="noResourceHeading">There are audits for this exception: '.$currentExceptionID.'</h6>';
+                }
+        echo'
+            </div>
+          </div>
+        </div>';         
+    }
+    echo '</td>';
+  }
 ?>
