@@ -376,3 +376,103 @@ John
 - Did the merge request from Jamie yesterday and started working on my section of the report
 - Today I will be continuing the report work and working with Ethan and Daniel on merging Ethans work.
 
+
+## Meeting with Client 2 (10th Oct) 
+
+### Members Present: 
+
+DJ Dorren, Ethan Rowe, Jamie Fergus, John Harrow 
+
+  
+
+### Members Not Present: 
+
+Daniel Jakubek 
+
+### Apologies: 
+
+Daniel Jakubek was unable to join as he has an ear infection 
+
+ 
+
+### Summary of Conversation: 
+
+Ethan  
+
+- Daneil is missing as he has an ear infection so he couldn’t make it in this morning. 
+
+- Today’s agenda is just going to be our product backlog a demonstration of the product and questions. 
+
+- Our main goal today is just to have you [client] see the product and get some feedback. 
+
+[Displaying product] 
+
+We're having some issues with the mobile view as there’s so much data. 
+
+ 
+
+Client  
+
+- There’s a lot there but as a user I can easily navigate that. 
+
+- Could fix this by having a shorter description or something similar. 
+
+- Have you thought about create customer? 
+
+ 
+
+Ethan 
+
+- We had some issues with the structure and understanding of that could you clarify. 
+
+ 
+
+Client 
+
+- Brightsolid is a customer and also an admin of the platform. 
+
+- We serve cloud foundations to multiple customers. 
+
+- Customers are businesses and they have users, and the admin is someone at brightsolid who can manage and create customers and users – the customers can’t do this themselves. 
+
+ 
+
+DJ 
+
+- How would you like the charts to work? 
+
+ 
+
+Client 
+
+- There are two or three things. 
+
+- Simple pie chart that shows the non-compliant and compliant. 
+
+- Seeing if there's any exceptions past due. 
+
+- Also, what exceptions are coming up for review. 
+
+- All this would be good on the dashboard. 
+
+ 
+
+ 
+
+Client suggestions 
+
+- Short descriptions. 
+
+- Pie charts on dashboard. 
+
+- On the dashboard are there any exceptions that are past due. 
+
+- What exceptions are coming up to review in the next 30-90 days. 
+
+- One of the other things could be a filter or a search on the tables (stretch). 
+
+- For the dashboard you might like to show the total number of exceptions. 
+
+- Non-compliant fields in table could have a red background to make it jump out. 
+
+- Showing the number of exceptions on the dashboard. 
