@@ -674,7 +674,7 @@
           $exceptionID = $rowExceptions['exception_id'];
           
           //Subtracts the BST VS GMT difference at the end of string
-          if (str_contains($reviewDate, '+0000')) {
+          if (strpos($reviewDate, '+0000')) {
             $reviewDate = trim($reviewDate, "+0000");
             $currentTime = date('Y-m-d H:i:s');
           }
@@ -685,8 +685,7 @@
             
           //Suspends the over due review
           if(strtotime($reviewDate) <= strtotime($currentTime)) {
-            echo "past: " . $reviewDate . "       " . date('Y-m-d H:i:s.v') ."<br>";
-            suspendReviewException($dbc, $exceptionID); //NEED TO ADD AUDIT
+            suspendReviewException($dbc, $exceptionID);
           }
         }
       }
