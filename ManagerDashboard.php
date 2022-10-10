@@ -85,6 +85,8 @@
         if($resultAccounts -> num_rows == 1){
           $accountRow = $resultAccounts->fetch_assoc();
           $foundAccountID = $accountRow["account_id"];
+
+          reviewDatePassed($dbc, $foundAccountID);
       ?>
         <table class="table table-striped table-bordered table-hover">
           <thead>
@@ -264,6 +266,7 @@
                   <th scope="col">Resource Name</th>
                   <th scope="col">Compliance Status</th>
                   <th scope="col">Exception</th>
+                  <th scope="col">Audit</th>
                 </tr>
               </thead>
               <tbody>
@@ -287,9 +290,11 @@
                     }
                     ////////////////////////////////
                     createExceptionButton($dbc, $rowResources);
-                    echo '</td>';
 
-
+                    echo '</td><td>';
+                      $currentRuleID = $rowResources['rule_id']; $currentRuleResourceID = $rowResources['resource_id'];
+                      viewResourceAudit($dbc, $currentRuleID, $currentRuleResourceID, $foundAccountID);
+                    echo "</td>";
                   echo '</tr>';
                 }
               echo'  
@@ -343,7 +348,6 @@
                   <th scope="col">Last Updated By</th>
                   <th scope="col">Edit</th>
                   <th scope="col">Suspend</th>
-                  <th scope="col">Audit</th>
                 </tr>
               </thead>
               <tbody>
@@ -359,9 +363,10 @@
                     echo '<td>'. $rowExceptions['justification'] . '</td>';
                     echo '<td>'. $rowExceptions['review_date'] . '</td>';
                     echo '<td>'. $rowExceptions['user_name'] . '</td>';
+                    
+                    
                     echo editExceptionButton($dbc, $currentResourceID, $currentExceptionID);
                     echo suspendExceptionButton($dbc, $currentExceptionID);
-                    echo viewExpcetionAudit($dbc, $currentExceptionID);
                   echo '</tr>';
                 }
                 
@@ -383,6 +388,7 @@
   function createExceptionButton($dbc, $rowResources){
 
     $currentResourceID = $rowResources["resource_id"];
+    $currentResourceName = $rowResources["resource_name"];
 
     if($rowResources['noncompliant'] != NULL && $rowResources['exception'] == NULL){
       echo'
@@ -406,7 +412,7 @@
 
                             <input type="number" min="1" placeholder="Enter Resource ID" value=' . $currentResourceID .' name="resourceID" readonly><br>
                             <input type="number" min="1" placeholder="Enter Rule ID" value=' . $rowResources["rule_id"] .' name="ruleID" readonly><br>
-                            <input type="text" placeholder="Enter Exception Value" value=' . $rowResources["resource_name"] .' name="expValue" required><br>
+                            <input type="text" placeholder="Enter Exception Value" value="' . $currentResourceName .'" name="expValue" readonly><br>
                             <input type="text" placeholder="Enter Justification" name="justValue" required><br>
                             <input type="datetime-local" id ="reviewDate'.$currentResourceID.'" name="rvwDate" required><br>
 
@@ -415,6 +421,7 @@
                             <script>
                               var thisTime = new Date().toISOString().slice(0, -8); //The current time (min)
                               var reviewDate = document.getElementById("reviewDate'. $currentResourceID . '");
+                          
                               reviewDate.min = thisTime;
                             </script>
 
@@ -569,21 +576,33 @@
       ';
   }
 
-
   /* We will need the expcetion ID*/
-  function viewExpcetionAudit($dbc, $currentExceptionID){
+  function viewResourceAudit($dbc, $currentRuleID, $currentResourceID, $foundAccountID){
 
-    echo'
-    <td> <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AuditModal'.$currentExceptionID.'">Audit</button>';
-    
-  
-    $sqlQuery = "SELECT action, action_dt, old_review_date, exception_id FROM exception_audit WHERE exception_id='$currentExceptionID';";
+    $lookForThis = "";
+    if ($result = $dbc -> query("SELECT resource_name FROM resource WHERE resource_id ='$currentResourceID'")){
+      if($result -> num_rows == 1){
+        $row = $result->fetch_assoc();
+        $lookForThis = $row['resource_name'];
+      }
+    }
+
+
+    $sqlQuery = 
+    "SELECT exception_id, action, action_dt, old_review_date, exception_id FROM exception_audit
+    JOIN rule
+    ON rule.rule_id = exception_audit.rule_id
+    JOIN resource
+    on resource.resource_type_id = rule.resource_type_id
+    WHERE rule.rule_id = " . $currentRuleID . " AND resource.account_id = '$foundAccountID' AND exception_audit.old_exception_value = '$lookForThis' 
+    AND resource.resource_id = $currentResourceID;
+    ";
+
     $auditResult = mysqli_query($dbc, $sqlQuery);
 
-    //Finds and assigns the latest exception id
-
-        echo'
-        <div class="modal fade" id="AuditModal'.$currentExceptionID.'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    echo'
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AuditModal'.$currentResourceID. $currentRuleID .'">View</button>
+        <div class="modal fade" id="AuditModal'.$currentResourceID. $currentRuleID .'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
 
@@ -624,13 +643,135 @@
                     ';
                 }
                 else{
-                  echo '<h6 class="noResourceHeading">There are audits for this exception: '.$currentExceptionID.'</h6>';
+                  echo '<h6 class="noResourceHeading">There are audits for this resource: '.$currentResourceID.'</h6>';
                 }
         echo'
             </div>
           </div>
         </div>';         
     }
-    echo '</td>';
   }
+
+
+  //Checks if the exception review date is in the past or not
+  function reviewDatePassed($dbc, $foundAccountID){
+
+    //Query to find expcetions which belong to this user's customers
+    $sqlQuery = "SELECT exception_id, review_date 
+    FROM exception
+    JOIN resource
+    ON resource.resource_id = exception.resource_id
+    WHERE resource.account_id = '$foundAccountID'";
+
+    $reviewQuery = mysqli_query($dbc, $sqlQuery);
+
+    //If records have been found 
+    if($reviewQuery){
+      if($reviewQuery -> num_rows > 0){
+        while ($rowExceptions = $reviewQuery->fetch_assoc()) {
+
+          $reviewDate = $rowExceptions['review_date'];
+          $exceptionID = $rowExceptions['exception_id'];
+          
+          //Subtracts the BST VS GMT difference at the end of string
+          if (str_contains($reviewDate, '+0000')) {
+            $reviewDate = trim($reviewDate, "+0000");
+            $currentTime = date('Y-m-d H:i:s');
+          }
+          else{
+            $reviewDate = trim($reviewDate, "+0100");
+            $currentTime = date('Y-m-d H:i:s', strtotime('-1 hours'));
+          }
+            
+          //Suspends the over due review
+          if(strtotime($reviewDate) <= strtotime($currentTime)) {
+            echo "past: " . $reviewDate . "       " . date('Y-m-d H:i:s.v') ."<br>";
+            suspendReviewException($dbc, $exceptionID); //NEED TO ADD AUDIT
+          }
+        }
+      }
+    }
+  }
+
+
+  //Suspends the exceptions
+  function suspendReviewException($dbc, $exceptionID){
+
+    $lastUpdatedBy = $_SESSION['userID'];
+    $customerID = $_SESSION['customerID'];
+
+    $disableForeignKeyCheck = "SET FOREIGN_KEY_CHECKS=0;";
+    $enableForeignKeyCheck = "SET FOREIGN_KEY_CHECKS=1;";
+
+    suspendExceptionAudit($exceptionID, $lastUpdatedBy, $customerID, $dbc);
+
+    $sqlQuery = "DELETE FROM exception WHERE exception_id ='$exceptionID';";
+
+    mysqli_query($dbc, $disableForeignKeyCheck);
+    $result = mysqli_query($dbc, $sqlQuery);
+    mysqli_query($dbc, $enableForeignKeyCheck);
+
+    header("Refresh:0");
+  }
+
+
+    //Creates a nwe entry to the exception audit
+    function suspendExceptionAudit($exceptionID, $userID, $customerID, $dbc){
+
+      $justification = "";
+      $review_date = "";
+      $ruleID = "";
+      $exceptionValue = "";
+      $lastUpdated = getCurrentTime(date("Y-m-d H:i:s.v"));
+
+      $exceptionValues = "SELECT justification, review_date, exception_value, rule_id FROM exception WHERE exception_id='$exceptionID'";
+      try{
+          $suspendAduit = mysqli_query($dbc, $exceptionValues);
+          if($suspendAduit -> num_rows == 1){
+
+              $row = $suspendAduit->fetch_assoc();
+
+              $exceptionValue = $row['exception_value'];
+              $justification = $row['justification'];
+              $review_date = $row['review_date'];
+              $ruleID = $row['rule_id'];
+          }
+
+      }catch(Exception $e){
+          echo $e;
+      }
+
+      
+      //Locks and unlocks tavles
+      $lockTable = "LOCK TABLES exception_audit WRITE;";
+      $unlockTables = "UNLOCK TABLES;";
+
+      //Adds to audit table ---CHANGE IT TO REVIEW_DATE WHEN THE DB IS FIXED
+      $userInsert = "INSERT INTO `exception_audit` 
+      (`exception_audit_id`,`exception_id`,`user_id`,`customer_id`, `rule_id`, `action`, `action_dt`, `old_exception_value`, `new_exception_value`, `old_justification`, `new_justification`, `old_review_date`, `new_review_date`)
+      VALUES(NULL, '$exceptionID', '$userID', '$customerID',' $ruleID', 'suspend', '$lastUpdated', '$exceptionValue', '$exceptionValue', '$justification', '$justification', '$review_date', '$review_date');";
+
+      try{
+          mysqli_query($dbc, $lockTable);
+          mysqli_query($dbc, $userInsert);
+          mysqli_query($dbc, $unlockTables);
+      }catch(Exception $e){
+          echo $e;
+      }
+  }
+
+    //Sets if the current time is in BST or GMT
+    function getCurrentTime($dateToFormat){
+
+        //To check if in BST or GMT was taken from Stack Overflow https://stackoverflow.com/questions/29123753/detect-bst-in-php
+        $dateTest = strtotime($dateToFormat); 
+        if (date('I', $dateTest)) {
+            $dateToFormat = $dateToFormat . " +0100";
+        } else {
+            $dateToFormat = $dateToFormat . " +0000";
+        }
+        return $dateToFormat;
+    }
+
+
 ?>
