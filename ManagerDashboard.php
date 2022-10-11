@@ -377,7 +377,7 @@
                   <th scope="col" onclick="sortTable(1, '; echo "'$exceptionTableID'"; echo')">Justification</th>
                   <th scope="col" onclick="sortTable(2, '; echo "'$exceptionTableID'"; echo')">Review Date</th>
                   <th scope="col" onclick="sortTable(3, '; echo "'$exceptionTableID'"; echo')">Last Updated By</th>
-                  <th scope="col" onclick="sortTable(4, '; echo "'$exceptionTableID'"; echo')">Edit</th>
+                  <th scope="col">Edit</th>
                   <th scope="col" onclick="sortTable(5, '; echo "'$exceptionTableID'"; echo')">Suspend</th>
                 </tr>
               </thead>
