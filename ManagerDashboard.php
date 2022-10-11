@@ -293,10 +293,10 @@
             <table class="table table-detailed-view" id="'. $resourceTableID .'">
               <thead class="table-dark">
                 <tr>
-                  <th scope="col" onclick="sortTable(0, '; echo "'$resourceTableID'"; echo')">Resource ID</th>
-                  <th scope="col" onclick="sortTable(1, '; echo "'$resourceTableID'"; echo')">Resource Name</th>
-                  <th scope="col" onclick="sortTable(2, '; echo "'$resourceTableID'"; echo')">Compliance Status</th>
-                  <th scope="col" onclick="sortTable(3, '; echo "'$resourceTableID'"; echo')">Exception</th>
+                  <th class="table-sort" scope="col" onclick="sortTable(0, '; echo "'$resourceTableID'"; echo')">Resource ID</th>
+                  <th class="table-sort" scope="col" onclick="sortTable(1, '; echo "'$resourceTableID'"; echo')">Resource Name</th>
+                  <th class="table-sort" scope="col" onclick="sortTable(2, '; echo "'$resourceTableID'"; echo')">Compliance Status</th>
+                  <th class="table-sort" scope="col" onclick="sortTable(3, '; echo "'$resourceTableID'"; echo')">Exception</th>
                   <th scope="col">Audit</th>
                 </tr>
               </thead>
@@ -373,10 +373,10 @@
             <table class="table table-detailed-view" id="'. $exceptionTableID .'">
               <thead class="table-dark">
                 <tr>
-                  <th scope="col" onclick="sortTable(0, '; echo "'$exceptionTableID'"; echo')">Resource ID</th>
-                  <th scope="col" onclick="sortTable(1, '; echo "'$exceptionTableID'"; echo')">Justification</th>
-                  <th scope="col" onclick="sortTable(2, '; echo "'$exceptionTableID'"; echo')">Review Date</th>
-                  <th scope="col" onclick="sortTable(3, '; echo "'$exceptionTableID'"; echo')">Last Updated By</th>
+                  <th class="table-sort" scope="col" onclick="sortTable(0, '; echo "'$exceptionTableID'"; echo')">Resource ID</th>
+                  <th class="table-sort" scope="col" onclick="sortTable(1, '; echo "'$exceptionTableID'"; echo')">Justification</th>
+                  <th class="table-sort" scope="col" onclick="sortTable(2, '; echo "'$exceptionTableID'"; echo')">Review Date</th>
+                  <th class="table-sort" scope="col" onclick="sortTable(3, '; echo "'$exceptionTableID'"; echo')">Last Updated By</th>
                   <th scope="col">Edit</th>
                   <th scope="col">Suspend</th>
                 </tr>
