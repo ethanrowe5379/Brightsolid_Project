@@ -99,11 +99,11 @@
             $foundAccountID = $accountRow["account_id"];
         ?>
     
-          <table class="table table-striped table-bordered table-hover">
-            <thead>
+          <table class="table table-striped table-bordered table-hover" id="ruleTable">
+            <thead class="table-dark">
               <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Rule Name</th>
+                <th class="table-sort" scope="col" onclick="sortTable(0, 'ruleTable')">ID</th>
+                <th class="table-sort" scope="col" onclick="sortTable(1, 'ruleTable')">Rule Name</th>
                 <th scope="col">Rule Description</th>
                 <th scope="col">Compliance Status</th>
                 <th scope="col"></th>
@@ -149,7 +149,7 @@
       while ($row = $result->fetch_assoc()) {
         echo '
         <tr>
-          <th>'. $row['rule_id'] .'</th>
+          <td><strong>'. $row['rule_id'] .'</strong></td>
           <td>'. $row['rule_name'] .'</td>
           <td>'. $row['rule_description'] .'</td>';
 
