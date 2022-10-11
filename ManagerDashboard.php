@@ -3,22 +3,22 @@
   session_start();
 
   //If log out button is pressed
-  // if(isset($_POST['LogOut'])){
-  //   if (isset($_SESSION['userRole'])) 
-  //   session_destroy();
-  //   header("Refresh:0");
-  // }
+  if(isset($_POST['LogOut'])){
+    if (isset($_SESSION['userRole'])) 
+    session_destroy();
+    header("Refresh:0");
+  }
 
-  // //Only correct user trying to enter this page (MGHT WANT TO PUT THE WHOLE PAGE IN THIS PHP STATMENT)
-  // if (isset($_SESSION['userRole'])) {
+  //Only correct user trying to enter this page (MGHT WANT TO PUT THE WHOLE PAGE IN THIS PHP STATMENT)
+  if (isset($_SESSION['userRole'])) {
 
-  //   //Have a switch to redirect to appropriate PAGE /////////////////////////////////////////////////////////////////////
-  //   if($_SESSION['userRole'] != "manager") 
-  //     header("Location: PHP/Index.php"); //Goes back to login page
-  // }
-  // else{
-  //   header("Location: PHP/Index.php"); //Goes back to login page
-  // }
+    //Have a switch to redirect to appropriate PAGE /////////////////////////////////////////////////////////////////////
+    if($_SESSION['userRole'] != "manager") 
+      header("Location: PHP/Index.php"); //Goes back to login page
+  }
+  else{
+    header("Location: PHP/Index.php"); //Goes back to login page
+  }
 ?>
 
 <!DOCTYPE html>
@@ -89,7 +89,7 @@
         $overallTotalCompliant = 0;
 
         $accountToBeFound = $_SESSION["customerID"];
-        $accountToBeFound = 1; // DELETE THIS AFTER TESTING///////////////////////////////////////////////////////////
+        //$accountToBeFound = 1; // DELETE THIS AFTER TESTING///////////////////////////////////////////////////////////
         $findAccount = "SELECT account_id FROM account WHERE customer_id='$accountToBeFound';";
         $resultAccounts = $dbc->query($findAccount);
 
