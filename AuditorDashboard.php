@@ -432,3 +432,42 @@ const BarChart = new Chart(ctx2, {
   }
 });
 </script>
+
+<script>
+function sortTable(col, tableID) {
+  var table = document.getElementById(tableID);
+  var direction = "asc";
+  var switching = true;
+  var count = 0;
+  while (switching) {
+    switching = false;
+    var rows = table.rows;
+    for (var i = 1; i < (rows.length - 1); i++) {
+      var shouldSwitch = false;
+      var row_1 = rows[i].getElementsByTagName("td")[col];
+      var row_2 = rows[i + 1].getElementsByTagName("td")[col];
+      if (direction == "asc") {
+        if (row_1.innerHTML.toLowerCase() > row_2.innerHTML.toLowerCase()) {
+          shouldSwitch= true;
+          break;
+        }
+      } else if (direction == "desc") {
+        if (row_1.innerHTML.toLowerCase() < row_2.innerHTML.toLowerCase()) {
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      count ++;      
+    } else {
+      if (direction == "asc" && count == 0) {
+        direction = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+</script>
