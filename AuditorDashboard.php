@@ -41,7 +41,7 @@
   <body>
     
     <header>
-        <nav class="navbar .navbar-expand">  <!--add to close to disable hamburger on desktop navbar-expand-lg -->
+        <nav class="navbar fixed-top">  <!--add to close to disable hamburger on desktop navbar-expand-lg -->
           <div class="container-fluid">
             <img src="PHP/Graphics\BrightSolidLogo.png" alt="BrightSolidLogo" width="200" height="40" class="d-inline-block align-text-top">
 
@@ -65,13 +65,69 @@
                       <button class="btn btn-primary" type="submit" name="LogOut">Log Out</button>
                     </form>
                   </li>
+
+                  <li class="nav-item">
+
+
+                    <div class="dropdown">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Upcoming - 30 days
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li> 
+
+                          <table class="table table-bordered  table-detailed-view">
+                            <thead class="table-dark">
+                              <tr>
+                                <th scope="col">Resource ID</th>
+                                <th scope="col">Justification</th>
+                                <th scope="col">Review Date</th>
+                                <th scope="col">Edit</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <th scope="row">1</th>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                              </tr>
+                            </tbody>
+                          </table> 
+                        </li>
+
+
+            
+
+
+                          <?php 
+                            /* Check the exception table for ones with upcoming */
+
+
+
+                          ?>
+
+                      
+
+
+
+
+
+                      
+                        <!-- <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li> -->
+                      </ul>
+
+
+                    </div>
+                  </li>
                 </ul>
               </div>
             </div>
           </div>
         </nav>
     </header>
-
+  
     <main>
       <div class="container">
         <h1>Compliance Dashboard</h1>
@@ -388,6 +444,13 @@
       </div>
     </div>
     ';
+  }
+
+  //Gets all the exceptions with upcoming reviews
+  function upComingReviews(){
+
+
+
   }
 
 ?>

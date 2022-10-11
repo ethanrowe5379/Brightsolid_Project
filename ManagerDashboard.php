@@ -89,7 +89,7 @@
         $overallTotalCompliant = 0;
 
         $accountToBeFound = $_SESSION["customerID"];
-        //$accountToBeFound = 1; // DELETE THIS AFTER TESTING///////////////////////////////////////////////////////////
+        //$accountToBeFound = 2; // DELETE THIS AFTER TESTING///////////////////////////////////////////////////////////
         $findAccount = "SELECT account_id FROM account WHERE customer_id='$accountToBeFound';";
         $resultAccounts = $dbc->query($findAccount);
 
@@ -684,7 +684,7 @@
   }
 
 
-  //Checks if the exception review date is in the past or not
+  //Passed review expcetions are suspended
   function reviewDatePassed($dbc, $foundAccountID){
 
     //Query to find expcetions which belong to this user's customers
@@ -802,8 +802,6 @@
         }
         return $dateToFormat;
     }
-
-
 ?>
 
 <script>

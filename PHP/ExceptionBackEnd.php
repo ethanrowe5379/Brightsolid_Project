@@ -49,7 +49,13 @@
 
     //Inserts new exception data into database
     function insertException($customerID, $userID, $userName, $resourceID, $ruleID, $expValue, $justValue, $rvwDate, $currentDate, $dbc){
-            
+        
+        //Checks if exception id
+        if ($result = $dbc -> query("SELECT resource_id, rule_id, customer_id FROM exception WHERE customer_id='$customerID' AND resource_id='$resourceID' AND rule_id='$ruleID'")) { 
+            if($result -> num_rows == 1)
+                header("Refresh:0");
+        }
+
         $lockTable = "LOCK TABLES exception WRITE;";
         $unlockTables = "UNLOCK TABLES;";
 
@@ -109,8 +115,8 @@
 
         //Adds to audit table ---CHANGE IT TO REVIEW_DATE WHEN THE DB IS FIXED
         $userInsert = "INSERT INTO `exception_audit` 
-        (`exception_audit_id`,`exception_id`,`user_id`,`customer_id`, `rule_id`, `action`, `action_dt`, `old_exception_value`, `new_exception_value`, `old_justification`, `new_justification`,  `old_review_date`, `new_review_date`)
-        VALUES(NULL, '$exceptionID', '$userID', '$customerID',' $ruleID', 'create', '$currentDate', '$expValue', '$expValue', '$justValue', '$justValue', '$rvwDate', '$rvwDate');";
+        (`exception_audit_id`,`exception_id`,`user_id`,`customer_id`, `rule_id`, `action`, `action_dt`, `old_exception_value`, `new_exception_value`, `old_justification`, `new_justification`,  `old_review_date`, `new_review_date`, `resource_id`)
+        VALUES(NULL, '$exceptionID', '$userID', '$customerID',' $ruleID', 'create', '$currentDate', '$expValue', '$expValue', '$justValue', '$justValue', '$rvwDate', '$rvwDate', '$resourceID');";
 
         try{
             mysqli_query($dbc, $lockTable);
