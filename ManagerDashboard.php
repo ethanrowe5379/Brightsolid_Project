@@ -288,16 +288,16 @@
           echo '<h6 class="noResourceHeading">There are no resources for rule '. $row['rule_id'] .'</h6>';
         }
         else{
-
+          $resourceTableID = "resourceTable_". $row['rule_id'];
           echo'
-            <table class="table table-bordered table-detailed-view">
+            <table class="table table-bordered table-detailed-view" id="'. $resourceTableID .'">
               <thead class="table-dark">
                 <tr>
-                  <th scope="col">Resource ID</th>
-                  <th scope="col">Resource Name</th>
-                  <th scope="col">Compliance Status</th>
-                  <th scope="col">Exception</th>
-                  <th scope="col">Audit</th>
+                  <th scope="col" onclick="sortTable(0, '; echo "'$resourceTableID'"; echo')">Resource ID</th>
+                  <th scope="col" onclick="sortTable(1, '; echo "'$resourceTableID'"; echo')">Resource Name</th>
+                  <th scope="col" onclick="sortTable(2, '; echo "'$resourceTableID'"; echo')">Compliance Status</th>
+                  <th scope="col" onclick="sortTable(3, '; echo "'$resourceTableID'"; echo')">Exception</th>
+                  <th scope="col" onclick="sortTable(4, '; echo "'$resourceTableID'"; echo')">Audit</th>
                 </tr>
               </thead>
               <tbody>
