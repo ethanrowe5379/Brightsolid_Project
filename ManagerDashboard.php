@@ -232,8 +232,7 @@
           
   
           echo'
-          <td>'. $totalcompliant .' / '. $totalResources .' compliant,
-          with '. $totalExceptions .' exceptions</td>
+          <td><strong>'. $totalcompliant .'</strong> / <strong>'. $totalResources .'</strong> compliant with <strong>'. $totalExceptions .'</strong> exceptions</td>
           <!--<td>'. $compliantStatus .'</td>-->
           
           <td> 
