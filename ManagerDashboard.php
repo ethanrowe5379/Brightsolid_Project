@@ -3,22 +3,22 @@
   session_start();
 
   //If log out button is pressed
-  if(isset($_POST['LogOut'])){
-    if (isset($_SESSION['userRole'])) 
-    session_destroy();
-    header("Refresh:0");
-  }
+  // if(isset($_POST['LogOut'])){
+  //   if (isset($_SESSION['userRole'])) 
+  //   session_destroy();
+  //   header("Refresh:0");
+  // }
 
-  //Only correct user trying to enter this page (MGHT WANT TO PUT THE WHOLE PAGE IN THIS PHP STATMENT)
-  if (isset($_SESSION['userRole'])) {
+  // //Only correct user trying to enter this page (MGHT WANT TO PUT THE WHOLE PAGE IN THIS PHP STATMENT)
+  // if (isset($_SESSION['userRole'])) {
 
-    //Have a switch to redirect to appropriate PAGE /////////////////////////////////////////////////////////////////////
-    if($_SESSION['userRole'] != "manager") 
-      header("Location: PHP/Index.php"); //Goes back to login page
-  }
-  else{
-    header("Location: PHP/Index.php"); //Goes back to login page
-  }
+  //   //Have a switch to redirect to appropriate PAGE /////////////////////////////////////////////////////////////////////
+  //   if($_SESSION['userRole'] != "manager") 
+  //     header("Location: PHP/Index.php"); //Goes back to login page
+  // }
+  // else{
+  //   header("Location: PHP/Index.php"); //Goes back to login page
+  // }
 ?>
 
 <!DOCTYPE html>
@@ -30,6 +30,11 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
   <link rel="stylesheet" href="DashboardTemplate.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.js" integrity="sha256-OtJalIqkbNqfzhs9j53+lSD/iazR2WN1sQL5iaJIjw0=" crossorigin="anonymous"></script>
+  <script>
+  var ruleArray = [];
+  var rulePercentage = [];
+</script>
 </head>
 
 <body>
@@ -72,11 +77,19 @@
   <main>
     <div class="container">
       <h1>Compliance Dashboard</h1>
-
+      <div class="graph" style="width:40%;">
+          <canvas id="PieChart"></canvas>
+        </div>
+        <div class="graph" style="width:40%;">
+          <canvas id="BarChart"></canvas>
+        </div>
       <?php  
 
+        $overallTotalResources = 0;
+        $overallTotalCompliant = 0;
+
         $accountToBeFound = $_SESSION["customerID"];
-       // $accountToBeFound = 2; // DELETE THIS AFTER TESTING///////////////////////////////////////////////////////////
+        $accountToBeFound = 1; // DELETE THIS AFTER TESTING///////////////////////////////////////////////////////////
         $findAccount = "SELECT account_id FROM account WHERE customer_id='$accountToBeFound';";
         $resultAccounts = $dbc->query($findAccount);
 
@@ -100,7 +113,7 @@
           </thead>
           <tbody>
             <?php
-              tbodyInsert($dbc, $foundAccountID);
+              tbodyInsert($dbc, $foundAccountID, $overallTotalResources, $overallTotalCompliant);
             ?>
           </tbody>
         </table>
@@ -128,7 +141,7 @@
 <?php
 
   //Inserts all the items into the table
-  function tbodyInsert($dbc, $foundAccountID) {
+  function tbodyInsert($dbc, $foundAccountID, &$overallTotalResources, &$overallTotalCompliant) {
 
     //Selects all the rules in the table ----- Might want to make this only show rules which have resources
     $sql = "SELECT rule_id, rule_name, rule_description, resource_type_id FROM rule 
@@ -145,6 +158,15 @@
           <th>'. $row['rule_id'] .'</th>
           <td>'. $row['rule_name'] .'</td>
           <td>'. $row['rule_description'] .'</td>';
+
+          ?>
+
+          <script>
+            ruleArray.push("<?php echo $row['rule_name']; ?>")
+            console.log(ruleArray);
+          </script>
+
+          <?php
 
           $sqlCountNon_compliance = "SELECT COUNT(resource.resource_id) AS 'count' FROM resource
           JOIN rule
@@ -189,6 +211,9 @@
           
           $totalcompliant = $totalResources - $totalNon_compliant;
           
+          $overallTotalResources += $totalNon_compliant;
+          $overallTotalCompliant += $totalcompliant;
+
           $compliantStatus = 0;
   
           if($totalcompliant < 1){
@@ -196,6 +221,12 @@
           }
           else{
             $compliantStatus = ($totalcompliant/$totalResources)*100;
+            ?>
+              <script>
+                rulePercentage.push(<?php echo $compliantStatus ?>)
+                console.log(rulePercentage);
+              </script>
+            <?php
           }
           
   
@@ -774,3 +805,44 @@
 
 
 ?>
+
+<script>
+const ctx1 = document.getElementById('PieChart');
+const PieChart = new Chart(ctx1, {
+    type: 'doughnut',
+    data: {
+        labels: ['Compliant', 'Non-Compliant'],
+        datasets: [{
+            <?php echo ("data: [" . $overallTotalCompliant . ", " . $overallTotalResources . "],"); ?>
+            backgroundColor: [
+                'rgba(0, 255, 0, 0.2)rgba(255, 0, 0, 0.5)',
+                'rgba(255, 0, 0, 0.5)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+    }
+});
+
+</script>
+<script>
+const ctx2 = document.getElementById('BarChart');
+const BarChart = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: ruleArray,
+        datasets: [{
+            label: 'Compliance Percentage',
+            data: rulePercentage,
+            backgroundColor: [
+                'rgba(255, 213, 70, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+    indexAxis: 'y',
+  }
+});
+</script>
