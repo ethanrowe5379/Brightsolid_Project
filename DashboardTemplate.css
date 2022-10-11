@@ -17,6 +17,10 @@ header{
     margin-left:-10px;
 }
 
+.graph{
+    display: inline-block;
+}
+
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
     .container{
