@@ -202,6 +202,7 @@
 
           $totalResources = $dataCountResources['count'];
           $totalNon_compliant = $dataCountNon_compliance['count'] - $dataCountExceptions['count'];
+          $totalExceptions = $dataCountExceptions['count'];
           
           $totalcompliant = $totalResources - $totalNon_compliant;
           
@@ -225,7 +226,8 @@
           
 
           echo'
-          <td>'. $totalcompliant .' / '. $totalResources .'</td>
+          <td>'. $totalcompliant .' / '. $totalResources .' compliant,
+          with '. $totalExceptions .' exceptions</td>
           <!--<td>'. $compliantStatus .'</td>-->
           
           <td> 
