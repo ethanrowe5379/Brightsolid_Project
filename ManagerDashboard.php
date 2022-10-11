@@ -34,43 +34,84 @@
 
 <body>
   <?php
-  include "PHP/dbConnect.php";
+    include "PHP/dbConnect.php";
   ?>
-  <header>
-    <h1>Brightsolid</h1>
-    <img src="">
 
-    <?php 
-      echo "
-      <p>Logged in as: ".$_SESSION['userName']."</p>
-      <p>Role: ".$_SESSION['userRole']."</p>"
-    ?>
+    <header>
+      <nav class="navbar .navbar-expand">  <!--add to close to disable hamburger on desktop navbar-expand-lg -->
+        <div class="container-fluid">
+          <img src="PHP/Graphics\BrightSolidLogo.png" alt="BrightSolidLogo" width="200" height="40" class="d-inline-block align-text-top">
 
-    <form action="AuditorDashboard.php" method="post">
-      <button class="btn btn-primary" type="submit" name="LogOut">Log Out</button>
-    </form>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          
+          <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav"></ul>
 
+            <div class="navbar-text">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <?php echo"<p>Username: ".$_SESSION['userName']."</p>" ?>
+                </li>
+                <li class="nav-item">
+                  <?php echo"<p>Role: ".$_SESSION['userRole']."</p>" ?>
+                </li>
+                <li class="nav-item">
+                  <form action="AuditorDashboard.php" method="post">
+                    <button class="btn btn-primary" type="submit" name="LogOut">Log Out</button>
+                  </form>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
   </header>
 
   <main>
     <div class="container">
       <h1>Compliance Dashboard</h1>
-      <table class="table table-striped table-bordered table-hover">
-        <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Rule Name</th>
-            <th scope="col">Rule Description</th>
-            <th scope="col">Compliance Status</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php
-          tbodyInsert($dbc);
-          ?>
-        </tbody>
-      </table>
+
+      <?php  
+
+        $accountToBeFound = $_SESSION["customerID"];
+       // $accountToBeFound = 2; // DELETE THIS AFTER TESTING///////////////////////////////////////////////////////////
+        $findAccount = "SELECT account_id FROM account WHERE customer_id='$accountToBeFound';";
+        $resultAccounts = $dbc->query($findAccount);
+
+        $foundAccountID = 0;
+
+        if($resultAccounts -> num_rows == 1){
+          $accountRow = $resultAccounts->fetch_assoc();
+          $foundAccountID = $accountRow["account_id"];
+
+          reviewDatePassed($dbc, $foundAccountID);
+      ?>
+        <table class="table table-striped table-bordered table-hover">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Rule Name</th>
+              <th scope="col">Rule Description</th>
+              <th scope="col">Compliance Status</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+              tbodyInsert($dbc, $foundAccountID);
+            ?>
+          </tbody>
+        </table>
+      <?php 
+        }
+        else{
+          echo '<h6 class="noResourceHeading">There are accounts for this customer: '.$foundAccountID.'</h6>';
+        } 
+      ?>
+
+
     </div >
   </main>
   <footer>
@@ -87,7 +128,9 @@
 <?php
 
   //Inserts all the items into the table
-  function tbodyInsert($dbc) {
+  function tbodyInsert($dbc, $foundAccountID) {
+
+    //Selects all the rules in the table ----- Might want to make this only show rules which have resources
     $sql = "SELECT rule_id, rule_name, rule_description, resource_type_id FROM rule 
     ORDER BY rule_id ASC;";
 
@@ -103,39 +146,59 @@
           <td>'. $row['rule_name'] .'</td>
           <td>'. $row['rule_description'] .'</td>';
 
-          $sqlCountNon_compliance = "SELECT COUNT(rule_id) AS 'count'
-          FROM non_compliance
-          WHERE non_compliance.rule_id = " . $row['rule_id'] . ";";
+          $sqlCountNon_compliance = "SELECT COUNT(resource.resource_id) AS 'count' FROM resource
+          JOIN rule
+          ON resource.resource_type_id = rule.resource_type_id
+          LEFT JOIN exception
+          ON rule.rule_id = exception.rule_id AND resource.resource_id = exception.resource_id
+          LEFT JOIN non_compliance
+          ON resource.resource_id = non_compliance.resource_id AND rule.rule_id = non_compliance.rule_id
+          WHERE rule.rule_id = " . $row['rule_id'] . " AND resource.account_id = '$foundAccountID' AND resource.resource_id = non_compliance.resource_id;
+          ";
+  
+          // $sqlCountNon_compliance = "SELECT COUNT(rule_id) AS 'count'
+          // FROM non_compliance
+          // WHERE non_compliance.rule_id = " . $row['rule_id'] . ";";
           
           $sqlCountExceptions = "SELECT COUNT(rule_id) AS 'count'
           FROM exception
-          WHERE exception.rule_id = " . $row['rule_id'] . ";";
+          JOIN resource
+          ON resource.resource_id = exception.resource_id
+          WHERE exception.rule_id = ". $row['rule_id']." AND resource.account_id = '$foundAccountID';"; 
+          //Will need to count exceptions where the resource
           
-          $sqlCountResources = "SELECT COUNT(resource_id) AS 'count'
+          $sqlCountResources = "SELECT COUNT(resource.resource_id) AS 'count' 
           FROM resource
           JOIN rule
           ON resource.resource_type_id = rule.resource_type_id
-          WHERE rule.rule_id = " . $row['rule_id'] . ";";
-
-
+          WHERE resource.account_id = '$foundAccountID' AND rule.rule_id = " . $row['rule_id'] . ";";  //Can do the account in here
+  
+  
           $resultCountNon_compliance = $dbc->query($sqlCountNon_compliance);
           $resultCountExceptions = $dbc->query($sqlCountExceptions);
           $resultCountResources = $dbc->query($sqlCountResources);
-
-
+  
+  
           $dataCountNon_compliance = $resultCountNon_compliance->fetch_assoc();
           $dataCountExceptions = $resultCountExceptions->fetch_assoc();
           $dataCountResources = $resultCountResources->fetch_assoc();
-
-
+  
+  
           $totalResources = $dataCountResources['count'];
           $totalNon_compliant = $dataCountNon_compliance['count'] - $dataCountExceptions['count'];
           
           $totalcompliant = $totalResources - $totalNon_compliant;
           
-
-          $compliantStatus = ($totalcompliant/$totalResources)*100;
-
+          $compliantStatus = 0;
+  
+          if($totalcompliant < 1){
+            $totalcompliant = 0;
+          }
+          else{
+            $compliantStatus = ($totalcompliant/$totalResources)*100;
+          }
+          
+  
           echo'
           <td>'. $totalcompliant .' / '. $totalResources .'</td>
           <!--<td>'. $compliantStatus .'</td>-->
@@ -152,8 +215,8 @@
               <div class="offcanvas-body small">
               <div class="accordion" id="accordion_'. $row['rule_id'] .'">
               ';
-                resourceTableInsert($dbc, $row);
-                exceptionTableInsert($dbc, $row);
+                resourceTableInsert($dbc, $row, $foundAccountID);
+                exceptionTableInsert($dbc, $row, $foundAccountID);
                 echo'  
                 </div>
               </div>
@@ -166,7 +229,7 @@
   }
 
   //Creates the resource table to be shown
-  function resourceTableInsert($dbc, $row){
+  function resourceTableInsert($dbc, $row, $foundAccountID){
     echo'
     <div class="accordion-item">
       <h2 class="accordion-header" id="resourceHeading">
@@ -178,15 +241,16 @@
         <div class="accordion-body">
         ';
 
-        $sqlResources = "SELECT rule.rule_id, rule.rule_name, resource.resource_id, resource.resource_name, non_compliance.rule_id AS 'noncompliant', exception.rule_id AS 'exception' FROM resource
+      
+        $sqlResources = "SELECT rule.rule_id, rule.rule_name, resource.resource_id, resource.account_id, resource.resource_name, non_compliance.rule_id AS 'noncompliant', exception.rule_id AS 'exception' FROM resource
                         JOIN rule
                         ON resource.resource_type_id = rule.resource_type_id
                         LEFT JOIN exception
                         ON rule.rule_id = exception.rule_id AND resource.resource_id = exception.resource_id
                         LEFT JOIN non_compliance
                         ON resource.resource_id = non_compliance.resource_id AND rule.rule_id = non_compliance.rule_id
-                        WHERE rule.rule_id = " . $row['rule_id'] . ";";
-        
+                        WHERE rule.rule_id = " . $row['rule_id'] . " AND resource.account_id = '$foundAccountID';";
+
         $resultResources = $dbc->query($sqlResources);
 
         if($resultResources -> num_rows < 1){
@@ -202,6 +266,7 @@
                   <th scope="col">Resource Name</th>
                   <th scope="col">Compliance Status</th>
                   <th scope="col">Exception</th>
+                  <th scope="col">Audit</th>
                 </tr>
               </thead>
               <tbody>
@@ -225,9 +290,11 @@
                     }
                     ////////////////////////////////
                     createExceptionButton($dbc, $rowResources);
-                    echo '</td>';
 
-
+                    echo '</td><td>';
+                      $currentRuleID = $rowResources['rule_id']; $currentRuleResourceID = $rowResources['resource_id'];
+                      viewResourceAudit($dbc, $currentRuleID, $currentRuleResourceID, $foundAccountID);
+                    echo "</td>";
                   echo '</tr>';
                 }
               echo'  
@@ -240,10 +307,11 @@
       </div>
     </div>
     ';
+
   }
 
   //Inserts all the items into the exception table
-  function exceptionTableInsert($dbc, $row){
+  function exceptionTableInsert($dbc, $row, $foundAccountID){
     echo'
     <div class="accordion-item">
       <h2 class="accordion-header" id="exceptionHeading">
@@ -255,11 +323,13 @@
         <div class="accordion-body">
           ';
         
-          $sqlExceptions = "SELECT exception.exception_id, exception.justification, exception.review_date, exception.last_updated, exception.resource_id,user.user_name
+          $sqlExceptions = "SELECT exception.exception_id, exception.resource_id, exception.justification, exception.review_date, exception.last_updated, exception.resource_id, user.user_name, resource.resource_id, resource.account_id
                             FROM exception
                             LEFT JOIN user
                             ON exception.last_updated_by = user.user_id
-                            WHERE exception.rule_id = " . $row['rule_id'] . ";";
+                            JOIN resource
+                            ON resource.resource_id = exception.resource_id
+                            WHERE exception.rule_id = " . $row['rule_id'] . " AND resource.account_id='$foundAccountID';";
 
           $resultExceptions = $dbc->query($sqlExceptions);
               
@@ -276,7 +346,6 @@
                   <th scope="col">Justification</th>
                   <th scope="col">Review Date</th>
                   <th scope="col">Last Updated By</th>
-                  <th scope="col">Last Updated</th>
                   <th scope="col">Edit</th>
                   <th scope="col">Suspend</th>
                 </tr>
@@ -294,7 +363,8 @@
                     echo '<td>'. $rowExceptions['justification'] . '</td>';
                     echo '<td>'. $rowExceptions['review_date'] . '</td>';
                     echo '<td>'. $rowExceptions['user_name'] . '</td>';
-                    echo '<td>'. $rowExceptions['last_updated'] . '</td>';
+                    
+                    
                     echo editExceptionButton($dbc, $currentResourceID, $currentExceptionID);
                     echo suspendExceptionButton($dbc, $currentExceptionID);
                   echo '</tr>';
@@ -318,6 +388,7 @@
   function createExceptionButton($dbc, $rowResources){
 
     $currentResourceID = $rowResources["resource_id"];
+    $currentResourceName = $rowResources["resource_name"];
 
     if($rowResources['noncompliant'] != NULL && $rowResources['exception'] == NULL){
       echo'
@@ -341,7 +412,7 @@
 
                             <input type="number" min="1" placeholder="Enter Resource ID" value=' . $currentResourceID .' name="resourceID" readonly><br>
                             <input type="number" min="1" placeholder="Enter Rule ID" value=' . $rowResources["rule_id"] .' name="ruleID" readonly><br>
-                            <input type="text" placeholder="Enter Exception Value" value=' . $rowResources["resource_name"] .' name="expValue" required><br>
+                            <input type="text" placeholder="Enter Exception Value" value="' . $currentResourceName .'" name="expValue" readonly><br>
                             <input type="text" placeholder="Enter Justification" name="justValue" required><br>
                             <input type="datetime-local" id ="reviewDate'.$currentResourceID.'" name="rvwDate" required><br>
 
@@ -350,6 +421,7 @@
                             <script>
                               var thisTime = new Date().toISOString().slice(0, -8); //The current time (min)
                               var reviewDate = document.getElementById("reviewDate'. $currentResourceID . '");
+                          
                               reviewDate.min = thisTime;
                             </script>
 
@@ -503,5 +575,202 @@
     </td>              
       ';
   }
+
+  /* We will need the expcetion ID*/
+  function viewResourceAudit($dbc, $currentRuleID, $currentResourceID, $foundAccountID){
+
+    $lookForThis = "";
+    if ($result = $dbc -> query("SELECT resource_name FROM resource WHERE resource_id ='$currentResourceID'")){
+      if($result -> num_rows == 1){
+        $row = $result->fetch_assoc();
+        $lookForThis = $row['resource_name'];
+      }
+    }
+
+
+    $sqlQuery = 
+    "SELECT exception_id, action, action_dt, old_review_date, exception_id FROM exception_audit
+    JOIN rule
+    ON rule.rule_id = exception_audit.rule_id
+    JOIN resource
+    on resource.resource_type_id = rule.resource_type_id
+    WHERE rule.rule_id = " . $currentRuleID . " AND resource.account_id = '$foundAccountID' AND exception_audit.old_exception_value = '$lookForThis' 
+    AND resource.resource_id = $currentResourceID;
+    ";
+
+    $auditResult = mysqli_query($dbc, $sqlQuery);
+
+    echo'
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AuditModal'.$currentResourceID. $currentRuleID .'">View</button>
+        <div class="modal fade" id="AuditModal'.$currentResourceID. $currentRuleID .'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+
+              <div class="modal-header">
+                <h1 class="modal-title fs-5">Exception Audit</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+          ';
+              if($auditResult){
+                if($auditResult -> num_rows > 0){
+
+                  echo'
+                      
+                      <div class="container-flex">
+                        <table class="table table-bordered table-detailed-view">
+                        <thead class="table-dark">
+                          <tr>
+                            <th scope="col">Exception ID</th>
+                            <th scope="col">Action</th>
+                            <th scope="col">Action Date</th>
+                            <th scope="col">Old Review Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                  ';
+                          while ($rowExceptions = $auditResult->fetch_assoc()) {
+                            echo '<tr>';
+                              echo '<th scope="row">'. $rowExceptions['exception_id']  . '</th>';
+                              echo '<th>'. $rowExceptions['action']  . '</th>';
+                              echo '<td>'. $rowExceptions['action_dt'] . '</td>';
+                              echo '<td>'. $rowExceptions['old_review_date'] . '</td>';
+                            echo '</tr>';
+                          }
+                    echo'
+                        </tbody>
+                        </table>
+                      </div>
+                    ';
+                }
+                else{
+                  echo '<h6 class="noResourceHeading">There are audits for this resource: '.$currentResourceID.'</h6>';
+                }
+        echo'
+            </div>
+          </div>
+        </div>';         
+    }
+  }
+
+
+  //Checks if the exception review date is in the past or not
+  function reviewDatePassed($dbc, $foundAccountID){
+
+    //Query to find expcetions which belong to this user's customers
+    $sqlQuery = "SELECT exception_id, review_date 
+    FROM exception
+    JOIN resource
+    ON resource.resource_id = exception.resource_id
+    WHERE resource.account_id = '$foundAccountID'";
+
+    $reviewQuery = mysqli_query($dbc, $sqlQuery);
+
+    //If records have been found 
+    if($reviewQuery){
+      if($reviewQuery -> num_rows > 0){
+        while ($rowExceptions = $reviewQuery->fetch_assoc()) {
+
+          $reviewDate = $rowExceptions['review_date'];
+          $exceptionID = $rowExceptions['exception_id'];
+          
+          //Subtracts the BST VS GMT difference at the end of string
+          if (strpos($reviewDate, '+0000')) {
+            $reviewDate = trim($reviewDate, "+0000");
+            $currentTime = date('Y-m-d H:i:s');
+          }
+          else{
+            $reviewDate = trim($reviewDate, "+0100");
+            $currentTime = date('Y-m-d H:i:s', strtotime('-1 hours'));
+          }
+            
+          //Suspends the over due review
+          if(strtotime($reviewDate) <= strtotime($currentTime)) {
+            suspendReviewException($dbc, $exceptionID);
+          }
+        }
+      }
+    }
+  }
+
+
+  //Suspends the exceptions
+  function suspendReviewException($dbc, $exceptionID){
+
+    $lastUpdatedBy = $_SESSION['userID'];
+    $customerID = $_SESSION['customerID'];
+
+    $disableForeignKeyCheck = "SET FOREIGN_KEY_CHECKS=0;";
+    $enableForeignKeyCheck = "SET FOREIGN_KEY_CHECKS=1;";
+
+    suspendExceptionAudit($exceptionID, $lastUpdatedBy, $customerID, $dbc);
+
+    $sqlQuery = "DELETE FROM exception WHERE exception_id ='$exceptionID';";
+
+    mysqli_query($dbc, $disableForeignKeyCheck);
+    $result = mysqli_query($dbc, $sqlQuery);
+    mysqli_query($dbc, $enableForeignKeyCheck);
+
+    header("Refresh:0");
+  }
+
+
+    //Creates a nwe entry to the exception audit
+    function suspendExceptionAudit($exceptionID, $userID, $customerID, $dbc){
+
+      $justification = "";
+      $review_date = "";
+      $ruleID = "";
+      $exceptionValue = "";
+      $lastUpdated = getCurrentTime(date("Y-m-d H:i:s.v"));
+
+      $exceptionValues = "SELECT justification, review_date, exception_value, rule_id FROM exception WHERE exception_id='$exceptionID'";
+      try{
+          $suspendAduit = mysqli_query($dbc, $exceptionValues);
+          if($suspendAduit -> num_rows == 1){
+
+              $row = $suspendAduit->fetch_assoc();
+
+              $exceptionValue = $row['exception_value'];
+              $justification = $row['justification'];
+              $review_date = $row['review_date'];
+              $ruleID = $row['rule_id'];
+          }
+
+      }catch(Exception $e){
+          echo $e;
+      }
+
+      
+      //Locks and unlocks tavles
+      $lockTable = "LOCK TABLES exception_audit WRITE;";
+      $unlockTables = "UNLOCK TABLES;";
+
+      //Adds to audit table ---CHANGE IT TO REVIEW_DATE WHEN THE DB IS FIXED
+      $userInsert = "INSERT INTO `exception_audit` 
+      (`exception_audit_id`,`exception_id`,`user_id`,`customer_id`, `rule_id`, `action`, `action_dt`, `old_exception_value`, `new_exception_value`, `old_justification`, `new_justification`, `old_review_date`, `new_review_date`)
+      VALUES(NULL, '$exceptionID', '$userID', '$customerID',' $ruleID', 'suspend', '$lastUpdated', '$exceptionValue', '$exceptionValue', '$justification', '$justification', '$review_date', '$review_date');";
+
+      try{
+          mysqli_query($dbc, $lockTable);
+          mysqli_query($dbc, $userInsert);
+          mysqli_query($dbc, $unlockTables);
+      }catch(Exception $e){
+          echo $e;
+      }
+  }
+
+    //Sets if the current time is in BST or GMT
+    function getCurrentTime($dateToFormat){
+
+        //To check if in BST or GMT was taken from Stack Overflow https://stackoverflow.com/questions/29123753/detect-bst-in-php
+        $dateTest = strtotime($dateToFormat); 
+        if (date('I', $dateTest)) {
+            $dateToFormat = $dateToFormat . " +0100";
+        } else {
+            $dateToFormat = $dateToFormat . " +0000";
+        }
+        return $dateToFormat;
+    }
+
 
 ?>
