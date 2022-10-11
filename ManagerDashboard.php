@@ -290,7 +290,7 @@
         else{
           $resourceTableID = "resourceTable_". $row['rule_id'];
           echo'
-            <table class="table table-bordered table-detailed-view" id="'. $resourceTableID .'">
+            <table class="table table-detailed-view" id="'. $resourceTableID .'">
               <thead class="table-dark">
                 <tr>
                   <th scope="col" onclick="sortTable(0, '; echo "'$resourceTableID'"; echo')">Resource ID</th>
@@ -370,7 +370,7 @@
           else{
             $exceptionTableID = "exceptionTable_". $row['rule_id'];
             echo '
-            <table class="table table-bordered table-detailed-view" id="'. $exceptionTableID .'">
+            <table class="table table-detailed-view" id="'. $exceptionTableID .'">
               <thead class="table-dark">
                 <tr>
                   <th scope="col" onclick="sortTable(0, '; echo "'$exceptionTableID'"; echo')">Resource ID</th>
