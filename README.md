@@ -457,8 +457,6 @@ Client
 
  
 
- 
-
 Client suggestions 
 
 - Short descriptions. 
@@ -476,3 +474,45 @@ Client suggestions
 - Non-compliant fields in table could have a red background to make it jump out. 
 
 - Showing the number of exceptions on the dashboard. 
+
+
+
+## Meeting (11th oct)
+### Members Present:
+DJ Dorren, Ethan Rowe, Jamie Fergus, Daniel Jakubek, John Harrow
+
+### Members Not Present:
+n/a
+
+### Apologies:
+n/a
+
+### Summary of Conversation:
+Ethan 
+- Yesterday I noticed we had made some mistakes such as the customer was able to view other customers resources not taking into account customerID 
+and suspending an exception doesn't create an audit so I've updated these and made a pull request.
+- Today I will be working on creating new issues for the clients' suggestions from the client meeting on 10th Oct.
+- Working on issue #14
+
+Jamie
+- Helped Daniel with those issues he mentioned and reviewed his pull request.
+- Working on issue #55 and #56
+
+DJ
+- Wrote up the minutes from the client meeting so Daniel could see what went on and the answers to his questions since he was ill.
+- reviewed Daniel's pull request for the work he did.
+- Working more on reports.
+- Working on issue #14 with Daniel if he needs help.
+- Working on the looks of the website
+
+Ethan
+- Reviewed Daniel's pull request.
+- Worked on some of the chart.js implementations.
+- Today I will continue working on the charts.
+- Working on issue #54
+
+John
+- Reviewed Daniel's pull request.
+- Working on issue # 53
+
+
