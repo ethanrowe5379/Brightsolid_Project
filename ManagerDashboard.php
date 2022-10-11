@@ -297,7 +297,7 @@
                   <th scope="col" onclick="sortTable(1, '; echo "'$resourceTableID'"; echo')">Resource Name</th>
                   <th scope="col" onclick="sortTable(2, '; echo "'$resourceTableID'"; echo')">Compliance Status</th>
                   <th scope="col" onclick="sortTable(3, '; echo "'$resourceTableID'"; echo')">Exception</th>
-                  <th scope="col" onclick="sortTable(4, '; echo "'$resourceTableID'"; echo')">Audit</th>
+                  <th scope="col">Audit</th>
                 </tr>
               </thead>
               <tbody>
