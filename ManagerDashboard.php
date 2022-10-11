@@ -107,7 +107,7 @@
               <th class="table-sort" scope="col" onclick="sortTable(0, 'ruleTable')">ID</th>
               <th class="table-sort" scope="col" onclick="sortTable(1, 'ruleTable')">Rule Name</th>
               <th scope="col">Rule Description</th>
-              <th scope="col">Compliance Status</th>
+              <th scope="col">Compliance</th>
               <th scope="col"></th>
             </tr>
           </thead>
