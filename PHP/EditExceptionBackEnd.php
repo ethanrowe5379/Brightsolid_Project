@@ -8,7 +8,7 @@
     $ruleID = "";
     $resourceID = "";
     
-    $lastUpdated = getCurrentTime(date("Y-m-d H:i:s.v"));
+    $lastUpdated = getCurrentTime(date("Y-m-d H:i:s"));
 
     //If fields are not empty
     if(isset($_POST['updateExceptionID']) && isset($_POST['updateJustValue']) && isset($_POST['updateExpValue']) 
@@ -41,10 +41,10 @@
         }
 
         //Formatting the dates
-        $oldReviewDateFormatting = date('Y-m-d H:i:s.v', strtotime($oldReviewDate));
+        $oldReviewDateFormatting = date('Y-m-d H:i:s', strtotime($oldReviewDate));
         $oldReviewDate = getCurrentTime($oldReviewDateFormatting);
 
-        $newReviewDateFormatting = date('Y-m-d H:i:s.v', strtotime($newReviewDate));
+        $newReviewDateFormatting = date('Y-m-d H:i:s', strtotime($newReviewDate));
         $newReviewDate = getCurrentTime($newReviewDateFormatting);
 
 

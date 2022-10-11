@@ -12,7 +12,7 @@
         $lastUpdatedBy = $_SESSION['userID'];
         $customerID = $_SESSION['customerID'];
 
-        $lastUpdated = getCurrentTime(date("Y-m-d H:i:s.v"));
+        $lastUpdated = getCurrentTime(date("Y-m-d H:i:s"));
         suspendExceptionAudit($exceptionID, $lastUpdatedBy, $customerID, $exceptionValue, $dbc);
 
         $disableForeignKeyCheck = "SET FOREIGN_KEY_CHECKS=0;";
@@ -36,7 +36,7 @@
         $justification = "";
         $review_date = "";
         $ruleID = "";
-        $lastUpdated = getCurrentTime(date("Y-m-d H:i:s.v"));
+        $lastUpdated = getCurrentTime(date("Y-m-d H:i:s"));
         $resourceID = "";
 
         $exceptionValues = "SELECT resource_id, justification, review_date, rule_id FROM exception WHERE exception_id='$exceptionID'";

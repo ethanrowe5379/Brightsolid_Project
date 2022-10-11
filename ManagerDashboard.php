@@ -99,7 +99,7 @@
           $accountRow = $resultAccounts->fetch_assoc();
           $foundAccountID = $accountRow["account_id"];
 
-          reviewDatePassed($dbc, $foundAccountID);
+          //reviewDatePassed($dbc, $foundAccountID);
       ?>
         <table class="table table-striped table-bordered table-hover">
           <thead>
@@ -492,7 +492,6 @@
                   <form action="PHP/EditExceptionBackEnd.php" method="post" autocomplete="off"> 
                     <div class="container">
     ';
-                            
                       $sqlQuery = "SELECT justification, exception_value, review_date FROM exception WHERE exception_id='$currentExceptionID'";
 
                       $justificationValue = "";
@@ -608,28 +607,15 @@
   }
 
   /* We will need the expcetion ID*/
-  function viewResourceAudit($dbc, $currentRuleID, $currentResourceID, $foundAccountID){
+  function viewResourceAudit($dbc, $currentRuleID, $currentResourceID){
 
-    $lookForThis = "";
-    if ($result = $dbc -> query("SELECT resource_name FROM resource WHERE resource_id ='$currentResourceID'")){
-      if($result -> num_rows == 1){
-        $row = $result->fetch_assoc();
-        $lookForThis = $row['resource_name'];
-      }
-    }
+    $customerID = $_SESSION['customerID'];  
 
+    $getAudits =
+    "SELECT customer_id, rule_id, exception_id, action, action_dt, old_review_date, exception_id FROM exception_audit WHERE rule_id='$currentRuleID' AND resource_id='$currentResourceID' 
+    AND customer_id = '$customerID'";
 
-    $sqlQuery = 
-    "SELECT exception_id, action, action_dt, old_review_date, exception_id FROM exception_audit
-    JOIN rule
-    ON rule.rule_id = exception_audit.rule_id
-    JOIN resource
-    on resource.resource_type_id = rule.resource_type_id
-    WHERE rule.rule_id = " . $currentRuleID . " AND resource.account_id = '$foundAccountID' AND exception_audit.old_exception_value = '$lookForThis' 
-    AND resource.resource_id = $currentResourceID;
-    ";
-
-    $auditResult = mysqli_query($dbc, $sqlQuery);
+    $auditResult = mysqli_query($dbc, $getAudits);
 
     echo'
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AuditModal'.$currentResourceID. $currentRuleID .'">View</button>
@@ -684,7 +670,7 @@
   }
 
 
-  //Passed review expcetions are suspended
+  //Passed review expcetions are suspended //LOOK AT THIS LATER
   function reviewDatePassed($dbc, $foundAccountID){
 
     //Query to find expcetions which belong to this user's customers
@@ -752,9 +738,10 @@
       $review_date = "";
       $ruleID = "";
       $exceptionValue = "";
-      $lastUpdated = getCurrentTime(date("Y-m-d H:i:s.v"));
+      $resourceID = "";
+      $lastUpdated = getCurrentTime(date("Y-m-d H:i:s"));
 
-      $exceptionValues = "SELECT justification, review_date, exception_value, rule_id FROM exception WHERE exception_id='$exceptionID'";
+      $exceptionValues = "SELECT resource_id, justification, review_date, exception_value, rule_id FROM exception WHERE exception_id='$exceptionID'";
       try{
           $suspendAduit = mysqli_query($dbc, $exceptionValues);
           if($suspendAduit -> num_rows == 1){
@@ -765,6 +752,7 @@
               $justification = $row['justification'];
               $review_date = $row['review_date'];
               $ruleID = $row['rule_id'];
+              $resourceID = $row['resource_id'];
           }
 
       }catch(Exception $e){
@@ -778,8 +766,8 @@
 
       //Adds to audit table ---CHANGE IT TO REVIEW_DATE WHEN THE DB IS FIXED
       $userInsert = "INSERT INTO `exception_audit` 
-      (`exception_audit_id`,`exception_id`,`user_id`,`customer_id`, `rule_id`, `action`, `action_dt`, `old_exception_value`, `new_exception_value`, `old_justification`, `new_justification`, `old_review_date`, `new_review_date`)
-      VALUES(NULL, '$exceptionID', '$userID', '$customerID',' $ruleID', 'suspend', '$lastUpdated', '$exceptionValue', '$exceptionValue', '$justification', '$justification', '$review_date', '$review_date');";
+      (`exception_audit_id`,`exception_id`,`user_id`,`customer_id`, `rule_id`, `action`, `action_dt`, `old_exception_value`, `new_exception_value`, `old_justification`, `new_justification`, `old_review_date`, `new_review_date`, `resource_id`)
+      VALUES(NULL, '$exceptionID', '$userID', '$customerID',' $ruleID', 'suspend', '$lastUpdated', '$exceptionValue', '$exceptionValue', '$justification', '$justification', '$review_date', '$review_date', '$resourceID');";
 
       try{
           mysqli_query($dbc, $lockTable);

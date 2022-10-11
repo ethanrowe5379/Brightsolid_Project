@@ -30,9 +30,9 @@
         $justValue = $_POST['justValue'];
 
         //Sets the time and format
-        $reviewDate = date('Y-m-d H:i:s.v', strtotime($_POST['rvwDate']));
+        $reviewDate = date('Y-m-d H:i:s', strtotime($_POST['rvwDate']));
         $rvwDate = getCurrentTime($reviewDate);
-        $currentDate = getCurrentTime(date("Y-m-d H:i:s.v"));
+        $currentDate = getCurrentTime(date("Y-m-d H:i:s"));
 
         //Add expection
         insertException($customerID, $userID, $userName, $resourceID, $ruleID, $expValue, $justValue, $rvwDate, $currentDate, $dbc);
@@ -131,7 +131,6 @@
     function getCurrentTime($dateToFormat){
 
         //To check if in BST or GMT was taken from Stack Overflow https://stackoverflow.com/questions/29123753/detect-bst-in-php
-        // $date = date("Y-m-d H:i:s.v");
         $dateTest = strtotime($dateToFormat); 
         if (date('I', $dateTest)) {
             $dateToFormat = $dateToFormat . " +0100";
