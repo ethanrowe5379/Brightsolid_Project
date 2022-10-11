@@ -368,17 +368,17 @@
             echo '<h6 class="noExceptionHeading">There are no exceptions for rule '. $row['rule_id'] .'</h6>';
           }
           else{
-
+            $exceptionTableID = "exceptionTable_". $row['rule_id'];
             echo '
-            <table class="table table-bordered table-detailed-view">
+            <table class="table table-bordered table-detailed-view" id="'. $exceptionTableID .'">
               <thead class="table-dark">
                 <tr>
-                  <th scope="col">Resource ID</th>
-                  <th scope="col">Justification</th>
-                  <th scope="col">Review Date</th>
-                  <th scope="col">Last Updated By</th>
-                  <th scope="col">Edit</th>
-                  <th scope="col">Suspend</th>
+                  <th scope="col" onclick="sortTable(0, '; echo "'$exceptionTableID'"; echo')">Resource ID</th>
+                  <th scope="col" onclick="sortTable(1, '; echo "'$exceptionTableID'"; echo')">Justification</th>
+                  <th scope="col" onclick="sortTable(2, '; echo "'$exceptionTableID'"; echo')">Review Date</th>
+                  <th scope="col" onclick="sortTable(3, '; echo "'$exceptionTableID'"; echo')">Last Updated By</th>
+                  <th scope="col" onclick="sortTable(4, '; echo "'$exceptionTableID'"; echo')">Edit</th>
+                  <th scope="col" onclick="sortTable(5, '; echo "'$exceptionTableID'"; echo')">Suspend</th>
                 </tr>
               </thead>
               <tbody>
