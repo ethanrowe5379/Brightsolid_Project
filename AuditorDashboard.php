@@ -295,7 +295,7 @@
               ';
                 while ($rowResources = $resultResources->fetch_assoc()) {
                   echo '<tr>';
-                    echo '<td scope="row"><strong>'. $rowResources['resource_id']  . '</strong></td>';
+                    echo '<td scope="row"><strong>'. $rowResources['resource_id']  .'</strong></td>';
                     echo '<td>'. $rowResources['resource_name'] . '</td>';
                     
                     echo '<td>';
@@ -369,7 +369,7 @@
                 
                 while ($rowExceptions = $resultExceptions->fetch_assoc()) {
                   echo '<tr>';
-                    echo '<td scope="row"><strong>'. $rowExceptions['resource_id']  . '</strong></td>';
+                    echo '<td scope="row"><strong>'. $rowExceptions['resource_id']  .'</strong></td>';
                     echo '<td>'. $rowExceptions['justification'] . '</td>';
                     echo '<td>'. $rowExceptions['review_date'] . '</td>';
                     echo '<td>'. $rowExceptions['user_name'] . '</td>';
