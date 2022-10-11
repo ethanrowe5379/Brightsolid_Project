@@ -57,6 +57,22 @@
             insertUser($username, $customerID, $userRole, $password, $dbc);
 
     }
+    elseif(isset($_POST['CustomerName']) ){
+            
+        //Set variables
+        $customername = ($_POST['CustomerName']);
+        $canAdd = true;
+
+        //Checks username availability
+        if(!checkCustomerNameAvailability($customername, $dbc)){
+            $canAdd = false;
+            errorMessage("Customer already exists", $dbc);
+        }
+            
+        if($canAdd)
+            insertUser($customername, $dbc);
+
+    }
     else{
         errorMessage("Some fields are empty");
     }
@@ -76,6 +92,26 @@
             mysqli_query($dbc, $unlockTables);
 
             errorMessage("User: " . $username . " has been added successfully.", $dbc);
+
+        }catch(Exception $e){
+            echo $e;
+        }
+    }
+
+    //Inserts new customer into database
+    function insertCustomer($customername, $dbc){
+            
+        $lockTable = "LOCK TABLES user WRITE;";
+        $unlockTables = "UNLOCK TABLES;";
+        $customerInsert = "INSERT INTO `customer` (`customer_id`,`customer_name`)
+        VALUES(NULL,'$customername');";
+        
+        try{
+            mysqli_query($dbc, $lockTable);
+            mysqli_query($dbc, $customerInsert);
+            mysqli_query($dbc, $unlockTables);
+
+            errorMessage("Customer: " . $customername . " has been added successfully.", $dbc);
 
         }catch(Exception $e){
             echo $e;
@@ -121,6 +157,18 @@
         if($passwordOne != $passwordTwo)
             return false;
         return true;
+    }
+
+    //Checks if customer_name already exists
+    function checkCustomerNameAvailability($customername, $dbc){
+
+        //Connec to the db and check if any username matches input
+        if($result = $dbc -> query("SELECT customer_name FROM customer WHERE customer_name='$customername'")){
+            if($result -> num_rows > 0)  //If username matches have been found
+                return false;
+            return true;
+        }
+        return false;
     }
 
     //Sends the login error message but also redirects the user

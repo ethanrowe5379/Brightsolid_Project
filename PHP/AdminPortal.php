@@ -33,19 +33,12 @@
         <img src="Graphics\BrightSolidLogo.png" class="img-fluid" alt="Logo" id="BrightSolidLogo">
         <h1>Admin Portal</h1>
       </div> 
-            
-        <div id="CreateUserForm">
-            <form action="AdminbackEnd.php" method="post" autocomplete="off"> 
-                <div class="container">
-                    <h1>Create user</h1>
-                    <input type="text" placeholder="Enter Username" name="uname" required><br>
-                    <input type="number" min="1" placeholder="Enter CustomerID" name="customerID" required><br>
-                    <input type="number" min="1" placeholder="Enter user role" name="urole" required><br>
-                    <input type="password" placeholder="Enter Password" name="psw" required><br>
-                    <input type="password" placeholder="Repeat Password" name="repeatPsw" required><br>
-                    <button class="btn btn-primary" type="submit" id="LoginSubmit">Create</button>
-                </div>
-            </form>
+
+        <div>
+        <?php 
+            createUserButton($dbc);
+            createCustomerButton($dbc);
+        ?>
         </div>
         
         <form action="AdminPortal.php" method="post">
@@ -70,6 +63,80 @@
 
 
 <?php
+    function createCustomerButton($dbc){
+        echo'
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal-Customer">Create Customer</button>
+
+            <div class="modal fade" id="Modal-Customer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Customer Creation</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                    <div class="modal-body">
+
+                        <div id="CreateCustomer">
+                        <form action="PHP/CreateCustomerBackEnd.php" method="post" autocomplete="off"> 
+                            <div class="container">
+                                <h1>Create Customer</h1>
+
+                                <input type="text" placeholder="Enter Customer Name" name="CustomerName" required><br>
+                                <button class="btn btn-primary" type="submit" id="createCustomerConfirm">Create</button>
+
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        '; 
+    }
+
+    function createUserButton($dbc){
+        echo'
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal-User">Create User</button>
+
+            <div class="modal fade" id="Modal-User" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">User Creation</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                    <div class="modal-body">
+
+                        <div id="CreateUser">
+                        <form action="PHP/AdminBackEnd.php" method="post" autocomplete="off"> 
+                            <div class="container">
+                                <h1>Create User</h1>
+
+                                <input type="text" placeholder="Enter Username" name="uname" required><br>
+                                <input type="number" min="1" placeholder="Enter CustomerID" name="customerID" required><br>
+                                <input type="number" min="1" placeholder="Enter user role" name="urole" required><br>
+                                <input type="password" placeholder="Enter Password" name="psw" required><br>
+                                <input type="password" placeholder="Repeat Password" name="repeatPsw" required><br>
+                                <button class="btn btn-primary" type="submit" id="LoginSubmit">Create</button>
+
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        '; 
+    }
+
   if(isset($_POST['LogOut']))
     logOutUser();
 
