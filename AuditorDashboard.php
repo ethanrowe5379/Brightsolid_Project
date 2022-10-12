@@ -40,38 +40,92 @@
 
   <body>
     
-    <header>
-        <nav class="navbar .navbar-expand">  <!--add to close to disable hamburger on desktop navbar-expand-lg -->
-          <div class="container-fluid">
-            <img src="PHP/Graphics\BrightSolidLogo.png" alt="BrightSolidLogo" width="200" height="40" class="d-inline-block align-text-top">
+  <header>
+    <nav class="navbar fixed-top">  <!--add to close to disable hamburger on desktop navbar-expand-lg -->
+      <div class="container-fluid">
+        <img src="PHP/Graphics\BrightSolidLogo.png" alt="BrightSolidLogo" width="200" height="40" class="d-inline-block align-text-top">
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarText">
-              <ul class="navbar-nav"></ul>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav"></ul>
 
-              <div class="navbar-text">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                  <li class="nav-item">
-                    <?php echo"<p>Username: ".$_SESSION['userName']."</p>" ?>
-                  </li>
-                  <li class="nav-item">
-                    <?php echo"<p>Role: ".$_SESSION['userRole']."</p>" ?>
-                  </li>
-                  <li class="nav-item">
-                    <form action="AuditorDashboard.php" method="post">
-                      <button class="btn btn-primary" type="submit" name="LogOut">Log Out</button>
-                    </form>
-                  </li>
-                </ul>
-              </div>
-            </div>
+          <div class="navbar-text">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <?php echo"<p>Username: ".$_SESSION['userName']."</p>" ?>
+              </li>
+              <li class="nav-item">
+                <?php echo"<p>Role: ".$_SESSION['userRole']."</p>" ?>
+              </li>
+              <li class="nav-item">
+                <form action="AuditorDashboard.php" method="post">
+                  <button class="btn btn-primary" type="submit" name="LogOut">Log Out</button>
+                </form>
+              </li>
+              
+              <li class="nav-item">
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Passed
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li> 
+
+                      <table class="table table-bordered  table-detailed-view">
+                        <thead class="table-dark">
+                          <tr>
+                            <th scope="col">Rule ID</th>
+                            <th scope="col">Resource ID</th>
+                            <th scope="col">Resource Name</th>
+                            <th scope="col">Justification</th>
+                            <th scope="col">Review Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php upComingReviews($dbc, 0); ?>
+                        </tbody>
+                      </table> 
+                    </li>
+                  </ul>
+                </div>
+              </li>
+
+              <li class="nav-item">
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Upcoming - 30 days
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li> 
+
+                      <table class="table table-bordered  table-detailed-view">
+                        <thead class="table-dark">
+                          <tr>
+                            <th scope="col">Rule ID</th>
+                            <th scope="col">Resource ID</th>
+                            <th scope="col">Resource Name</th>
+                            <th scope="col">Justification</th>
+                            <th scope="col">Review Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php upComingReviews($dbc, 1); ?>
+                        </tbody>
+                      </table> 
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
           </div>
-        </nav>
-    </header>
-
+        </div>
+      </div>
+    </nav>
+  </header>
+  
     <main>
       <div class="container">
         <h1>Compliance Dashboard</h1>
@@ -391,6 +445,65 @@
     ';
   }
 
+  //Gets all the exceptions with upcoming reviews in the next 30 days
+  function upComingReviews($dbc, $reviewDate){
+
+    $customerID = $_SESSION['customerID'];
+  
+    $sqlQuery = "SELECT * FROM exception 
+    LEFT JOIN resource
+    ON resource.resource_id = exception.resource_id
+    WHERE customer_id = '$customerID'";
+    
+    $upcomingReviewsResult = $dbc->query($sqlQuery);
+
+    if($upcomingReviewsResult){
+      if($upcomingReviewsResult -> num_rows > 0){
+
+        while ($upcomingExceptions = $upcomingReviewsResult->fetch_assoc()) {
+
+          $currentExceptionID = $upcomingExceptions['exception_id'];
+          $currentResourceID = $upcomingExceptions['resource_id'];
+
+          if(reviewDatePassed($dbc, $upcomingExceptions['review_date']) == $reviewDate){
+            echo '<tr>';
+            echo '<th scope="row">'. $upcomingExceptions['rule_id']  . '</th>';
+            echo '<td>'. $upcomingExceptions['resource_id']  . '</td>';
+            echo '<td>'. $upcomingExceptions['resource_name']  . '</td>';
+            echo '<td>'. $upcomingExceptions['justification']  . '</td>';
+            echo '<td>'. $upcomingExceptions['review_date'] . '</td>';
+            echo '</tr>';
+          }
+        }
+      }
+    }
+  }
+
+  //Checks if the date is in the past or future and returns true(in future/upcoming) or false(passed)
+  function reviewDatePassed($dbc, $reviewDate){
+
+    //Subtracts the BST VS GMT difference at the end of string
+    if (strpos($reviewDate, '+0000')) {
+      $reviewDate = trim($reviewDate, "+0000");
+      $currentTime = date('Y-m-d H:i:s');
+    }
+    else{
+      $reviewDate = trim($reviewDate, "+0100");
+      $currentTime = date('Y-m-d H:i:s', strtotime('-1 hours'));
+    }
+ 
+    //Date 30 days in the future
+    $compareUpcoming = date('Y-m-d H:i:s', strtotime('+30 days'));
+
+    if(strtotime($reviewDate) < strtotime($currentTime))
+      return 0;//passed
+
+    //If the date is within 30 days
+    if(strtotime($reviewDate) < strtotime($compareUpcoming))
+      return 1;//Upcoming
+  
+    return 3; //way in the future
+  }
 ?>
 
 <script>
