@@ -2,4 +2,3 @@ user_role_id,user_role_name
 1,system
 2,auditor
 3,manager
-4,admin
