@@ -50,7 +50,7 @@ John
 
 
 
-## Meeting Client Meeting 1 (28th Sept)
+## Meeting Managment 1 (28th Sept)
 ### Members Present:
 DJ Dorren, Ethan Rowe, Jamie Fergus, Daniel Jakubek
 
