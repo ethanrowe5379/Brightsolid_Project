@@ -1,17 +1,5 @@
 /*
 A script to create all the tables needed for the BrightSolid project database
-
-TODO
-
-1.	Need to figure out what datatype to use for the following timestampz datatypes : 
-		-	last_updated										(resource table)
-		-	action_dt											(non_compliance_audit table)
-		-	review_date, last_updated							(exception table)
-		-	action_dt, old_review_time, new_review_time			(exception_audit table)
-            
-2.	Need to ask client if non_compliance_id is a nessary variable, a primary key might need to be created in the "non_compliance" table
-3.	Need to check datatype, longblob is usually large enough, however there might be a better datatype to use for resource_metadata
-
 */
 
 -- **********************************************************************
@@ -40,6 +28,13 @@ CREATE TABLE user_role(
 	user_role_id int NOT NULL AUTO_INCREMENT,
     user_role_name varchar(255) NOT NULL,
     PRIMARY KEY (user_role_id)
+);
+
+CREATE TABLE admin(
+	admin_id int NOT NULL AUTO_INCREMENT,
+    admin_username varchar(255) NOT NULL,
+    admin_password varchar(64) NOT NULL,
+    PRIMARY KEY (admin_id)
 );
 
 CREATE TABLE resource_type(
@@ -138,11 +133,13 @@ CREATE TABLE exception_audit(
     new_justification varchar(255) NOT NULL,
     old_review_date varchar(255) NOT NULL,
     new_review_date varchar(255) NOT NULL,
+    resource_id int NOT NULL,
     PRIMARY KEY(exception_audit_id),
     FOREIGN KEY (exception_id) REFERENCES exception(exception_id),
     FOREIGN KEY (user_id) REFERENCES user(user_id),
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
-    FOREIGN KEY (rule_id) REFERENCES rule(rule_id)
+    FOREIGN KEY (rule_id) REFERENCES rule(rule_id),
+    FOREIGN KEY (resource_id) REFERENCES resource(resource_id)
 );
 
 CREATE TABLE non_compliance(
