@@ -36,7 +36,6 @@
 
         //Add expection
         insertException($customerID, $userID, $userName, $resourceID, $ruleID, $expValue, $justValue, $rvwDate, $currentDate, $dbc);
-        addExceptionAudit($customerID, $userID, $userName, $resourceID, $ruleID, $expValue, $justValue, $rvwDate, $currentDate, $dbc);
         header("Location: ../ManagerDashboard.php");
 
         //Delete from non_compliance table
@@ -56,27 +55,25 @@
                 $_SESSION['dataRaceCondition']  = "Error: Exception already exists";
                 header("Refresh:0");
                 return;
-            }
-            else{
+            }   
+        }
 
-                $lockTable = "LOCK TABLES exception WRITE;";
-                $unlockTables = "UNLOCK TABLES;";
-        
-                $userInsert = "INSERT INTO `exception` 
-                (`exception_id`,`customer_id`,`rule_id`,`last_updated_by`, `exception_value`, `justification`, `review_date`, `last_updated`, `resource_id`)
-                VALUES(NULL,'$customerID', '$ruleID', '$userID' ,'$expValue','$justValue','$rvwDate','$currentDate','$resourceID');";
-        
-                try{
-                    mysqli_query($dbc, $lockTable);
-                    mysqli_query($dbc, $userInsert);
-                    mysqli_query($dbc, $unlockTables);
-        
-                    $_SESSION['dataRaceCondition']  = "Exception created.";
-        
-                }catch(Exception $e){
-                    echo $e;
-                }
-            }
+        $lockTable = "LOCK TABLES exception WRITE;";
+        $unlockTables = "UNLOCK TABLES;";
+
+        $userInsert = "INSERT INTO `exception` 
+        (`exception_id`,`customer_id`,`rule_id`,`last_updated_by`, `exception_value`, `justification`, `review_date`, `last_updated`, `resource_id`)
+        VALUES(NULL,'$customerID', '$ruleID', '$userID' ,'$expValue','$justValue','$rvwDate','$currentDate','$resourceID');";
+
+        try{
+            mysqli_query($dbc, $lockTable);
+            mysqli_query($dbc, $userInsert);
+            mysqli_query($dbc, $unlockTables);
+
+            $_SESSION['dataRaceCondition']  = "Exception created.";
+            addExceptionAudit($customerID, $userID, $userName, $resourceID, $ruleID, $expValue, $justValue, $rvwDate, $currentDate, $dbc);
+        }catch(Exception $e){
+            echo $e;
         }
     }
 
