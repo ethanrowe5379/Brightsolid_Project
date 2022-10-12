@@ -155,13 +155,13 @@
 
           //reviewDatePassed($dbc, $foundAccountID);
       ?>
-        <table class="table table-striped table-bordered table-hover">
-          <thead>
+        <table class="table table-striped table-bordered table-hover" id="ruleTable">
+          <thead class="table-dark">
             <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Rule Name</th>
+              <th class="table-sort" scope="col" onclick="sortTable(0, 'ruleTable')">ID</th>
+              <th class="table-sort" scope="col" onclick="sortTable(1, 'ruleTable')">Rule Name</th>
               <th scope="col">Rule Description</th>
-              <th scope="col">Compliance Status</th>
+              <th scope="col">Compliance</th>
               <th scope="col"></th>
             </tr>
           </thead>
@@ -209,7 +209,7 @@
       while ($row = $result->fetch_assoc()) {
         echo '
         <tr>
-          <th>'. $row['rule_id'] .'</th>
+          <td><strong>'. $row['rule_id'] .'</strong></td>
           <td>'. $row['rule_name'] .'</td>
           <td>'. $row['rule_description'] .'</td>';
 
@@ -343,15 +343,15 @@
           echo '<h6 class="noResourceHeading">There are no resources for rule '. $row['rule_id'] .'</h6>';
         }
         else{
-
+          $resourceTableID = "resourceTable_". $row['rule_id'];
           echo'
-            <table class="table table-bordered table-detailed-view">
+            <table class="table table-detailed-view" id="'. $resourceTableID .'">
               <thead class="table-dark">
                 <tr>
-                  <th scope="col">Resource ID</th>
-                  <th scope="col">Resource Name</th>
-                  <th scope="col">Compliance Status</th>
-                  <th scope="col">Exception</th>
+                  <th class="table-sort" scope="col" onclick="sortTable(0, '; echo "'$resourceTableID'"; echo')">Resource ID</th>
+                  <th class="table-sort" scope="col" onclick="sortTable(1, '; echo "'$resourceTableID'"; echo')">Resource Name</th>
+                  <th class="table-sort" scope="col" onclick="sortTable(2, '; echo "'$resourceTableID'"; echo')">Compliance Status</th>
+                  <th class="table-sort" scope="col" onclick="sortTable(3, '; echo "'$resourceTableID'"; echo')">Exception</th>
                   <th scope="col">Audit</th>
                 </tr>
               </thead>
@@ -359,7 +359,7 @@
               ';
                 while ($rowResources = $resultResources->fetch_assoc()) {
                   echo '<tr>';
-                    echo '<th scope="row">'. $rowResources['resource_id']  . '</th>';
+                    echo '<td scope="row"><strong>'. $rowResources['resource_id']  .'</strong></td>';
                     echo '<td>'. $rowResources['resource_name'] . '</td>';
                     
                     echo '<td>';
@@ -423,15 +423,15 @@
             echo '<h6 class="noExceptionHeading">There are no exceptions for rule '. $row['rule_id'] .'</h6>';
           }
           else{
-
+            $exceptionTableID = "exceptionTable_". $row['rule_id'];
             echo '
-            <table class="table table-bordered table-detailed-view">
+            <table class="table table-detailed-view" id="'. $exceptionTableID .'">
               <thead class="table-dark">
                 <tr>
-                  <th scope="col">Resource ID</th>
-                  <th scope="col">Justification</th>
-                  <th scope="col">Review Date</th>
-                  <th scope="col">Last Updated By</th>
+                  <th class="table-sort" scope="col" onclick="sortTable(0, '; echo "'$exceptionTableID'"; echo')">Resource ID</th>
+                  <th class="table-sort" scope="col" onclick="sortTable(1, '; echo "'$exceptionTableID'"; echo')">Justification</th>
+                  <th class="table-sort" scope="col" onclick="sortTable(2, '; echo "'$exceptionTableID'"; echo')">Review Date</th>
+                  <th class="table-sort" scope="col" onclick="sortTable(3, '; echo "'$exceptionTableID'"; echo')">Last Updated By</th>
                   <th scope="col">Edit</th>
                   <th scope="col">Suspend</th>
                 </tr>
@@ -445,7 +445,7 @@
                   $currentExceptionID = $rowExceptions['exception_id'];
 
                   echo '<tr>';
-                    echo '<th scope="row">'. $rowExceptions['resource_id']  . '</th>';
+                    echo '<td scope="row"><strong>'. $rowExceptions['resource_id']  .'</strong></td>';
                     echo '<td>'. $rowExceptions['justification'] . '</td>';
                     echo '<td>'. $rowExceptions['review_date'] . '</td>';
                     echo '<td>'. $rowExceptions['user_name'] . '</td>';
@@ -837,4 +837,43 @@ const BarChart = new Chart(ctx2, {
     indexAxis: 'y',
   }
 });
+</script>
+
+<script>
+function sortTable(col, tableID) {
+  var table = document.getElementById(tableID);
+  var direction = "asc";
+  var switching = true;
+  var count = 0;
+  while (switching) {
+    switching = false;
+    var rows = table.rows;
+    for (var i = 1; i < (rows.length - 1); i++) {
+      var shouldSwitch = false;
+      var row_1 = rows[i].getElementsByTagName("td")[col];
+      var row_2 = rows[i + 1].getElementsByTagName("td")[col];
+      if (direction == "asc") {
+        if (row_1.innerHTML.toLowerCase() > row_2.innerHTML.toLowerCase()) {
+          shouldSwitch= true;
+          break;
+        }
+      } else if (direction == "desc") {
+        if (row_1.innerHTML.toLowerCase() < row_2.innerHTML.toLowerCase()) {
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      count ++;      
+    } else {
+      if (direction == "asc" && count == 0) {
+        direction = "desc";
+        switching = true;
+      }
+    }
+  }
+}
 </script>

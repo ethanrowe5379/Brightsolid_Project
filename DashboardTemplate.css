@@ -134,6 +134,26 @@ main{
     margin-top: 10vh;
 }
 
-.dropdown{
-    z-index: 1400!important;
+.table-sort {
+	position: relative;
+}
+
+.table-sort:before,
+.table-sort:after {
+	border: 4px solid transparent;
+	content: "";
+	display: block;
+	right: 0px;
+	top: 50%;
+	position: absolute;
+}
+
+.table-sort:before {
+	border-bottom-color: white;
+	margin-top: -9px;
+}
+
+.table-sort:after {
+	border-top-color: white;
+	margin-top: 1px;
 }
