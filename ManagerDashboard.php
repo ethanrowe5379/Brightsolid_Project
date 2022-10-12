@@ -82,10 +82,12 @@
                   <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Passed
                   </button>
-                  <ul class="dropdown-menu">
-                    <li> 
+                  <ul class="dropdown-menu review-dropdown">
+                    <li class="review-dropdown-li">
 
-                      <table class="table table-bordered  table-detailed-view">
+                      <div class="noPassedDiv" id="noPassedDiv"></div>
+                      
+                      <table class="table table-bordered table-detailed-view" id="passedTable">
                         <thead class="table-dark">
                           <tr>
                             <th scope="col">Rule ID</th>
@@ -99,6 +101,22 @@
                           <?php upComingReviews($dbc, 0); ?>
                         </tbody>
                       </table> 
+
+                      <script>
+                        var x = document.getElementById("passedTable");
+                        if(x.rows.length <= 1){
+                          x.style.display = "none";
+
+
+                          const passedheading = document.createElement("h6");
+                          const passedMessage = document.createTextNode("There are no passed review dates.");
+                          passedheading.appendChild(passedMessage);
+
+                          const element = document.getElementById("noPassedDiv");
+                          element.appendChild(passedheading);
+                        }
+                          
+                      </script>
                     </li>
                   </ul>
                 </div>
@@ -109,10 +127,12 @@
                   <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Upcoming - 30 days
                   </button>
-                  <ul class="dropdown-menu">
-                    <li> 
-
-                      <table class="table table-bordered  table-detailed-view">
+                  <ul class="dropdown-menu review-dropdown">
+                    <li class="review-dropdown-li"> 
+                      
+                      <div class="noUpcomingDiv" id="noUpcomingDiv"></div>
+                   
+                      <table class="table table-bordered table-detailed-view" id="upcomingTable">
                         <thead class="table-dark">
                           <tr>
                             <th scope="col">Rule ID</th>
@@ -126,6 +146,22 @@
                           <?php upComingReviews($dbc, 1); ?>
                         </tbody>
                       </table> 
+
+                      <script>
+                        var x = document.getElementById("upcomingTable");
+                        if(x.rows.length <= 1){
+                          x.style.display = "none";
+
+                          const upcomingHeading = document.createElement("h6");
+                          const upcomingMessage = document.createTextNode("There are no upcoming review dates.");
+                          upcomingHeading.appendChild(upcomingMessage);
+
+                          const element = document.getElementById("noUpcomingDiv");
+                          element.appendChild(upcomingHeading);
+                        }
+                          
+                      </script>
+
                     </li>
                   </ul>
                 </div>
@@ -367,18 +403,22 @@
               <tbody>
               ';
                 while ($rowResources = $resultResources->fetch_assoc()) {
-                  echo '<tr>';
+
+                  if($rowResources['noncompliant'] == NULL or $rowResources['exception'] != NULL)
+                    $tableRow = "resourceCompliant";
+                  else
+                    $tableRow = "resourceNonCompliant";
+                  
+                  echo '<tr id="'.$tableRow.'">';
                     echo '<td scope="row"><strong>'. $rowResources['resource_id']  .'</strong></td>';
                     echo '<td>'. $rowResources['resource_name'] . '</td>';
                     
-                    echo '<td>';
                     if($rowResources['noncompliant'] == NULL or $rowResources['exception'] != NULL){
-                      echo 'Compliant';
+                      echo '<td>Compliant</td>';
                     }else{
-                      echo 'Non-Compliant';
+                      echo '<td>Non-Compliant</td>';
                     }
-                    echo '</td>';
-
+             
                     echo '<td>';
                     if($rowResources['exception'] != NULL){
                       echo 'Yes';
@@ -536,7 +576,7 @@
     }
   }
 
-
+  //Edit exception button
   function editExceptionButton($dbc, $currentResourceID, $currentExceptionID){
     echo '
 
@@ -611,6 +651,7 @@
       ';
   }
 
+  //Button for suspending exceptions
   function suspendExceptionButton($dbc, $currentExceptionID){
     echo '
     <td>

@@ -295,17 +295,21 @@
               <tbody>
               ';
                 while ($rowResources = $resultResources->fetch_assoc()) {
-                  echo '<tr>';
+
+                  if($rowResources['noncompliant'] == NULL or $rowResources['exception'] != NULL)
+                    $tableRow = "resourceCompliant";
+                  else
+                    $tableRow = "resourceNonCompliant";
+                  
+                  echo '<tr id="'.$tableRow.'">';
                     echo '<td scope="row"><strong>'. $rowResources['resource_id']  .'</strong></td>';
                     echo '<td>'. $rowResources['resource_name'] . '</td>';
                     
-                    echo '<td>';
                     if($rowResources['noncompliant'] == NULL or $rowResources['exception'] != NULL){
-                      echo 'Compliant';
+                      echo '<td id="resourceCompliant">Compliant</td>';
                     }else{
-                      echo 'Non-Compliant';
+                      echo '<td id="resourceNonCompliant">Non-Compliant</td>';
                     }
-                    echo '</td>';
 
                     echo '<td>';
                     if($rowResources['exception'] != NULL){
