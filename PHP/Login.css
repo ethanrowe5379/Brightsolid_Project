@@ -14,7 +14,7 @@ input[type=datetime-local], input[type=text], input[type=password], input[type=n
   color: red;
 }
 
-#LoginSubmit, #CreateUser, #createExceptionConfirm {
+#LoginSubmit, #createExceptionConfirm, #createCustomerConfirm, #PortalBtn {
   background-color: black;
   color: white;
   padding: 14px 20px;
@@ -29,7 +29,7 @@ input[type=datetime-local], input[type=text], input[type=password], input[type=n
   z-index: 1500;
 }
 
-#LoginSubmit:hover, #CreateUser:hover {
+#LoginSubmit:hover, #CreateUser:hover, #createCustomerConfirm, #PortalBtn{
   opacity: 0.8;
 }
     
@@ -60,6 +60,18 @@ span.psw {
 
 #LoggingInPage{
     background-color: rgb(241, 180, 52);
+}
+
+#adminButtons{
+  margin-top: 15px;;
+}
+
+.AdminPortal .btn{
+  max-width: 50%;
+}
+
+.AdminPortal .btn{
+  max-width: 50%;
 }
 
 /* Change styles for span and cancel button on extra small screens */

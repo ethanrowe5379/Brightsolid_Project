@@ -9,56 +9,82 @@
     }
         
     include "dbConnect.php";
-    
-    /* WE CAN MAKE THE FIELD BORDERS RED TO INDICATE SHIT IS NOT MATCHING */
 
-    //If fields are not empty
-    if(isset($_POST['uname']) && isset($_POST['urole']) && isset($_POST['psw']) 
-        && isset($_POST['repeatPsw']) && isset($_POST['customerID'])){
-        
-        //Set variables
-        $username = ($_POST['uname']);
-        $password = ($_POST['psw']);
-        $passwordRepeated = ($_POST['repeatPsw']);
-        $userRole = ($_POST['urole']);
-        $customerID = ($_POST['customerID']);
-
-        $canAdd = true;
-
-        //Hashes the both passwords for storing and comparing.
-        $password = hash('sha3-256', $password); 
-        $passwordRepeated = hash('sha3-256', $passwordRepeated);
-        
-        //Checks if passwords match
-        if(!checkPasswordMatch($password, $passwordRepeated)){
-            $canAdd = false;
-            errorMessage("Passwords not matching", $dbc);
-        }
-            
-        //Checks username availability
-        if(!checkUserNameAvailability($username, $dbc)){
-            $canAdd = false;
-            errorMessage("Username not available", $dbc);
-        }
-            
-        //Checks username availability
-        if(!checkRoleAvailability($userRole, $dbc)){
-            $canAdd = false;
-            errorMessage("Role not available", $dbc);
-        }
-
-        //Checks customerID availability
-        if(!checkCustomerIDAvailability($customerID, $dbc)){
-            $canAdd = false;
-            errorMessage("CustomerID not available", $dbc);
-        }
-            
-        if($canAdd)
-            insertUser($username, $customerID, $userRole, $password, $dbc);
-
-    }
+    //Checks if either the create customer or user form has been submitted
+    if(isset($_POST['createCustomerConfirm']))
+        checkCustomerForm($dbc);
+    elseif (isset($_POST['createUserConfirm']))
+        checkUserForm($dbc);
     else{
-        errorMessage("Some fields are empty");
+        errorMessage("Some fields are empty", $dbc);
+    }
+
+    //Form for creating customer
+    function checkCustomerForm($dbc){
+        if(isset($_POST['CustomerName'])){
+                
+            //Set variables
+            $customername = ($_POST['CustomerName']);
+            $canAdd = true;
+
+            //Checks username availability
+            if(!checkCustomerNameAvailability($customername, $dbc)){
+                $canAdd = false;
+                errorMessage("Customer already exists", $dbc);
+            }
+                
+            if($canAdd)
+                insertCustomer($customername, $dbc);
+        }
+    }
+
+    //Form for creating user
+    function checkUserForm($dbc){
+
+        //If fields are not empty
+        if(isset($_POST['uname']) && isset($_POST['urole']) && isset($_POST['psw']) 
+            && isset($_POST['repeatPsw']) && isset($_POST['customerID'])){
+            
+            //Set variables
+            $username = ($_POST['uname']);
+            $password = ($_POST['psw']);
+            $passwordRepeated = ($_POST['repeatPsw']);
+            $userRole = ($_POST['urole']);
+            $customerID = ($_POST['customerID']);
+
+            $canAdd = true;
+
+            //Hashes the both passwords for storing and comparing.
+            $password = hash('sha256', $password); 
+            $passwordRepeated = hash('sha256', $passwordRepeated);
+            
+            //Checks if passwords match
+            if(!checkPasswordMatch($password, $passwordRepeated)){
+                $canAdd = false;
+                errorMessage("Passwords not matching", $dbc);
+            }
+                
+            //Checks username availability
+            if(!checkUserNameAvailability($username, $dbc)){
+                $canAdd = false;
+                errorMessage("Username not available", $dbc);
+            }
+                
+            //Checks username availability
+            if(!checkRoleAvailability($userRole, $dbc)){
+                $canAdd = false;
+                errorMessage("Role not available", $dbc);
+            }
+
+            //Checks customerID availability
+            if(!checkCustomerIDAvailability($customerID, $dbc)){
+                $canAdd = false;
+                errorMessage("CustomerID not available", $dbc);
+            }
+                
+            if($canAdd)
+                insertUser($username, $customerID, $userRole, $password, $dbc);
+        }
     }
 
 
@@ -76,6 +102,26 @@
             mysqli_query($dbc, $unlockTables);
 
             errorMessage("User: " . $username . " has been added successfully.", $dbc);
+
+        }catch(Exception $e){
+            echo $e;
+        }
+    }
+
+    //Inserts new customer into database
+    function insertCustomer($customername, $dbc){
+            
+        $lockTable = "LOCK TABLES customer WRITE;";
+        $unlockTables = "UNLOCK TABLES;";
+        $customerInsert = "INSERT INTO `customer` (`customer_id`,`customer_name`)
+        VALUES(NULL,'$customername');";
+        
+        try{
+            mysqli_query($dbc, $lockTable);
+            mysqli_query($dbc, $customerInsert);
+            mysqli_query($dbc, $unlockTables);
+
+            errorMessage("Customer: " . $customername . " has been added successfully.", $dbc);
 
         }catch(Exception $e){
             echo $e;
@@ -121,6 +167,18 @@
         if($passwordOne != $passwordTwo)
             return false;
         return true;
+    }
+
+    //Checks if customer_name already exists
+    function checkCustomerNameAvailability($customername, $dbc){
+
+        //Connec to the db and check if any username matches input
+        if($result = $dbc -> query("SELECT customer_name FROM customer WHERE customer_name='$customername'")){
+            if($result -> num_rows > 0)  //If username matches have been found
+                return false;
+            return true;
+        }
+        return false;
     }
 
     //Sends the login error message but also redirects the user
