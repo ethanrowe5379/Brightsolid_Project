@@ -70,6 +70,8 @@
             mysqli_query($dbc, $sqlUpdateQuery);
             mysqli_query($dbc, $unlockTables);
 
+            $_SESSION['dataRaceCondition']  = "Exception: ".$exceptionID." updated.";
+
         }catch(Exception $e){
             echo $e;
         }

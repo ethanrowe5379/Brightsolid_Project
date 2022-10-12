@@ -70,6 +70,8 @@
             mysqli_query($dbc, $lockTable);
             mysqli_query($dbc, $userInsert);
             mysqli_query($dbc, $unlockTables);
+
+            $_SESSION['dataRaceCondition']  = "Exception: ".$exceptionID." suspended.";
         }catch(Exception $e){
             echo $e;
         }

@@ -19,6 +19,17 @@
   else{
     header("Location: PHP/Index.php"); //Goes back to login page
   }
+
+  if(isset($_SESSION['dataRaceCondition'])){
+    
+    $msg = $_SESSION['dataRaceCondition'];
+    unset($_SESSION['dataRaceCondition']);
+
+    echo'<script>alert("'.$msg.'")</script>';
+  }
+
+
+
 ?>
 
 <!DOCTYPE html>
