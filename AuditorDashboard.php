@@ -65,60 +65,6 @@
                   <button class="btn btn-primary" type="submit" name="LogOut">Log Out</button>
                 </form>
               </li>
-              
-              <li class="nav-item">
-                <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Passed
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li> 
-
-                      <table class="table table-bordered  table-detailed-view">
-                        <thead class="table-dark">
-                          <tr>
-                            <th scope="col">Rule ID</th>
-                            <th scope="col">Resource ID</th>
-                            <th scope="col">Resource Name</th>
-                            <th scope="col">Justification</th>
-                            <th scope="col">Review Date</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <?php upComingReviews($dbc, 0); ?>
-                        </tbody>
-                      </table> 
-                    </li>
-                  </ul>
-                </div>
-              </li>
-
-              <li class="nav-item">
-                <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Upcoming - 30 days
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li> 
-
-                      <table class="table table-bordered  table-detailed-view">
-                        <thead class="table-dark">
-                          <tr>
-                            <th scope="col">Rule ID</th>
-                            <th scope="col">Resource ID</th>
-                            <th scope="col">Resource Name</th>
-                            <th scope="col">Justification</th>
-                            <th scope="col">Review Date</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <?php upComingReviews($dbc, 1); ?>
-                        </tbody>
-                      </table> 
-                    </li>
-                  </ul>
-                </div>
-              </li>
             </ul>
           </div>
         </div>

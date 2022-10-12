@@ -36,7 +36,6 @@
 
         //Add expection
         insertException($customerID, $userID, $userName, $resourceID, $ruleID, $expValue, $justValue, $rvwDate, $currentDate, $dbc);
-        addExceptionAudit($customerID, $userID, $userName, $resourceID, $ruleID, $expValue, $justValue, $rvwDate, $currentDate, $dbc);
         header("Location: ../ManagerDashboard.php");
 
         //Delete from non_compliance table
@@ -52,8 +51,11 @@
         
         //Checks if exception id
         if ($result = $dbc -> query("SELECT resource_id, rule_id, customer_id FROM exception WHERE customer_id='$customerID' AND resource_id='$resourceID' AND rule_id='$ruleID'")) { 
-            if($result -> num_rows == 1)
+            if($result -> num_rows >= 1){
+                $_SESSION['dataRaceCondition']  = "Error: Exception already exists";
                 header("Refresh:0");
+                return;
+            }   
         }
 
         $lockTable = "LOCK TABLES exception WRITE;";
@@ -68,8 +70,8 @@
             mysqli_query($dbc, $userInsert);
             mysqli_query($dbc, $unlockTables);
 
-            //errorMessage("User: " . $username . " has been added successfully.", $dbc);
-
+            $_SESSION['dataRaceCondition']  = "Exception created.";
+            addExceptionAudit($customerID, $userID, $userName, $resourceID, $ruleID, $expValue, $justValue, $rvwDate, $currentDate, $dbc);
         }catch(Exception $e){
             echo $e;
         }
