@@ -52,8 +52,10 @@
         
         //Checks if exception id
         if ($result = $dbc -> query("SELECT resource_id, rule_id, customer_id FROM exception WHERE customer_id='$customerID' AND resource_id='$resourceID' AND rule_id='$ruleID'")) { 
-            if($result -> num_rows == 1)
+            if($result -> num_rows >= 1){
                 header("Refresh:0");
+                return;
+            }
         }
 
         $lockTable = "LOCK TABLES exception WRITE;";
