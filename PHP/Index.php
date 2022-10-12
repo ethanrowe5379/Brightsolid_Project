@@ -31,7 +31,7 @@
             <h1>Login</h1>
             <input type="text" placeholder="Enter Username" name="uname" required><br>
             <input type="password" placeholder="Enter Password" name="psw" required><br>
-            <button class="btn btn-primary" type="submit" id="LoginSubmit">Login</button>
+            <button class="btn btn-primary" type="submit" id="LoginSubmit" name="LoginSubmit">Login</button>
             <div>
               <p class="text-center" id="LoginStatus">
                 <?php 
