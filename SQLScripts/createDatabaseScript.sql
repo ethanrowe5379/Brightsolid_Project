@@ -4,11 +4,11 @@ A script to create all the tables needed for the BrightSolid project database
 
 -- **********************************************************************
 
-DROP DATABASE IF EXISTS `brightsoliddb`;
+DROP DATABASE IF EXISTS `jamiefergusdb`;
 
-CREATE DATABASE `brightsoliddb`;
+CREATE DATABASE `jamiefergusdb`;
 
-USE `brightsoliddb`;
+USE `jamiefergusdb`;
 
 -- **********************************************************************
 
