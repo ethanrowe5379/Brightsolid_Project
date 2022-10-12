@@ -42,37 +42,91 @@
     include "PHP/dbConnect.php";
   ?>
 
-    <header>
-      <nav class="navbar .navbar-expand">  <!--add to close to disable hamburger on desktop navbar-expand-lg -->
-        <div class="container-fluid">
-          <img src="PHP/Graphics\BrightSolidLogo.png" alt="BrightSolidLogo" width="200" height="40" class="d-inline-block align-text-top">
+  <header>
+    <nav class="navbar fixed-top">  <!--add to close to disable hamburger on desktop navbar-expand-lg -->
+      <div class="container-fluid">
+        <img src="PHP/Graphics\BrightSolidLogo.png" alt="BrightSolidLogo" width="200" height="40" class="d-inline-block align-text-top">
 
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          
-          <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav"></ul>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav"></ul>
 
-            <div class="navbar-text">
-              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                  <?php echo"<p>Username: ".$_SESSION['userName']."</p>" ?>
-                </li>
-                <li class="nav-item">
-                  <?php echo"<p>Role: ".$_SESSION['userRole']."</p>" ?>
-                </li>
-                <li class="nav-item">
-                  <form action="AuditorDashboard.php" method="post">
-                    <button class="btn btn-primary" type="submit" name="LogOut">Log Out</button>
-                  </form>
-                </li>
-              </ul>
-            </div>
+          <div class="navbar-text">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <?php echo"<p>Username: ".$_SESSION['userName']."</p>" ?>
+              </li>
+              <li class="nav-item">
+                <?php echo"<p>Role: ".$_SESSION['userRole']."</p>" ?>
+              </li>
+              <li class="nav-item">
+                <form action="AuditorDashboard.php" method="post">
+                  <button class="btn btn-primary" type="submit" name="LogOut">Log Out</button>
+                </form>
+              </li>
+              
+              <li class="nav-item">
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Passed
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li> 
+
+                      <table class="table table-bordered  table-detailed-view">
+                        <thead class="table-dark">
+                          <tr>
+                            <th scope="col">Rule ID</th>
+                            <th scope="col">Resource ID</th>
+                            <th scope="col">Resource Name</th>
+                            <th scope="col">Justification</th>
+                            <th scope="col">Review Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php upComingReviews($dbc, 0); ?>
+                        </tbody>
+                      </table> 
+                    </li>
+                  </ul>
+                </div>
+              </li>
+
+              <li class="nav-item">
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Upcoming - 30 days
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li> 
+
+                      <table class="table table-bordered  table-detailed-view">
+                        <thead class="table-dark">
+                          <tr>
+                            <th scope="col">Rule ID</th>
+                            <th scope="col">Resource ID</th>
+                            <th scope="col">Resource Name</th>
+                            <th scope="col">Justification</th>
+                            <th scope="col">Review Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php upComingReviews($dbc, 1); ?>
+                        </tbody>
+                      </table> 
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
-      </nav>
-  </header>
+      </div>
+    </nav>
+    </header>
 
   <main>
     <div class="container">
@@ -89,7 +143,7 @@
         $overallTotalCompliant = 0;
 
         $accountToBeFound = $_SESSION["customerID"];
-        //$accountToBeFound = 1; // DELETE THIS AFTER TESTING///////////////////////////////////////////////////////////
+        //$accountToBeFound = 2; // DELETE THIS AFTER TESTING///////////////////////////////////////////////////////////
         $findAccount = "SELECT account_id FROM account WHERE customer_id='$accountToBeFound';";
         $resultAccounts = $dbc->query($findAccount);
 
@@ -99,7 +153,7 @@
           $accountRow = $resultAccounts->fetch_assoc();
           $foundAccountID = $accountRow["account_id"];
 
-          reviewDatePassed($dbc, $foundAccountID);
+          //reviewDatePassed($dbc, $foundAccountID);
       ?>
         <table class="table table-striped table-bordered table-hover" id="ruleTable">
           <thead class="table-dark">
@@ -208,6 +262,7 @@
   
           $totalResources = $dataCountResources['count'];
           $totalNon_compliant = $dataCountNon_compliance['count'] - $dataCountExceptions['count'];
+          $totalExceptions = $dataCountExceptions['count'];
           
           $totalcompliant = $totalResources - $totalNon_compliant;
           
@@ -231,7 +286,7 @@
           
   
           echo'
-          <td>'. $totalcompliant .' / '. $totalResources .'</td>
+          <td><strong>'. $totalcompliant .'</strong> / <strong>'. $totalResources .'</strong> compliant with <strong>'. $totalExceptions .'</strong> exceptions</td>
           <!--<td>'. $compliantStatus .'</td>-->
           
           <td> 
@@ -477,7 +532,7 @@
     echo '
 
       <td>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditModal' . $currentExceptionID . '">Update</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditModal' . $currentExceptionID .  '">Update</button>
 
         <div class="modal fade" id="EditModal' . $currentExceptionID . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -492,7 +547,6 @@
                   <form action="PHP/EditExceptionBackEnd.php" method="post" autocomplete="off"> 
                     <div class="container">
     ';
-                            
                       $sqlQuery = "SELECT justification, exception_value, review_date FROM exception WHERE exception_id='$currentExceptionID'";
 
                       $justificationValue = "";
@@ -524,7 +578,7 @@
                         <input type="text" value="'.$exceptionValue.'" name="updateExpValue"  id="updateExpValue" required><br>
                         
                         <label for="updateRvwDate" class="form-label">Review Date</label>
-                        <input type="datetime-local" name="updateRvwDate" id="updateRvwDate'.$currentResourceID.'" required><br>
+                        <input type="datetime-local" name="updateRvwDate" id="updateRvwDate'.$currentResourceID . $idDifference.'" required><br>
 
                         <script>
                           var thisTime = new Date().toISOString().slice(0, -8) //The current time (min)
@@ -551,9 +605,9 @@
   function suspendExceptionButton($dbc, $currentExceptionID){
     echo '
     <td>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#SuspendModal' . $currentExceptionID . '">Suspend</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#SuspendModal' . $currentExceptionID .  '">Suspend</button>
 
-        <div class="modal fade" id="SuspendModal' . $currentExceptionID . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="SuspendModal' . $currentExceptionID .'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -588,7 +642,7 @@
                         <input type="text" placeholder="Exception ID" name="suspendExceptionID" id="suspendExceptionID" value="'. $currentExceptionID .'" required readonly><br>
 
                         <label for="suspendExceptionValue" class="form-label">Exception Value</label>
-                        <input type="text" name="suspendExceptionValue" id="suspendExceptionValue'. $exceptionValue.'" value="'. $exceptionValue .'"required readonly><br>
+                        <input type="text" name="suspendExceptionValue" id="suspendExceptionValue'. $exceptionValue. '" value="'. $exceptionValue .'"required readonly><br>
 
                         <p>To continue, press the button below</p>
 
@@ -608,28 +662,15 @@
   }
 
   /* We will need the expcetion ID*/
-  function viewResourceAudit($dbc, $currentRuleID, $currentResourceID, $foundAccountID){
+  function viewResourceAudit($dbc, $currentRuleID, $currentResourceID){
 
-    $lookForThis = "";
-    if ($result = $dbc -> query("SELECT resource_name FROM resource WHERE resource_id ='$currentResourceID'")){
-      if($result -> num_rows == 1){
-        $row = $result->fetch_assoc();
-        $lookForThis = $row['resource_name'];
-      }
-    }
+    $customerID = $_SESSION['customerID'];  
 
+    $getAudits =
+    "SELECT customer_id, rule_id, exception_id, action, action_dt, old_review_date, exception_id FROM exception_audit WHERE rule_id='$currentRuleID' AND resource_id='$currentResourceID' 
+    AND customer_id = '$customerID'";
 
-    $sqlQuery = 
-    "SELECT exception_id, action, action_dt, old_review_date, exception_id FROM exception_audit
-    JOIN rule
-    ON rule.rule_id = exception_audit.rule_id
-    JOIN resource
-    on resource.resource_type_id = rule.resource_type_id
-    WHERE rule.rule_id = " . $currentRuleID . " AND resource.account_id = '$foundAccountID' AND exception_audit.old_exception_value = '$lookForThis' 
-    AND resource.resource_id = $currentResourceID;
-    ";
-
-    $auditResult = mysqli_query($dbc, $sqlQuery);
+    $auditResult = mysqli_query($dbc, $getAudits);
 
     echo'
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AuditModal'.$currentResourceID. $currentRuleID .'">View</button>
@@ -683,127 +724,78 @@
     }
   }
 
+  //Gets all the exceptions with upcoming reviews in the next 30 days
+  function upComingReviews($dbc, $reviewDate){
 
-  //Checks if the exception review date is in the past or not
-  function reviewDatePassed($dbc, $foundAccountID){
-
-    //Query to find expcetions which belong to this user's customers
-    $sqlQuery = "SELECT exception_id, review_date 
-    FROM exception
-    JOIN resource
-    ON resource.resource_id = exception.resource_id
-    WHERE resource.account_id = '$foundAccountID'";
-
-    $reviewQuery = mysqli_query($dbc, $sqlQuery);
-
-    //If records have been found 
-    if($reviewQuery){
-      if($reviewQuery -> num_rows > 0){
-        while ($rowExceptions = $reviewQuery->fetch_assoc()) {
-
-          $reviewDate = $rowExceptions['review_date'];
-          $exceptionID = $rowExceptions['exception_id'];
-          
-          //Subtracts the BST VS GMT difference at the end of string
-          if (strpos($reviewDate, '+0000')) {
-            $reviewDate = trim($reviewDate, "+0000");
-            $currentTime = date('Y-m-d H:i:s');
-          }
-          else{
-            $reviewDate = trim($reviewDate, "+0100");
-            $currentTime = date('Y-m-d H:i:s', strtotime('-1 hours'));
-          }
-            
-          //Suspends the over due review
-          if(strtotime($reviewDate) <= strtotime($currentTime)) {
-            suspendReviewException($dbc, $exceptionID);
-          }
-        }
-      }
-    }
-  }
-
-
-  //Suspends the exceptions
-  function suspendReviewException($dbc, $exceptionID){
-
-    $lastUpdatedBy = $_SESSION['userID'];
     $customerID = $_SESSION['customerID'];
+  
+    $sqlQuery = "SELECT * FROM exception 
+    LEFT JOIN resource
+    ON resource.resource_id = exception.resource_id
+    WHERE customer_id = '$customerID'";
+    
+    $upcomingReviewsResult = $dbc->query($sqlQuery);
 
-    $disableForeignKeyCheck = "SET FOREIGN_KEY_CHECKS=0;";
-    $enableForeignKeyCheck = "SET FOREIGN_KEY_CHECKS=1;";
+    if($upcomingReviewsResult){
+      if($upcomingReviewsResult -> num_rows > 0){
 
-    suspendExceptionAudit($exceptionID, $lastUpdatedBy, $customerID, $dbc);
+        while ($upcomingExceptions = $upcomingReviewsResult->fetch_assoc()) {
 
-    $sqlQuery = "DELETE FROM exception WHERE exception_id ='$exceptionID';";
+          $currentExceptionID = $upcomingExceptions['exception_id'];
+          $currentResourceID = $upcomingExceptions['resource_id'];
 
-    mysqli_query($dbc, $disableForeignKeyCheck);
-    $result = mysqli_query($dbc, $sqlQuery);
-    mysqli_query($dbc, $enableForeignKeyCheck);
-
-    header("Refresh:0");
-  }
-
-
-    //Creates a nwe entry to the exception audit
-    function suspendExceptionAudit($exceptionID, $userID, $customerID, $dbc){
-
-      $justification = "";
-      $review_date = "";
-      $ruleID = "";
-      $exceptionValue = "";
-      $lastUpdated = getCurrentTime(date("Y-m-d H:i:s.v"));
-
-      $exceptionValues = "SELECT justification, review_date, exception_value, rule_id FROM exception WHERE exception_id='$exceptionID'";
-      try{
-          $suspendAduit = mysqli_query($dbc, $exceptionValues);
-          if($suspendAduit -> num_rows == 1){
-
-              $row = $suspendAduit->fetch_assoc();
-
-              $exceptionValue = $row['exception_value'];
-              $justification = $row['justification'];
-              $review_date = $row['review_date'];
-              $ruleID = $row['rule_id'];
+          if(reviewDatePassed($dbc, $upcomingExceptions['review_date']) == $reviewDate){
+            echo '<tr>';
+            echo '<th scope="row">'. $upcomingExceptions['rule_id']  . '</th>';
+            echo '<td>'. $upcomingExceptions['resource_id']  . '</td>';
+            echo '<td>'. $upcomingExceptions['resource_name']  . '</td>';
+            echo '<td>'. $upcomingExceptions['justification']  . '</td>';
+            echo '<td>'. $upcomingExceptions['review_date'] . '</td>';
+            echo '</tr>';
           }
-
-      }catch(Exception $e){
-          echo $e;
+        }
       }
-
-      
-      //Locks and unlocks tavles
-      $lockTable = "LOCK TABLES exception_audit WRITE;";
-      $unlockTables = "UNLOCK TABLES;";
-
-      //Adds to audit table ---CHANGE IT TO REVIEW_DATE WHEN THE DB IS FIXED
-      $userInsert = "INSERT INTO `exception_audit` 
-      (`exception_audit_id`,`exception_id`,`user_id`,`customer_id`, `rule_id`, `action`, `action_dt`, `old_exception_value`, `new_exception_value`, `old_justification`, `new_justification`, `old_review_date`, `new_review_date`)
-      VALUES(NULL, '$exceptionID', '$userID', '$customerID',' $ruleID', 'suspend', '$lastUpdated', '$exceptionValue', '$exceptionValue', '$justification', '$justification', '$review_date', '$review_date');";
-
-      try{
-          mysqli_query($dbc, $lockTable);
-          mysqli_query($dbc, $userInsert);
-          mysqli_query($dbc, $unlockTables);
-      }catch(Exception $e){
-          echo $e;
-      }
+    }
   }
 
-    //Sets if the current time is in BST or GMT
-    function getCurrentTime($dateToFormat){
+  //Checks if the date is in the past or future and returns true(in future/upcoming) or false(passed)
+  function reviewDatePassed($dbc, $reviewDate){
 
-        //To check if in BST or GMT was taken from Stack Overflow https://stackoverflow.com/questions/29123753/detect-bst-in-php
-        $dateTest = strtotime($dateToFormat); 
-        if (date('I', $dateTest)) {
-            $dateToFormat = $dateToFormat . " +0100";
-        } else {
-            $dateToFormat = $dateToFormat . " +0000";
-        }
-        return $dateToFormat;
+    //Subtracts the BST VS GMT difference at the end of string
+    if (strpos($reviewDate, '+0000')) {
+      $reviewDate = trim($reviewDate, "+0000");
+      $currentTime = date('Y-m-d H:i:s');
     }
+    else{
+      $reviewDate = trim($reviewDate, "+0100");
+      $currentTime = date('Y-m-d H:i:s', strtotime('-1 hours'));
+    }
+  
+    //Date 30 days in the future
+    $compareUpcoming = date('Y-m-d H:i:s', strtotime('+30 days'));
 
+    if(strtotime($reviewDate) < strtotime($currentTime))
+      return 0;//passed
 
+    //If the date is within 30 days
+    if(strtotime($reviewDate) < strtotime($compareUpcoming))
+      return 1;//Upcoming
+  
+    return 3; //way in the future
+  }
+
+  //Sets if the current time is in BST or GMT
+  function getCurrentTime($dateToFormat){
+
+      //To check if in BST or GMT was taken from Stack Overflow https://stackoverflow.com/questions/29123753/detect-bst-in-php
+      $dateTest = strtotime($dateToFormat); 
+      if (date('I', $dateTest)) {
+          $dateToFormat = $dateToFormat . " +0100";
+      } else {
+          $dateToFormat = $dateToFormat . " +0000";
+      }
+      return $dateToFormat;
+  }
 ?>
 
 <script>

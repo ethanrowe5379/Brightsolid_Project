@@ -137,6 +137,7 @@ main{
 .table-sort {
 	position: relative;
 }
+
 .table-sort:before,
 .table-sort:after {
 	border: 4px solid transparent;
@@ -146,10 +147,12 @@ main{
 	top: 50%;
 	position: absolute;
 }
+
 .table-sort:before {
 	border-bottom-color: white;
 	margin-top: -9px;
 }
+
 .table-sort:after {
 	border-top-color: white;
 	margin-top: 1px;
