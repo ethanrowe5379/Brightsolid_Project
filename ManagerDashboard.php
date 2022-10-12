@@ -578,7 +578,7 @@
                         <input type="text" value="'.$exceptionValue.'" name="updateExpValue"  id="updateExpValue" required><br>
                         
                         <label for="updateRvwDate" class="form-label">Review Date</label>
-                        <input type="datetime-local" name="updateRvwDate" id="updateRvwDate'.$currentResourceID . $idDifference.'" required><br>
+                        <input type="datetime-local" name="updateRvwDate" id="updateRvwDate'.$currentResourceID .'" required><br>
 
                         <script>
                           var thisTime = new Date().toISOString().slice(0, -8) //The current time (min)
