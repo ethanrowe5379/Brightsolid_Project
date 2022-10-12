@@ -28,8 +28,6 @@
     echo'<script>alert("'.$msg.'")</script>';
   }
 
-
-
 ?>
 
 <!DOCTYPE html>
@@ -779,7 +777,7 @@
     }
     else{
       $reviewDate = trim($reviewDate, "+0100");
-      $currentTime = date('Y-m-d H:i:s', strtotime('-1 hours'));
+      $currentTime = date('Y-m-d H:i:s');
     }
   
     //Date 30 days in the future
