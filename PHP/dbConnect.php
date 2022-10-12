@@ -1,6 +1,6 @@
 <?php
     //LOCAL
-    // $dbc = mysqli_connect('localhost', 'root', '', 'brightsoliddb');
+    // $dbc = mysqli_connect('localhost', 'root', '', 'jamiefergusdb');
     // // Check connection
     // if ($dbc -> connect_errno) {
     //     echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
@@ -12,7 +12,7 @@
         "silva.computing.dundee.ac.uk",
         "jamiefergus", //username
         "AC32006", //password
-        "brightsoliddb" //database name
+        "jamiefergusdb" //database name
     );
 
     if (!$dbc) {
