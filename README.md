@@ -516,3 +516,42 @@ John
 - Working on issue # 53
 
 
+## Meeting (12th Oct)
+### Members Present:
+DJ Dorren, Ethan Rowe, Jamie Fergus, Daniel Jakubek, John Harrow
+
+### Members Not Present:
+n/a
+
+### Apologies:
+n/a
+
+### Summary of Conversation:
+Daniel 
+- Yesterday I started working on the manager being able to see upcoming review dates.
+- I was planning on having a button next to this so it links to the exception but this is a lot of work for little reward esspecially this close to the deadline.
+- All works with limited issues but I added it in for the auditor aswell so I'll have to remove it from that page.
+- Today I will be helping John with his stuff and making mine look more like DJ's designs.
+
+Jamie
+- Yesterday I was working on the ability to sort tables and adding how many exceptions are in the compliance status column on the dashboard.
+- So you can now sort the tables by compliance / non-compliance in the detailed view like the client asked for and also some other tables.
+- I could also add a search bar today but that depends on time.
+- One issue from yesterday is Daniel and I found that you can create a datarace on creating an exception if two diffrent users are creating these at the same time.
+
+John
+- I will just be adding in the customer adding again today 
+- No issues yet just need to test
+
+Ethan
+- I've been working on me part of the report and the user testing questions.
+- Will show it to everyone before it's sent out
+- No issues yet
+
+DJ
+- Yesterday I worked on the report, finnished the background section.
+- Talked with Jamie about me taking over his section of the report so I'll be doing that today.
+- No issues.
+
+
+
