@@ -61,6 +61,21 @@ header{
 
 }
 
+/* Medium devices (landscape tablets, 768px and down) */
+@media only screen and (max-width: 768px) {
+    
+    .graph1{
+        max-width: 277px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #DashboardHeading{
+        text-align: center;
+    }
+
+}
+
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
     
@@ -69,6 +84,16 @@ header{
     }
 
 }
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (max-width: 992px) {
+
+    .table-rule-desc{
+        display: none !important;
+    }
+
+}
+
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
@@ -169,4 +194,17 @@ main{
 .table-sort:after {
 	border-top-color: white;
 	margin-top: 1px;
+}
+
+.table-btn{
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+}
+
+.table>:not(caption)>*>* {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    vertical-align: middle;
 }
