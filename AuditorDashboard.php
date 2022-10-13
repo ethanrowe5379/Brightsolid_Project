@@ -74,12 +74,16 @@
   
     <main>
       <div class="container">
-        <h1>Compliance Dashboard</h1>
-        <div class="graph" style="width:40%;">
-          <canvas id="PieChart"></canvas>
+        <div id="DashboardHeading">
+          <h1>Compliance Dashboard</h1>
         </div>
-        <div class="graph" style="width:40%;">
-          <canvas id="BarChart"></canvas>
+        <div class="chart-container row">
+          <div class="graph1 col-md-4">
+            <canvas id="PieChart"></canvas>
+          </div>
+          <div class="graph2 col-md-8">
+            <canvas id="BarChart"></canvas>
+          </div>
         </div>
         <?php  
 
@@ -156,7 +160,7 @@
           ?>
 
           <script>
-            ruleArray.push("<?php echo $row['rule_name']; ?>")
+            ruleArray.push("<?php echo 'rule ' . $row['rule_id']; ?>");
             console.log(ruleArray);
           </script>
 

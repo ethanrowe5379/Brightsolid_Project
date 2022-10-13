@@ -139,13 +139,17 @@
 
   <main>
     <div class="container">
-      <h1>Compliance Dashboard</h1>
-      <div class="graph" style="width:40%;">
+      <div id="DashboardHeading">
+        <h1>Compliance Dashboard</h1>
+      </div>
+      <div class="chart-container row">
+        <div class="graph1 col-md-4">
           <canvas id="PieChart"></canvas>
         </div>
-        <div class="graph" style="width:40%;">
+        <div class="graph2 col-md-8">
           <canvas id="BarChart"></canvas>
         </div>
+      </div>
       <?php  
 
         $overallTotalResources = 0;
@@ -225,7 +229,7 @@
           ?>
 
           <script>
-            ruleArray.push("<?php echo $row['rule_name']; ?>")
+            ruleArray.push("<?php echo 'rule ' . $row['rule_id']; ?>");
             console.log(ruleArray);
           </script>
 
