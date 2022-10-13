@@ -100,9 +100,12 @@ header{
 
 }
 
-.accordion-body{
+.accordion-body,
+.review-dropdown-li,
+.review-dropdown
+{
     padding-top: 0;
-    padding-bottom: 0;
+    padding-bottom: 0 ;
     padding-left: 0;
     padding-right: 0;
 }
@@ -111,16 +114,29 @@ header{
     margin-bottom: 0;
 }
 
-.noExceptionHeading{
+.table-detailed-view tr{
+    border: rgb(80, 80, 80) solid 1px;
+}
+
+.noExceptionHeading,
+.noResourceHeading{
     text-align: center;
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
 
-.noResourceHeading{
+.noPassedDiv h6,
+.noUpcomingDiv h6{
     text-align: center;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+#resourceNonCompliant{
+    background-color: rgb(255, 127, 127);
+}
+#resourceCompliant{
+    background-color: rgb(204, 255, 204);
 }
 
 /* IMPORTANT */
@@ -141,15 +157,12 @@ input[type=datetime-local], input[type=text], input[type=password], input[type=n
     color: red;
   }
   
-  #LoginSubmit, #CreateUser, #createExceptionConfirm {
-    background-color: black;
+#LoginSubmit, #CreateUser, #createExceptionConfirm, .btn {
+    background-color: rgb(33, 37, 41) !important;
     color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
     border: none;
     cursor: pointer;
-    width: 100%;
-  }
+}
 
 .navbar{
     background-color: rgb(241, 180, 52);

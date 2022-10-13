@@ -297,34 +297,39 @@
                     <th class="table-sort" scope="col" onclick="sortTable(3, '; echo "'$resourceTableID'"; echo')">Exception</th>
                   </tr>
                 </thead>
-                <tbody>
-                ';
-                  while ($rowResources = $resultResources->fetch_assoc()) {
-                    echo '<tr>';
-                      echo '<td scope="row"><strong>'. $rowResources['resource_id']  .'</strong></td>';
-                      echo '<td>'. $rowResources['resource_name'] . '</td>';
-                      
-                      echo '<td>';
-                      if($rowResources['noncompliant'] == NULL or $rowResources['exception'] != NULL){
-                        echo 'Compliant';
-                      }else{
-                        echo 'Non-Compliant';
-                      }
-                      echo '</td>';
+              <tbody>
+              ';
+                while ($rowResources = $resultResources->fetch_assoc()) {
 
-                      echo '<td>';
-                      if($rowResources['exception'] != NULL){
-                        echo 'Yes';
-                      }
-                      echo '</td>';
+                  if($rowResources['noncompliant'] == NULL or $rowResources['exception'] != NULL)
+                    $tableRow = "resourceCompliant";
+                  else
+                    $tableRow = "resourceNonCompliant";
+                  
+                  echo '<tr id="'.$tableRow.'">';
+                    echo '<td scope="row"><strong>'. $rowResources['resource_id']  .'</strong></td>';
+                    echo '<td>'. $rowResources['resource_name'] . '</td>';
+                    
+                    if($rowResources['noncompliant'] == NULL or $rowResources['exception'] != NULL){
+                      echo '<td id="resourceCompliant">Compliant</td>';
+                    }else{
+                      echo '<td id="resourceNonCompliant">Non-Compliant</td>';
+                    }
+
+                    echo '<td>';
+                    if($rowResources['exception'] != NULL){
+                      echo 'Yes';
+                    }
+                    echo '</td>';
 
 
-                    echo '</tr>';
-                  }
-                echo'  
+                  echo '</tr>';
+                }
+              echo'  
                 </tbody>
               </table>
             </div>
+
             ';
           }
         echo'
