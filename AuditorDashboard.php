@@ -288,7 +288,7 @@
           $resourceTableID = "resourceTable_". $row['rule_id'];
           echo'
             <div class="table-responsive">
-              <table class="table table-detailed-view" id="'. $resourceTableID .'">
+              <table class="table table-detailed-view table-hover" id="'. $resourceTableID .'">
                 <thead class="table-dark">
                   <tr>
                     <th class="table-sort" scope="col" onclick="sortTable(0, '; echo "'$resourceTableID'"; echo')">Resource ID</th>
@@ -368,7 +368,7 @@
             $exceptionTableID = "exceptionTable_". $row['rule_id'];
             echo '
             <div class="table-responsive">
-              <table class="table table-detailed-view" id="'. $exceptionTableID .'">
+              <table class="table table-detailed-view table-hover" id="'. $exceptionTableID .'">
                 <thead class="table-dark">
                   <tr>
                     <th class="table-sort" scope="col" onclick="sortTable(0, '; echo "'$exceptionTableID'"; echo')">Resource ID</th>
