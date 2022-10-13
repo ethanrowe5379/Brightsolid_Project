@@ -300,7 +300,7 @@
           
           <td> 
           
-            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom_'. $row['rule_id'] .'" aria-controls="offcanvasBottom_'. $row['rule_id'] .'">Detailed Report</button>
+            <button class="table-btn btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom_'. $row['rule_id'] .'" aria-controls="offcanvasBottom_'. $row['rule_id'] .'">Detailed Report</button>
             
             <div class="h-100 offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom_'. $row['rule_id'] .'" aria-labelledbcy="offcanvasBottom_'. $row['rule_id'] .'_Label">
               <div class="offcanvas-header">
@@ -487,7 +487,7 @@
 
     if($rowResources['noncompliant'] != NULL && $rowResources['exception'] == NULL){
       echo'
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal'. $currentResourceID . '">Create</button>
+        <button class="table-btn btn btn-primary" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal'. $currentResourceID . '">Create</button>
 
         <div class="modal fade" id="Modal'. $currentResourceID . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -541,7 +541,7 @@
     echo '
 
       <td>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditModal' . $currentExceptionID .  '">Update</button>
+        <button class="table-btn btn btn-primary" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditModal' . $currentExceptionID .  '">Update</button>
 
         <div class="modal fade" id="EditModal' . $currentExceptionID . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -614,7 +614,7 @@
   function suspendExceptionButton($dbc, $currentExceptionID){
     echo '
     <td>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#SuspendModal' . $currentExceptionID .  '">Suspend</button>
+      <button class="table-btn btn btn-primary" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#SuspendModal' . $currentExceptionID .  '">Suspend</button>
 
         <div class="modal fade" id="SuspendModal' . $currentExceptionID .'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -682,7 +682,7 @@
     $auditResult = mysqli_query($dbc, $getAudits);
 
     echo'
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AuditModal'.$currentResourceID. $currentRuleID .'">View</button>
+      <button class="table-btn btn btn-primary" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AuditModal'.$currentResourceID. $currentRuleID .'">View</button>
         <div class="modal fade" id="AuditModal'.$currentResourceID. $currentRuleID .'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
