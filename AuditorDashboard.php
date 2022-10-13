@@ -102,7 +102,7 @@
             $accountRow = $resultAccounts->fetch_assoc();
             $foundAccountID = $accountRow["account_id"];
         ?>
-    
+        <div class="table-responsive">
           <table class="table table-striped table-bordered table-hover" id="ruleTable">
             <thead class="table-dark">
               <tr>
@@ -117,7 +117,7 @@
               <?php tbodyInsert($dbc, $foundAccountID, $overallTotalResources, $overallTotalCompliant); ?>
             </tbody>
           </table>
-
+        </div>
         <?php 
           }
           else{

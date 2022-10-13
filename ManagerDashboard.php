@@ -168,6 +168,7 @@
 
           //reviewDatePassed($dbc, $foundAccountID);
       ?>
+      <div class="table-responsive">
         <table class="table table-striped table-bordered table-hover" id="ruleTable">
           <thead class="table-dark">
             <tr>
@@ -184,6 +185,7 @@
             ?>
           </tbody>
         </table>
+      </div>
       <?php 
         }
         else{
