@@ -139,13 +139,17 @@
 
   <main>
     <div class="container">
-      <h1>Compliance Dashboard</h1>
-      <div class="graph" style="width:40%;">
+      <div id="DashboardHeading">
+        <h1>Compliance Dashboard</h1>
+      </div>
+      <div class="chart-container row">
+        <div class="graph1 col-md-4">
           <canvas id="PieChart"></canvas>
         </div>
-        <div class="graph" style="width:40%;">
+        <div class="graph2 col-md-8">
           <canvas id="BarChart"></canvas>
         </div>
+      </div>
       <?php  
 
         $overallTotalResources = 0;
@@ -164,12 +168,13 @@
 
           //reviewDatePassed($dbc, $foundAccountID);
       ?>
+      <div class="table-responsive">
         <table class="table table-striped table-bordered table-hover" id="ruleTable">
           <thead class="table-dark">
             <tr>
               <th class="table-sort" scope="col" onclick="sortTable(0, 'ruleTable')">ID</th>
               <th class="table-sort" scope="col" onclick="sortTable(1, 'ruleTable')">Rule Name</th>
-              <th scope="col">Rule Description</th>
+              <th class="table-rule-desc" scope="col">Rule Description</th>
               <th scope="col">Compliance</th>
               <th scope="col"></th>
             </tr>
@@ -180,6 +185,7 @@
             ?>
           </tbody>
         </table>
+      </div>
       <?php 
         }
         else{
@@ -220,12 +226,12 @@
         <tr>
           <td><strong>'. $row['rule_id'] .'</strong></td>
           <td>'. $row['rule_name'] .'</td>
-          <td>'. $row['rule_description'] .'</td>';
+          <td class="table-rule-desc">'. $row['rule_description'] .'</td>';
 
           ?>
 
           <script>
-            ruleArray.push("<?php echo $row['rule_name']; ?>")
+            ruleArray.push("<?php echo 'rule ' . $row['rule_id']; ?>");
             console.log(ruleArray);
           </script>
 
@@ -300,7 +306,7 @@
           
           <td> 
           
-            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom_'. $row['rule_id'] .'" aria-controls="offcanvasBottom_'. $row['rule_id'] .'">Detailed Report</button>
+            <button class="table-btn btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom_'. $row['rule_id'] .'" aria-controls="offcanvasBottom_'. $row['rule_id'] .'">Detailed Report</button>
             
             <div class="h-100 offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom_'. $row['rule_id'] .'" aria-labelledbcy="offcanvasBottom_'. $row['rule_id'] .'_Label">
               <div class="offcanvas-header">
@@ -354,6 +360,7 @@
         else{
           $resourceTableID = "resourceTable_". $row['rule_id'];
           echo'
+          <div class="table-responsive">
             <table class="table table-detailed-view" id="'. $resourceTableID .'">
               <thead class="table-dark">
                 <tr>
@@ -395,7 +402,8 @@
               echo'  
               </tbody>
             </table>
-            ';
+          </div>
+          ';
           }
         echo'
         </div>
@@ -434,41 +442,43 @@
           else{
             $exceptionTableID = "exceptionTable_". $row['rule_id'];
             echo '
-            <table class="table table-detailed-view" id="'. $exceptionTableID .'">
-              <thead class="table-dark">
-                <tr>
-                  <th class="table-sort" scope="col" onclick="sortTable(0, '; echo "'$exceptionTableID'"; echo')">Resource ID</th>
-                  <th class="table-sort" scope="col" onclick="sortTable(1, '; echo "'$exceptionTableID'"; echo')">Justification</th>
-                  <th class="table-sort" scope="col" onclick="sortTable(2, '; echo "'$exceptionTableID'"; echo')">Review Date</th>
-                  <th class="table-sort" scope="col" onclick="sortTable(3, '; echo "'$exceptionTableID'"; echo')">Last Updated By</th>
-                  <th scope="col">Edit</th>
-                  <th scope="col">Suspend</th>
-                </tr>
-              </thead>
-              <tbody>
-                ';
-                
-                while ($rowExceptions = $resultExceptions->fetch_assoc()) {
+            <div class="table-responsive">
+              <table class="table table-detailed-view" id="'. $exceptionTableID .'">
+                <thead class="table-dark">
+                  <tr>
+                    <th class="table-sort" scope="col" onclick="sortTable(0, '; echo "'$exceptionTableID'"; echo')">Resource ID</th>
+                    <th class="table-sort" scope="col" onclick="sortTable(1, '; echo "'$exceptionTableID'"; echo')">Justification</th>
+                    <th class="table-sort" scope="col" onclick="sortTable(2, '; echo "'$exceptionTableID'"; echo')">Review Date</th>
+                    <th class="table-sort" scope="col" onclick="sortTable(3, '; echo "'$exceptionTableID'"; echo')">Last Updated By</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Suspend</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ';
+                  
+                  while ($rowExceptions = $resultExceptions->fetch_assoc()) {
 
-                  $currentResourceID = $rowExceptions['resource_id'];
-                  $currentExceptionID = $rowExceptions['exception_id'];
+                    $currentResourceID = $rowExceptions['resource_id'];
+                    $currentExceptionID = $rowExceptions['exception_id'];
 
-                  echo '<tr>';
-                    echo '<td scope="row"><strong>'. $rowExceptions['resource_id']  .'</strong></td>';
-                    echo '<td>'. $rowExceptions['justification'] . '</td>';
-                    echo '<td>'. $rowExceptions['review_date'] . '</td>';
-                    echo '<td>'. $rowExceptions['user_name'] . '</td>';
-                    
-                    
-                    echo editExceptionButton($dbc, $currentResourceID, $currentExceptionID);
-                    echo suspendExceptionButton($dbc, $currentExceptionID);
-                  echo '</tr>';
-                }
+                    echo '<tr>';
+                      echo '<td scope="row"><strong>'. $rowExceptions['resource_id']  .'</strong></td>';
+                      echo '<td>'. $rowExceptions['justification'] . '</td>';
+                      echo '<td>'. $rowExceptions['review_date'] . '</td>';
+                      echo '<td>'. $rowExceptions['user_name'] . '</td>';
+                      
+                      
+                      echo editExceptionButton($dbc, $currentResourceID, $currentExceptionID);
+                      echo suspendExceptionButton($dbc, $currentExceptionID);
+                    echo '</tr>';
+                  }
+                  
                 
-              
-              echo'
-            </tbody>
-          </table>
+                echo'
+                </tbody>
+              </table>
+            </div>
           ';
           }
           echo '
@@ -487,7 +497,7 @@
 
     if($rowResources['noncompliant'] != NULL && $rowResources['exception'] == NULL){
       echo'
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal'. $currentResourceID . '">Create</button>
+        <button class="table-btn btn btn-primary" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal'. $currentResourceID . '">Create</button>
 
         <div class="modal fade" id="Modal'. $currentResourceID . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -541,7 +551,7 @@
     echo '
 
       <td>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditModal' . $currentExceptionID .  '">Update</button>
+        <button class="table-btn btn btn-primary" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditModal' . $currentExceptionID .  '">Update</button>
 
         <div class="modal fade" id="EditModal' . $currentExceptionID . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -614,7 +624,7 @@
   function suspendExceptionButton($dbc, $currentExceptionID){
     echo '
     <td>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#SuspendModal' . $currentExceptionID .  '">Suspend</button>
+      <button class="table-btn btn btn-primary" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#SuspendModal' . $currentExceptionID .  '">Suspend</button>
 
         <div class="modal fade" id="SuspendModal' . $currentExceptionID .'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -682,7 +692,7 @@
     $auditResult = mysqli_query($dbc, $getAudits);
 
     echo'
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AuditModal'.$currentResourceID. $currentRuleID .'">View</button>
+      <button class="table-btn btn btn-primary" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AuditModal'.$currentResourceID. $currentRuleID .'">View</button>
         <div class="modal fade" id="AuditModal'.$currentResourceID. $currentRuleID .'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -697,17 +707,17 @@
 
                   echo'
                       
-                      <div class="container-flex">
+                      <div class="container-flex table-responsive">
                         <table class="table table-bordered table-detailed-view">
-                        <thead class="table-dark">
-                          <tr>
-                            <th scope="col">Exception ID</th>
-                            <th scope="col">Action</th>
-                            <th scope="col">Action Date</th>
-                            <th scope="col">Old Review Date</th>
-                          </tr>
-                        </thead>
-                        <tbody>
+                          <thead class="table-dark">
+                            <tr>
+                              <th scope="col">Exception ID</th>
+                              <th scope="col">Action</th>
+                              <th scope="col">Action Date</th>
+                              <th scope="col">Old Review Date</th>
+                            </tr>
+                          </thead>
+                          <tbody>
                   ';
                           while ($rowExceptions = $auditResult->fetch_assoc()) {
                             echo '<tr>';
@@ -718,7 +728,7 @@
                             echo '</tr>';
                           }
                     echo'
-                        </tbody>
+                          </tbody>
                         </table>
                       </div>
                     ';

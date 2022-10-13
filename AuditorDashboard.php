@@ -74,12 +74,16 @@
   
     <main>
       <div class="container">
-        <h1>Compliance Dashboard</h1>
-        <div class="graph" style="width:40%;">
-          <canvas id="PieChart"></canvas>
+        <div id="DashboardHeading">
+          <h1>Compliance Dashboard</h1>
         </div>
-        <div class="graph" style="width:40%;">
-          <canvas id="BarChart"></canvas>
+        <div class="chart-container row">
+          <div class="graph1 col-md-4">
+            <canvas id="PieChart"></canvas>
+          </div>
+          <div class="graph2 col-md-8">
+            <canvas id="BarChart"></canvas>
+          </div>
         </div>
         <?php  
 
@@ -98,13 +102,13 @@
             $accountRow = $resultAccounts->fetch_assoc();
             $foundAccountID = $accountRow["account_id"];
         ?>
-    
+        <div class="table-responsive">
           <table class="table table-striped table-bordered table-hover" id="ruleTable">
             <thead class="table-dark">
               <tr>
                 <th class="table-sort" scope="col" onclick="sortTable(0, 'ruleTable')">ID</th>
                 <th class="table-sort" scope="col" onclick="sortTable(1, 'ruleTable')">Rule Name</th>
-                <th scope="col">Rule Description</th>
+                <th class="table-rule-desc" scope="col">Rule Description</th>
                 <th scope="col">Compliance Status</th>
                 <th scope="col"></th>
               </tr>
@@ -113,7 +117,7 @@
               <?php tbodyInsert($dbc, $foundAccountID, $overallTotalResources, $overallTotalCompliant); ?>
             </tbody>
           </table>
-
+        </div>
         <?php 
           }
           else{
@@ -151,12 +155,12 @@
         <tr>
           <td><strong>'. $row['rule_id'] .'</strong></td>
           <td>'. $row['rule_name'] .'</td>
-          <td>'. $row['rule_description'] .'</td>';
+          <td class="table-rule-desc">'. $row['rule_description'] .'</td>';
 
           ?>
 
           <script>
-            ruleArray.push("<?php echo $row['rule_name']; ?>")
+            ruleArray.push("<?php echo 'rule ' . $row['rule_id']; ?>");
             console.log(ruleArray);
           </script>
 
@@ -231,7 +235,7 @@
           
           <td> 
           
-            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom_'. $row['rule_id'] .'" aria-controls="offcanvasBottom_'. $row['rule_id'] .'">Detailed Report</button>
+            <button class="table-btn btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom_'. $row['rule_id'] .'" aria-controls="offcanvasBottom_'. $row['rule_id'] .'">Detailed Report</button>
             
             <div class="h-100 offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom_'. $row['rule_id'] .'" aria-labelledbcy="offcanvasBottom_'. $row['rule_id'] .'_Label">
               <div class="offcanvas-header">
@@ -283,42 +287,44 @@
         else{
           $resourceTableID = "resourceTable_". $row['rule_id'];
           echo'
-            <table class="table table-detailed-view" id="'. $resourceTableID .'">
-              <thead class="table-dark">
-                <tr>
-                  <th class="table-sort" scope="col" onclick="sortTable(0, '; echo "'$resourceTableID'"; echo')">Resource ID</th>
-                  <th class="table-sort" scope="col" onclick="sortTable(1, '; echo "'$resourceTableID'"; echo')">Resource Name</th>
-                  <th class="table-sort" scope="col" onclick="sortTable(2, '; echo "'$resourceTableID'"; echo')">Compliance Status</th>
-                  <th class="table-sort" scope="col" onclick="sortTable(3, '; echo "'$resourceTableID'"; echo')">Exception</th>
-                </tr>
-              </thead>
-              <tbody>
-              ';
-                while ($rowResources = $resultResources->fetch_assoc()) {
-                  echo '<tr>';
-                    echo '<td scope="row"><strong>'. $rowResources['resource_id']  .'</strong></td>';
-                    echo '<td>'. $rowResources['resource_name'] . '</td>';
-                    
-                    echo '<td>';
-                    if($rowResources['noncompliant'] == NULL or $rowResources['exception'] != NULL){
-                      echo 'Compliant';
-                    }else{
-                      echo 'Non-Compliant';
-                    }
-                    echo '</td>';
+            <div class="table-responsive">
+              <table class="table table-detailed-view" id="'. $resourceTableID .'">
+                <thead class="table-dark">
+                  <tr>
+                    <th class="table-sort" scope="col" onclick="sortTable(0, '; echo "'$resourceTableID'"; echo')">Resource ID</th>
+                    <th class="table-sort" scope="col" onclick="sortTable(1, '; echo "'$resourceTableID'"; echo')">Resource Name</th>
+                    <th class="table-sort" scope="col" onclick="sortTable(2, '; echo "'$resourceTableID'"; echo')">Compliance Status</th>
+                    <th class="table-sort" scope="col" onclick="sortTable(3, '; echo "'$resourceTableID'"; echo')">Exception</th>
+                  </tr>
+                </thead>
+                <tbody>
+                ';
+                  while ($rowResources = $resultResources->fetch_assoc()) {
+                    echo '<tr>';
+                      echo '<td scope="row"><strong>'. $rowResources['resource_id']  .'</strong></td>';
+                      echo '<td>'. $rowResources['resource_name'] . '</td>';
+                      
+                      echo '<td>';
+                      if($rowResources['noncompliant'] == NULL or $rowResources['exception'] != NULL){
+                        echo 'Compliant';
+                      }else{
+                        echo 'Non-Compliant';
+                      }
+                      echo '</td>';
 
-                    echo '<td>';
-                    if($rowResources['exception'] != NULL){
-                      echo 'Yes';
-                    }
-                    echo '</td>';
+                      echo '<td>';
+                      if($rowResources['exception'] != NULL){
+                        echo 'Yes';
+                      }
+                      echo '</td>';
 
 
-                  echo '</tr>';
-                }
-              echo'  
-              </tbody>
-            </table>
+                    echo '</tr>';
+                  }
+                echo'  
+                </tbody>
+              </table>
+            </div>
             ';
           }
         echo'
@@ -356,32 +362,34 @@
           else{
             $exceptionTableID = "exceptionTable_". $row['rule_id'];
             echo '
-            <table class="table table-detailed-view" id="'. $exceptionTableID .'">
-              <thead class="table-dark">
-                <tr>
-                  <th class="table-sort" scope="col" onclick="sortTable(0, '; echo "'$exceptionTableID'"; echo')">Resource ID</th>
-                  <th class="table-sort" scope="col" onclick="sortTable(1, '; echo "'$exceptionTableID'"; echo')">Justification</th>
-                  <th class="table-sort" scope="col" onclick="sortTable(2, '; echo "'$exceptionTableID'"; echo')">Review Date</th>
-                  <th class="table-sort" scope="col" onclick="sortTable(3, '; echo "'$exceptionTableID'"; echo')">Last Updated By</th>
-                </tr>
-              </thead>
-              <tbody>
-                ';
-                
-                while ($rowExceptions = $resultExceptions->fetch_assoc()) {
-                  echo '<tr>';
-                    echo '<td scope="row"><strong>'. $rowExceptions['resource_id']  .'</strong></td>';
-                    echo '<td>'. $rowExceptions['justification'] . '</td>';
-                    echo '<td>'. $rowExceptions['review_date'] . '</td>';
-                    echo '<td>'. $rowExceptions['user_name'] . '</td>';
+            <div class="table-responsive">
+              <table class="table table-detailed-view" id="'. $exceptionTableID .'">
+                <thead class="table-dark">
+                  <tr>
+                    <th class="table-sort" scope="col" onclick="sortTable(0, '; echo "'$exceptionTableID'"; echo')">Resource ID</th>
+                    <th class="table-sort" scope="col" onclick="sortTable(1, '; echo "'$exceptionTableID'"; echo')">Justification</th>
+                    <th class="table-sort" scope="col" onclick="sortTable(2, '; echo "'$exceptionTableID'"; echo')">Review Date</th>
+                    <th class="table-sort" scope="col" onclick="sortTable(3, '; echo "'$exceptionTableID'"; echo')">Last Updated By</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ';
+                  
+                  while ($rowExceptions = $resultExceptions->fetch_assoc()) {
+                    echo '<tr>';
+                      echo '<td scope="row"><strong>'. $rowExceptions['resource_id']  .'</strong></td>';
+                      echo '<td>'. $rowExceptions['justification'] . '</td>';
+                      echo '<td>'. $rowExceptions['review_date'] . '</td>';
+                      echo '<td>'. $rowExceptions['user_name'] . '</td>';
 
-                  echo '</tr>';
-                }
+                    echo '</tr>';
+                  }
+                  
                 
-              
-              echo'
-            </tbody>
-          </table>
+                echo'
+                </tbody>
+              </table>
+            </div>
           ';
           }
           echo '
