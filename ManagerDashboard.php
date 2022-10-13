@@ -707,17 +707,17 @@
 
                   echo'
                       
-                      <div class="container-flex">
+                      <div class="container-flex table-responsive">
                         <table class="table table-bordered table-detailed-view">
-                        <thead class="table-dark">
-                          <tr>
-                            <th scope="col">Exception ID</th>
-                            <th scope="col">Action</th>
-                            <th scope="col">Action Date</th>
-                            <th scope="col">Old Review Date</th>
-                          </tr>
-                        </thead>
-                        <tbody>
+                          <thead class="table-dark">
+                            <tr>
+                              <th scope="col">Exception ID</th>
+                              <th scope="col">Action</th>
+                              <th scope="col">Action Date</th>
+                              <th scope="col">Old Review Date</th>
+                            </tr>
+                          </thead>
+                          <tbody>
                   ';
                           while ($rowExceptions = $auditResult->fetch_assoc()) {
                             echo '<tr>';
@@ -728,7 +728,7 @@
                             echo '</tr>';
                           }
                     echo'
-                        </tbody>
+                          </tbody>
                         </table>
                       </div>
                     ';
