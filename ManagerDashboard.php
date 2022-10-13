@@ -52,192 +52,358 @@
   ?>
 
   <header>
-    <nav class="navbar fixed-top">  <!--add to close to disable hamburger on desktop navbar-expand-lg -->
-      <div class="container-fluid">
-        <img src="PHP/Graphics\BrightSolidLogo.png" alt="BrightSolidLogo" width="200" height="40" class="d-inline-block align-text-top">
+      <!-- https://www.w3schools.com/howto/howto_css_sidebar_responsive.asp -->
+      <div class="navbar fixed-top sidebar">
+        <div>
+          
+          <div id="DesktopNavBar">
+            <div class="position-absolute top-0 start-0" id="SideBarLogo">
+              <img src="PHP/Graphics\SmallLogo.png" class="img-fluid" alt="Logo" id="SmallBrightSolidLogo">
+            </div>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <div class="collapse navbar-collapse" id="navbarText">
-          <ul class="navbar-nav"></ul>
+            <!-- Passed -->
+            <div id="AccountDropDown" >
+              <div class="btn-group dropend">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Old
+                </button>
+                
+                <ul class="dropdown-menu review-dropdown">
+                  <li class="review-dropdown-li">
 
-          <div class="navbar-text">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <?php echo"<p>Username: ".$_SESSION['userName']."</p>" ?>
-              </li>
-              <li class="nav-item">
-                <?php echo"<p>Role: ".$_SESSION['userRole']."</p>" ?>
-              </li>
-              <li class="nav-item">
-                <form action="AuditorDashboard.php" method="post">
-                  <button class="btn btn-primary" type="submit" name="LogOut">Log Out</button>
-                </form>
-              </li>
+                    <div class="noPassedDiv" id="noPassedDiv"></div>
+                    
+                    <table class="table table-bordered table-detailed-view" id="passedTable">
+                      <thead class="table-dark">
+                        <tr>
+                          <th scope="col">Rule ID</th>
+                          <th scope="col">Resource ID</th>
+                          <th scope="col">Resource Name</th>
+                          <th scope="col">Justification</th>
+                          <th scope="col">Review Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php upComingReviews($dbc, 0); ?>
+                      </tbody>
+                    </table> 
+
+                    <script>
+                      var x = document.getElementById("passedTable");
+                      if(x.rows.length <= 1){
+                        x.style.display = "none";
+
+
+                        const passedheading = document.createElement("h6");
+                        const passedMessage = document.createTextNode("There are no passed review dates.");
+                        passedheading.appendChild(passedMessage);
+
+                        const element = document.getElementById("noPassedDiv");
+                        element.appendChild(passedheading);
+                      }
+                        
+                    </script>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- Passed -->
+
+            <!-- Upcoming -->
+            <div id="AccountDropDown">
+              <div class="btn-group dropend">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  30
+                </button>
+                <ul class="dropdown-menu review-dropdown">
+                  <li class="review-dropdown-li"> 
+                    
+                    <div class="noUpcomingDiv" id="noUpcomingDiv"></div>
+                
+                    <table class="table table-bordered table-detailed-view" id="upcomingTable">
+                      <thead class="table-dark">
+                        <tr>
+                          <th scope="col">Rule ID</th>
+                          <th scope="col">Resource ID</th>
+                          <th scope="col">Resource Name</th>
+                          <th scope="col">Justification</th>
+                          <th scope="col">Review Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php upComingReviews($dbc, 1); ?>
+                      </tbody>
+                    </table> 
+
+                    <script>
+                      var x = document.getElementById("upcomingTable");
+                      if(x.rows.length <= 1){
+                        x.style.display = "none";
+
+                        const upcomingHeading = document.createElement("h6");
+                        const upcomingMessage = document.createTextNode("There are no upcoming review dates.");
+                        upcomingHeading.appendChild(upcomingMessage);
+
+                        const element = document.getElementById("noUpcomingDiv");
+                        element.appendChild(upcomingHeading);
+                      }
+                        
+                    </script>
+
+                  </li>
+                </ul>
+              </div>
+            </div>
+  
+            <!-- Upcoming -->
               
-              <li class="nav-item">
-                <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Passed
-                  </button>
-                  <ul class="dropdown-menu review-dropdown">
-                    <li class="review-dropdown-li">
 
-                      <div class="noPassedDiv" id="noPassedDiv"></div>
-                      
-                      <table class="table table-bordered table-detailed-view" id="passedTable">
-                        <thead class="table-dark">
-                          <tr>
-                            <th scope="col">Rule ID</th>
-                            <th scope="col">Resource ID</th>
-                            <th scope="col">Resource Name</th>
-                            <th scope="col">Justification</th>
-                            <th scope="col">Review Date</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <?php upComingReviews($dbc, 0); ?>
-                        </tbody>
-                      </table> 
-
-                      <script>
-                        var x = document.getElementById("passedTable");
-                        if(x.rows.length <= 1){
-                          x.style.display = "none";
-
-
-                          const passedheading = document.createElement("h6");
-                          const passedMessage = document.createTextNode("There are no passed review dates.");
-                          passedheading.appendChild(passedMessage);
-
-                          const element = document.getElementById("noPassedDiv");
-                          element.appendChild(passedheading);
-                        }
-                          
-                      </script>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-
-              <li class="nav-item">
-                <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Upcoming - 30 days
-                  </button>
-                  <ul class="dropdown-menu review-dropdown">
-                    <li class="review-dropdown-li"> 
-                      
-                      <div class="noUpcomingDiv" id="noUpcomingDiv"></div>
-                   
-                      <table class="table table-bordered table-detailed-view" id="upcomingTable">
-                        <thead class="table-dark">
-                          <tr>
-                            <th scope="col">Rule ID</th>
-                            <th scope="col">Resource ID</th>
-                            <th scope="col">Resource Name</th>
-                            <th scope="col">Justification</th>
-                            <th scope="col">Review Date</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <?php upComingReviews($dbc, 1); ?>
-                        </tbody>
-                      </table> 
-
-                      <script>
-                        var x = document.getElementById("upcomingTable");
-                        if(x.rows.length <= 1){
-                          x.style.display = "none";
-
-                          const upcomingHeading = document.createElement("h6");
-                          const upcomingMessage = document.createTextNode("There are no upcoming review dates.");
-                          upcomingHeading.appendChild(upcomingMessage);
-
-                          const element = document.getElementById("noUpcomingDiv");
-                          element.appendChild(upcomingHeading);
-                        }
-                          
-                      </script>
-
-                    </li>
-                  </ul>
-                </div>
-              </li>
-            </ul>
+            <!-- Account -->
+            <div class="position-absolute bottom-0 end-0" id="AccountDropDown">
+              <div class="dropup">
+                <a class="d-flex align-items-center justify-content-center p-3 link-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img src="PHP/Graphics\AccountIcon.png" class="img-fluid" alt="Logo" id="AccountIcon">
+                </a>
+                
+                <ul class="dropdown-menu">
+                  <li> <div class="d-flex justify-content-center"><?php echo $_SESSION['userName']?></div> </li>
+                  <li> <div class="d-flex justify-content-center"><?php echo $_SESSION['userRole']?></div> </li>
+                  <li> <hr class="dropdown-divider"> </li>
+                  <li> 
+                    <div class="d-flex justify-content-center">
+                      <form action="AuditorDashboard.php" method="post">
+                        <button class="btn btn-primary" type="submit" name="LogOut">Log Out</button>
+                      </form>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- Account -->
           </div>
+
+
+
+
+
+
+          <!-- MOBILE NAV -->
+          <div id="NavBarLogo">
+
+            <button id="HamburgerButton" type="button" data-bs-toggle="offcanvas" data-bs-target="#MobileOffCanvas">
+              <div class="Hamburger"></div>
+              <div class="Hamburger"></div>
+              <div class="Hamburger"></div>
+            </button>
+
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="MobileOffCanvas">
+              <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasLabelMobile"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              </div>
+
+              <div class="offcanvas-body" id="MobileOffcanvas">
+                    
+                <!-- Passed --> 
+                <div id="PassedDropDownMobile">            
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Pass
+                    </button>
+                    
+                    <ul class="dropdown-menu review-dropdown">
+                      <li class="review-dropdown-li">
+                        <div class="noPassedDiv" id="noPassedDiv"></div>
+                        
+                        <table class="table table-bordered table-detailed-view" id="passedTable">
+                          <thead class="table-dark">
+                            <tr>
+                              <th scope="col">Rule ID</th>
+                              <th scope="col">Resource ID</th>
+                              <th scope="col">Resource Name</th>
+                              <th scope="col">Justification</th>
+                              <th scope="col">Review Date</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php upComingReviews($dbc, 0); ?>
+                          </tbody>
+                        </table> 
+
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- Passed End-->
+                
+                <!-- Upcoming -->
+                  <div id="UpcomingDropDownMobile"> 
+                    <div class="dropdown">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                       30
+                      </button>
+                      <ul class="dropdown-menu review-dropdown">
+                        <li class="review-dropdown-li"> 
+                          
+                          <div class="noUpcomingDiv" id="noUpcomingDiv"></div>
+                      
+                          <table class="table table-bordered table-detailed-view" id="upcomingTable">
+                            <thead class="table-dark">
+                              <tr>
+                                <th scope="col">Rule ID</th>
+                                <th scope="col">Resource ID</th>
+                                <th scope="col">Resource Name</th>
+                                <th scope="col">Justification</th>
+                                <th scope="col">Review Date</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <?php upComingReviews($dbc, 1); ?>
+                            </tbody>
+                          </table> 
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                <!-- Upcoming End -->
+
+                <!-- Account  -->
+                  <div id="AccountDropDownMobile">
+                    <div class="dropup">
+
+                      <a class="d-flex align-items-center justify-content-center p-3 link-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="PHP/Graphics\AccountIcon.png" class="img-fluid" alt="Logo" id="AccountIcon">
+                      </a>
+                      
+                      <ul class="dropdown-menu">
+                        <li> <div class="d-flex justify-content-center"><?php echo $_SESSION['userName']?></div> </li>
+                        <li> <div class="d-flex justify-content-center"><?php echo $_SESSION['userRole']?></div> </li>
+                        <li> <hr class="dropdown-divider"> </li>
+                        <li> 
+                          <div class="d-flex justify-content-center">
+                            <form action="AuditorDashboard.php" method="post">
+                              <button class="btn btn-primary" type="submit" name="LogOut">Log Out</button>
+                            </form>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <!-- Account  -->
+
+
+
+              </div>
+
+            </div>
+            <img src="PHP/Graphics\BrightSolidLogo.png" class="img-fluid" alt="Logo" id="NavBarBrightSolidLogo">
+          </div>
+          
         </div>
       </div>
-    </nav>
     </header>
 
-  <main>
-    <div class="container">
-      <div id="DashboardHeading">
-        <h1>Compliance Dashboard</h1>
-      </div>
-      <div class="chart-container row">
-        <div class="graph1 col-md-4">
-          <canvas id="PieChart"></canvas>
-        </div>
-        <div class="graph2 col-md-8">
-          <canvas id="BarChart"></canvas>
-        </div>
-      </div>
-      <?php  
 
-        $overallTotalResources = 0;
-        $overallTotalCompliant = 0;
+      <main>
+        <!-- Page content -->
+        <div class="content">
+          <div class="container">
+            <div id="DashboardHeading">
+              <h1>Compliance Dashboard</h1>
+            </div>
 
-        $accountToBeFound = $_SESSION["customerID"];
-        //$accountToBeFound = 2; // DELETE THIS AFTER TESTING///////////////////////////////////////////////////////////
-        $findAccount = "SELECT account_id FROM account WHERE customer_id='$accountToBeFound';";
-        $resultAccounts = $dbc->query($findAccount);
+            <div class="chart-container row">
+              <div class="graph1 col-md-4">
+                <canvas id="PieChart"></canvas>
+              </div>
+              <div class="graph2 col-md-8">
+                <canvas id="BarChart"></canvas>
+              </div>
+            </div>
 
-        $foundAccountID = 0;
+            <?php  
 
-        if($resultAccounts -> num_rows == 1){
-          $accountRow = $resultAccounts->fetch_assoc();
-          $foundAccountID = $accountRow["account_id"];
+              $overallTotalResources = 0;
+              $overallTotalCompliant = 0;
 
-          //reviewDatePassed($dbc, $foundAccountID);
-      ?>
-      <div class="table-responsive">
-        <table class="table table-striped table-bordered table-hover" id="ruleTable">
-          <thead class="table-dark">
-            <tr>
-              <th class="table-sort" scope="col" onclick="sortTable(0, 'ruleTable')">ID</th>
-              <th class="table-sort" scope="col" onclick="sortTable(1, 'ruleTable')">Rule Name</th>
-              <th class="table-rule-desc" scope="col">Rule Description</th>
-              <th scope="col">Compliance</th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php
-              tbodyInsert($dbc, $foundAccountID, $overallTotalResources, $overallTotalCompliant);
+              $accountToBeFound = $_SESSION["customerID"];
+              $findAccount = "SELECT account_id FROM account WHERE customer_id='$accountToBeFound';";
+              $resultAccounts = $dbc->query($findAccount);
+
+              $foundAccountID = 0;
+
+              if($resultAccounts -> num_rows == 1){
+                $accountRow = $resultAccounts->fetch_assoc();
+                $foundAccountID = $accountRow["account_id"];
             ?>
-          </tbody>
-        </table>
-      </div>
-      <?php 
-        }
-        else{
-          echo '<h6 class="noResourceHeading">There are accounts for this customer: '.$foundAccountID.'</h6>';
-        } 
-      ?>
+
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered table-hover" id="ruleTable">
+                <thead class="table-dark">
+                  <tr>
+                    <th class="table-sort" scope="col" onclick="sortTable(0, 'ruleTable')">ID</th>
+                    <th class="table-sort" scope="col" onclick="sortTable(1, 'ruleTable')">Rule Name</th>
+                    <th class="table-rule-desc" scope="col">Rule Description</th>
+                    <th scope="col">Compliance Status</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php tbodyInsert($dbc, $foundAccountID, $overallTotalResources, $overallTotalCompliant); ?>
+                </tbody>
+              </table>
+            </div>
+            <?php 
+            }
+            else{
+              echo '<h6 class="noResourceHeading">There are accounts for this customer: '.$foundAccountID.'</h6>';
+            } 
+            ?>
+          </div>
+            <!-- End of table -->
+        </div>
+      </main>
 
 
-    </div >
-  </main>
-  <footer>
 
-  </footer>
-  <?php
-    $dbc->close();
-  ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <footer></footer>
+  <?php $dbc->close(); ?>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 </body>
 <link rel="stylesheet" href="DashboardTemplate.css">

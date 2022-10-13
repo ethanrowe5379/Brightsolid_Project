@@ -40,91 +40,148 @@
 
   <body>
     
-  <header>
-    <nav class="navbar fixed-top">  <!--add to close to disable hamburger on desktop navbar-expand-lg -->
-      <div class="container-fluid">
-        <img src="PHP/Graphics\BrightSolidLogo.png" alt="BrightSolidLogo" width="200" height="40" class="d-inline-block align-text-top">
+    <header>
+      <!-- https://www.w3schools.com/howto/howto_css_sidebar_responsive.asp -->
+      <div class="navbar fixed-top sidebar">
+        <div>
+          <div>
+            <div class="position-absolute top-0 start-0" id="SideBarLogo">
+              <img src="PHP/Graphics\SmallLogo.png" class="img-fluid" alt="Logo" id="SmallBrightSolidLogo">
+            </div>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <div class="collapse navbar-collapse" id="navbarText">
-          <ul class="navbar-nav"></ul>
-
-          <div class="navbar-text">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <?php echo"<p>Username: ".$_SESSION['userName']."</p>" ?>
-              </li>
-              <li class="nav-item">
-                <?php echo"<p>Role: ".$_SESSION['userRole']."</p>" ?>
-              </li>
-              <li class="nav-item">
-                <form action="AuditorDashboard.php" method="post">
-                  <button class="btn btn-primary" type="submit" name="LogOut">Log Out</button>
-                </form>
-              </li>
-            </ul>
+            <!-- Dropdown -->
+            <div class="position-absolute bottom-0 end-0" id="AccountDropDown">
+              <div class="dropup">
+                <a class="d-flex align-items-center justify-content-center p-3 link-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img src="PHP/Graphics\AccountIcon.png" class="img-fluid" alt="Logo" id="AccountIcon">
+                </a>
+                
+                <ul class="dropdown-menu">
+                  <li> <div class="d-flex justify-content-center"><?php echo $_SESSION['userName']?></div> </li>
+                  <li> <div class="d-flex justify-content-center"><?php echo $_SESSION['userRole']?></div> </li>
+                  <li> <hr class="dropdown-divider"> </li>
+                  <li> 
+                    <div class="d-flex justify-content-center">
+                      <form action="AuditorDashboard.php" method="post">
+                        <button class="btn btn-primary" type="submit" name="LogOut">Log Out</button>
+                      </form>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
+
+          <div id="NavBarLogo">
+
+            <button id="HamburgerButton" type="button" data-bs-toggle="offcanvas" data-bs-target="#MobileOffCanvas">
+              <div class="Hamburger"></div>
+              <div class="Hamburger"></div>
+              <div class="Hamburger"></div>
+            </button>
+
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="MobileOffCanvas">
+
+              <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasLabelMobile"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              </div>
+
+              <div class="offcanvas-body" id="MobileOffcanvas">
+                <div>
+                  <div class="d-flex align-items-center" id="AccountDropDownMobile">
+                    <div class="dropdown">
+                      <a class="d-flex align-items-center justify-content-center p-3 link-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="PHP/Graphics\AccountIcon.png" class="img-fluid" alt="Logo" id="AccountIcon">
+                      </a>
+                      
+                      <ul class="dropdown-menu">
+                        <li> <div class="d-flex justify-content-center"><?php echo $_SESSION['userName']?></div> </li>
+                        <li> <div class="d-flex justify-content-center"><?php echo $_SESSION['userRole']?></div> </li>
+                        <li> <hr class="dropdown-divider"> </li>
+                        <li> 
+                          <div class="d-flex justify-content-center">
+                            <form action="AuditorDashboard.php" method="post">
+                              <button class="btn btn-primary" type="submit" name="LogOut">Log Out</button>
+                            </form>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <img src="PHP/Graphics\BrightSolidLogo.png" class="img-fluid" alt="Logo" id="NavBarBrightSolidLogo">
+
+          </div>
+          
         </div>
       </div>
-    </nav>
-  </header>
-  
+    </header>
+
     <main>
-      <div class="container">
-        <div id="DashboardHeading">
-          <h1>Compliance Dashboard</h1>
-        </div>
-        <div class="chart-container row">
-          <div class="graph1 col-md-4">
-            <canvas id="PieChart"></canvas>
+
+      <!-- Page content -->
+      <div class="content">
+        <div class="container">
+          <div id="DashboardHeading">
+            <h1>Compliance Dashboard</h1>
           </div>
-          <div class="graph2 col-md-8">
-            <canvas id="BarChart"></canvas>
+
+          <div class="chart-container row">
+            <div class="graph1 col-md-4">
+              <canvas id="PieChart"></canvas>
+            </div>
+            <div class="graph2 col-md-8">
+              <canvas id="BarChart"></canvas>
+            </div>
           </div>
-        </div>
-        <?php  
 
-          $overallTotalResources = 0;
-          $overallTotalCompliant = 0;
+          <?php  
 
+            $overallTotalResources = 0;
+            $overallTotalCompliant = 0;
 
-          $accountToBeFound = $_SESSION["customerID"];
-          //$accountToBeFound = 1; // DELETE THIS AFTER TESTING///////////////////////////////////////////////////////////
-          $findAccount = "SELECT account_id FROM account WHERE customer_id='$accountToBeFound';";
-          $resultAccounts = $dbc->query($findAccount);
+            $accountToBeFound = $_SESSION["customerID"];
+            //$accountToBeFound = 1; // DELETE THIS AFTER TESTING///////////////////////////////////////////////////////////
+            $findAccount = "SELECT account_id FROM account WHERE customer_id='$accountToBeFound';";
+            $resultAccounts = $dbc->query($findAccount);
 
-          $foundAccountID = 0;
+            $foundAccountID = 0;
 
-          if($resultAccounts -> num_rows == 1){
-            $accountRow = $resultAccounts->fetch_assoc();
-            $foundAccountID = $accountRow["account_id"];
-        ?>
-        <div class="table-responsive">
-          <table class="table table-striped table-bordered table-hover" id="ruleTable">
-            <thead class="table-dark">
-              <tr>
-                <th class="table-sort" scope="col" onclick="sortTable(0, 'ruleTable')">ID</th>
-                <th class="table-sort" scope="col" onclick="sortTable(1, 'ruleTable')">Rule Name</th>
-                <th class="table-rule-desc" scope="col">Rule Description</th>
-                <th scope="col">Compliance Status</th>
-                <th scope="col"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php tbodyInsert($dbc, $foundAccountID, $overallTotalResources, $overallTotalCompliant); ?>
-            </tbody>
-          </table>
-        </div>
-        <?php 
+            if($resultAccounts -> num_rows == 1){
+              $accountRow = $resultAccounts->fetch_assoc();
+              $foundAccountID = $accountRow["account_id"];
+          ?>
+
+          <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover" id="ruleTable">
+              <thead class="table-dark">
+                <tr>
+                  <th class="table-sort" scope="col" onclick="sortTable(0, 'ruleTable')">ID</th>
+                  <th class="table-sort" scope="col" onclick="sortTable(1, 'ruleTable')">Rule Name</th>
+                  <th class="table-rule-desc" scope="col">Rule Description</th>
+                  <th scope="col">Compliance Status</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php tbodyInsert($dbc, $foundAccountID, $overallTotalResources, $overallTotalCompliant); ?>
+              </tbody>
+            </table>
+          </div>
+          <?php 
           }
           else{
             echo '<h6 class="noResourceHeading">There are accounts for this customer: '.$foundAccountID.'</h6>';
           } 
-        ?>
-      </div >
+          ?>
+        </div>
+          <!-- End of table -->
+        </div>
     </main>
 
     <footer>
