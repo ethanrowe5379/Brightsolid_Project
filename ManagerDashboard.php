@@ -57,105 +57,112 @@
         <div>
           
           <div id="DesktopNavBar">
+
             <div class="position-absolute top-0 start-0" id="SideBarLogo">
               <img src="PHP/Graphics\SmallLogo.png" class="img-fluid" alt="Logo" id="SmallBrightSolidLogo">
             </div>
+  
+            <!-- Passed -->
+            <a class="d-flex align-items-center justify-content-center p-3 link-dark dropdown-toggle" data-bs-toggle="modal" data-bs-target="#PassedModal" id="AccountDropDown">
+              <img src="PHP/Graphics\Bell.png" class="img-fluid" alt="Logo" id="AccountIcon">
+            </a>
+
+            <div class="modal fade" id="PassedModal" aria-labelledby="UpComingModal" aria-hidden="true">
+              <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5">Passed Exceptions</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                      <div class="noPassedDiv" id="noPassedDiv"></div>
+                        
+                        <table class="table table-bordered table-detailed-view" id="passedTable">
+                          <thead class="table-dark">
+                            <tr>
+                              <th scope="col">Rule ID</th>
+                              <th scope="col">Resource ID</th>
+                              <th scope="col">Resource Name</th>
+                              <th scope="col">Justification</th>
+                              <th scope="col">Review Date</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php upComingReviews($dbc, 0); ?>
+                          </tbody>
+                        </table> 
+
+                        <script>
+                          var x = document.getElementById("passedTable");
+                          if(x.rows.length <= 1){
+                            x.style.display = "none";
+
+                            const passedheading = document.createElement("h6");
+                            const passedMessage = document.createTextNode("There are no passed review dates.");
+                            passedheading.appendChild(passedMessage);
+
+                            const element = document.getElementById("noPassedDiv");
+                            element.appendChild(passedheading);
+                          }
+                        </script>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <!-- Passed -->
 
             <!-- Upcoming -->
-            <div id="AccountDropDown">
-              <div class="btn-group dropend">
-                <a class="d-flex align-items-center justify-content-center p-3 link-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                  <img src="PHP/Graphics\30Days.png" class="img-fluid" alt="Logo" id="AccountIcon">
-                </a>
+            <a class="d-flex align-items-center justify-content-center p-3 link-dark dropdown-toggle" data-bs-toggle="modal" data-bs-target="#UpComingModal" id="AccountDropDown">
+              <img src="PHP/Graphics\30Days.png" class="img-fluid" alt="Logo" id="AccountIcon">
+            </a>
 
-                <ul class="dropdown-menu review-dropdown">
-                  <li class="review-dropdown-li"> 
-                    
-                    <div class="noUpcomingDiv" id="noUpcomingDiv"></div>
-                
-                    <table class="table table-bordered table-detailed-view" id="upcomingTable">
-                      <thead class="table-dark">
-                        <tr>
-                          <th scope="col">Rule ID</th>
-                          <th scope="col">Resource ID</th>
-                          <th scope="col">Resource Name</th>
-                          <th scope="col">Justification</th>
-                          <th scope="col">Review Date</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php upComingReviews($dbc, 1); ?>
-                      </tbody>
-                    </table> 
+            <div class="modal fade" id="UpComingModal" aria-labelledby="UpComingModal" aria-hidden="true">
+              <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5">Upcoming Exceptions</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
 
-                    <script>
-                      var x = document.getElementById("upcomingTable");
-                      if(x.rows.length <= 1){
-                        x.style.display = "none";
+                    <div class="modal-body">
+                      <div class="noUpcomingDiv" id="noUpcomingDiv"></div>
+                       
+                        <table class="table table-bordered table-detailed-view" id="upcomingTable">
+                          <thead class="table-dark">
+                            <tr>
+                              <th scope="col">Rule ID</th>
+                              <th scope="col">Resource ID</th>
+                              <th scope="col">Resource Name</th>
+                              <th scope="col">Justification</th>
+                              <th scope="col">Review Date</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php upComingReviews($dbc, 1); ?>
+                          </tbody>
+                        </table> 
+          
+                      <script>
+                        var x = document.getElementById("upcomingTable");
+                        if(x.rows.length <= 1){
+                          x.style.display = "none";
 
-                        const upcomingHeading = document.createElement("h6");
-                        const upcomingMessage = document.createTextNode("There are no upcoming review dates.");
-                        upcomingHeading.appendChild(upcomingMessage);
+                          const upcomingHeading = document.createElement("h6");
+                          const upcomingMessage = document.createTextNode("There are no upcoming review dates.");
+                          upcomingHeading.appendChild(upcomingMessage);
 
-                        const element = document.getElementById("noUpcomingDiv");
-                        element.appendChild(upcomingHeading);
-                      }
-                        
-                    </script>
+                          const element = document.getElementById("noUpcomingDiv");
+                          element.appendChild(upcomingHeading);
+                        }
 
-                  </li>
-                </ul>
+                      </script>
+                    </div>
+                </div>
               </div>
             </div>
             <!-- Upcoming -->
 
-            <!-- Passed -->
-            <div id="AccountDropDown" >
-              <div class="btn-group dropend">
-                <a class="d-flex align-items-center justify-content-center p-3 link-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                  <img src="PHP/Graphics\Bell.png" class="img-fluid" alt="Logo" id="AccountIcon">
-                </a>
-                
-                <ul class="dropdown-menu review-dropdown">
-                  <li class="review-dropdown-li">
-
-                    <div class="noPassedDiv" id="noPassedDiv"></div>
-                    
-                    <table class="table table-bordered table-detailed-view" id="passedTable">
-                      <thead class="table-dark">
-                        <tr>
-                          <th scope="col">Rule ID</th>
-                          <th scope="col">Resource ID</th>
-                          <th scope="col">Resource Name</th>
-                          <th scope="col">Justification</th>
-                          <th scope="col">Review Date</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php upComingReviews($dbc, 0); ?>
-                      </tbody>
-                    </table> 
-
-                    <script>
-                      var x = document.getElementById("passedTable");
-                      if(x.rows.length <= 1){
-                        x.style.display = "none";
-
-                        const passedheading = document.createElement("h6");
-                        const passedMessage = document.createTextNode("There are no passed review dates.");
-                        passedheading.appendChild(passedMessage);
-
-                        const element = document.getElementById("noPassedDiv");
-                        element.appendChild(passedheading);
-                      }
-                        
-                    </script>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <!-- Passed -->
-        
             <!-- Account -->
             <div class="position-absolute bottom-0 end-0" id="AccountDropDown">
               <div class="dropup">
@@ -207,27 +214,31 @@
                     <ul class="dropdown-menu review-dropdown">
                       <li class="review-dropdown-li">
                         <div class="noPassedDivMobile" id="noPassedDivMobile"></div>
-                        
-                        <table class="table table-bordered table-detailed-view" id="passedTableMobile">
-                          <thead class="table-dark">
-                            <tr>
-                              <th scope="col">Rule ID</th>
-                              <th scope="col">Resource ID</th>
-                              <th scope="col">Resource Name</th>
-                              <th scope="col">Justification</th>
-                              <th scope="col">Review Date</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <?php upComingReviews($dbc, 0); ?>
-                          </tbody>
-                        </table> 
+
+                        <div class="table-responsive">
+
+                          <table class="table table-bordered table-detailed-view" id="passedTableMobile">
+                            <thead class="table-dark">
+                              <tr>
+                                <th scope="col">Rule ID</th>
+                                <th scope="col">Resource ID</th>
+                                <th scope="col">Resource Name</th>
+                                <th scope="col">Justification</th>
+                                <th scope="col">Review Date</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <?php upComingReviews($dbc, 0); ?>
+                            </tbody>
+                          </table> 
+                          
+                        </div>
+
 
                         <script>
                           var x = document.getElementById("passedTableMobile");
                           if(x.rows.length <= 1){
                             x.style.display = "none";
-
 
                             const passedheading = document.createElement("h6");
                             const passedMessage = document.createTextNode("There are no passed review dates.");
@@ -243,6 +254,7 @@
                   </div>
                 </div>
                 <!-- Passed End-->
+
                 
                 <!-- Upcoming -->
                   <div id="UpcomingDropDownMobile"> 
@@ -314,9 +326,6 @@
                     </div>
                   </div>
                   <!-- Account  -->
-
-
-
               </div>
 
             </div>
@@ -387,44 +396,6 @@
             <!-- End of table -->
         </div>
       </main>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   <footer></footer>
   <?php $dbc->close(); ?>

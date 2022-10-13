@@ -168,9 +168,6 @@ input[type=datetime-local], input[type=text], input[type=password], input[type=n
     background-color: rgb(241, 180, 52);
 }
 
-main{
-    margin-top: 10vh;
-}
 
 .table-sort {
 	position: relative;
@@ -242,7 +239,6 @@ body {
 
 #SideBarLogo{
     text-align: center;
-
 }
 
 #NavBarLogo{
@@ -254,10 +250,28 @@ body {
     position: fixed;
 }
 
+#NavBarLogo .offcanvas-body{
+    padding-left: 14px;
+    padding-right: 14px;
+}
+
 .dropdown-toggle{
     color: rgb(241, 180, 52) !important;
 }
 
+#NewNavBar .dropdown-menu:not(#AccountDropDownMenu){
+    overflow: scroll;
+    max-height: 600px
+}
+
+
+#AccountDropDown .dropend{
+    top: 0;
+}
+
+.modal-backdrop{
+    display: none;
+}
 
 @media screen and (max-width: 700px) {
 
@@ -269,10 +283,6 @@ body {
     }
 
     div.content {margin-left: 0;}
-
-    #main{
-        margin-top: 10rem;
-    }
 
     #SmallBrightSolidLogo{
         border-radius: 4px;
@@ -342,14 +352,9 @@ body {
     }
 
     #NewNavBar .dropdown-menu:not(#AccountDropDownMenu){
-        overflow: scroll;
+        width: 100vw;
         max-height: 256px;
-        max-width: 280px;
+        margin-left: -14px;
     }
     
-}
-
-#NewNavBar .dropdown-menu:not(#AccountDropDownMenu){
-    overflow: scroll;
-    max-height: 256px;
 }
