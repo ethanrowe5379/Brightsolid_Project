@@ -53,7 +53,7 @@
 
   <header>
       <!-- https://www.w3schools.com/howto/howto_css_sidebar_responsive.asp -->
-      <div class="navbar fixed-top sidebar">
+      <div class="navbar fixed-top sidebar"  id="NewNavBar">
         <div>
           
           <div id="DesktopNavBar">
@@ -61,60 +61,13 @@
               <img src="PHP/Graphics\SmallLogo.png" class="img-fluid" alt="Logo" id="SmallBrightSolidLogo">
             </div>
 
-            <!-- Passed -->
-            <div id="AccountDropDown" >
-              <div class="btn-group dropend">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Old
-                </button>
-                
-                <ul class="dropdown-menu review-dropdown">
-                  <li class="review-dropdown-li">
-
-                    <div class="noPassedDiv" id="noPassedDiv"></div>
-                    
-                    <table class="table table-bordered table-detailed-view" id="passedTable">
-                      <thead class="table-dark">
-                        <tr>
-                          <th scope="col">Rule ID</th>
-                          <th scope="col">Resource ID</th>
-                          <th scope="col">Resource Name</th>
-                          <th scope="col">Justification</th>
-                          <th scope="col">Review Date</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php upComingReviews($dbc, 0); ?>
-                      </tbody>
-                    </table> 
-
-                    <script>
-                      var x = document.getElementById("passedTable");
-                      if(x.rows.length <= 1){
-                        x.style.display = "none";
-
-
-                        const passedheading = document.createElement("h6");
-                        const passedMessage = document.createTextNode("There are no passed review dates.");
-                        passedheading.appendChild(passedMessage);
-
-                        const element = document.getElementById("noPassedDiv");
-                        element.appendChild(passedheading);
-                      }
-                        
-                    </script>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <!-- Passed -->
-
             <!-- Upcoming -->
             <div id="AccountDropDown">
               <div class="btn-group dropend">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  30
-                </button>
+                <a class="d-flex align-items-center justify-content-center p-3 link-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img src="PHP/Graphics\30Days.png" class="img-fluid" alt="Logo" id="AccountIcon">
+                </a>
+
                 <ul class="dropdown-menu review-dropdown">
                   <li class="review-dropdown-li"> 
                     
@@ -154,10 +107,55 @@
                 </ul>
               </div>
             </div>
-  
             <!-- Upcoming -->
-              
 
+            <!-- Passed -->
+            <div id="AccountDropDown" >
+              <div class="btn-group dropend">
+                <a class="d-flex align-items-center justify-content-center p-3 link-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img src="PHP/Graphics\Bell.png" class="img-fluid" alt="Logo" id="AccountIcon">
+                </a>
+                
+                <ul class="dropdown-menu review-dropdown">
+                  <li class="review-dropdown-li">
+
+                    <div class="noPassedDiv" id="noPassedDiv"></div>
+                    
+                    <table class="table table-bordered table-detailed-view" id="passedTable">
+                      <thead class="table-dark">
+                        <tr>
+                          <th scope="col">Rule ID</th>
+                          <th scope="col">Resource ID</th>
+                          <th scope="col">Resource Name</th>
+                          <th scope="col">Justification</th>
+                          <th scope="col">Review Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php upComingReviews($dbc, 0); ?>
+                      </tbody>
+                    </table> 
+
+                    <script>
+                      var x = document.getElementById("passedTable");
+                      if(x.rows.length <= 1){
+                        x.style.display = "none";
+
+                        const passedheading = document.createElement("h6");
+                        const passedMessage = document.createTextNode("There are no passed review dates.");
+                        passedheading.appendChild(passedMessage);
+
+                        const element = document.getElementById("noPassedDiv");
+                        element.appendChild(passedheading);
+                      }
+                        
+                    </script>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- Passed -->
+        
             <!-- Account -->
             <div class="position-absolute bottom-0 end-0" id="AccountDropDown">
               <div class="dropup">
@@ -165,7 +163,7 @@
                   <img src="PHP/Graphics\AccountIcon.png" class="img-fluid" alt="Logo" id="AccountIcon">
                 </a>
                 
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" id="AccountDropDownMenu">
                   <li> <div class="d-flex justify-content-center"><?php echo $_SESSION['userName']?></div> </li>
                   <li> <div class="d-flex justify-content-center"><?php echo $_SESSION['userRole']?></div> </li>
                   <li> <hr class="dropdown-divider"> </li>
@@ -181,11 +179,6 @@
             </div>
             <!-- Account -->
           </div>
-
-
-
-
-
 
           <!-- MOBILE NAV -->
           <div id="NavBarLogo">
@@ -207,15 +200,15 @@
                 <!-- Passed --> 
                 <div id="PassedDropDownMobile">            
                   <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Pass
-                    </button>
+                    <a class="d-flex align-items-center justify-content-center p-3 link-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="PHP/Graphics\Bell.png" class="img-fluid" alt="Logo" id="AccountIcon">
+                    </a>
                     
                     <ul class="dropdown-menu review-dropdown">
                       <li class="review-dropdown-li">
-                        <div class="noPassedDiv" id="noPassedDiv"></div>
+                        <div class="noPassedDivMobile" id="noPassedDivMobile"></div>
                         
-                        <table class="table table-bordered table-detailed-view" id="passedTable">
+                        <table class="table table-bordered table-detailed-view" id="passedTableMobile">
                           <thead class="table-dark">
                             <tr>
                               <th scope="col">Rule ID</th>
@@ -230,6 +223,21 @@
                           </tbody>
                         </table> 
 
+                        <script>
+                          var x = document.getElementById("passedTableMobile");
+                          if(x.rows.length <= 1){
+                            x.style.display = "none";
+
+
+                            const passedheading = document.createElement("h6");
+                            const passedMessage = document.createTextNode("There are no passed review dates.");
+                            passedheading.appendChild(passedMessage);
+
+                            const element = document.getElementById("noPassedDivMobile");
+                            element.appendChild(passedheading);
+                          }
+                        </script>
+
                       </li>
                     </ul>
                   </div>
@@ -239,15 +247,15 @@
                 <!-- Upcoming -->
                   <div id="UpcomingDropDownMobile"> 
                     <div class="dropdown">
-                      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                       30
-                      </button>
+                      <a class="d-flex align-items-center justify-content-center p-3 link-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="PHP/Graphics\30Days.png" class="img-fluid" alt="Logo" id="AccountIcon">
+                      </a>
                       <ul class="dropdown-menu review-dropdown">
                         <li class="review-dropdown-li"> 
                           
-                          <div class="noUpcomingDiv" id="noUpcomingDiv"></div>
+                          <div class="noUpcomingDivMbobile" id="noUpcomingDivMbobile"></div>
                       
-                          <table class="table table-bordered table-detailed-view" id="upcomingTable">
+                          <table class="table table-bordered table-detailed-view" id="upcomingTableMobile">
                             <thead class="table-dark">
                               <tr>
                                 <th scope="col">Rule ID</th>
@@ -261,6 +269,22 @@
                               <?php upComingReviews($dbc, 1); ?>
                             </tbody>
                           </table> 
+
+                          <script>
+                            var x = document.getElementById("upcomingTableMobile");
+                            if(x.rows.length <= 1){
+                              x.style.display = "none";
+
+                              const upcomingHeading = document.createElement("h6");
+                              const upcomingMessage = document.createTextNode("There are no upcoming review dates.");
+                              upcomingHeading.appendChild(upcomingMessage);
+
+                              const element = document.getElementById("noUpcomingDivMbobile");
+                              element.appendChild(upcomingHeading);
+                            }
+                              
+                          </script>
+
                         </li>
                       </ul>
                     </div>

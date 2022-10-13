@@ -56,7 +56,7 @@
                   <img src="PHP/Graphics\AccountIcon.png" class="img-fluid" alt="Logo" id="AccountIcon">
                 </a>
                 
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" id="#AccountDropDownMenu">
                   <li> <div class="d-flex justify-content-center"><?php echo $_SESSION['userName']?></div> </li>
                   <li> <div class="d-flex justify-content-center"><?php echo $_SESSION['userRole']?></div> </li>
                   <li> <hr class="dropdown-divider"> </li>
@@ -90,12 +90,12 @@
               <div class="offcanvas-body" id="MobileOffcanvas">
                 <div>
                   <div class="d-flex align-items-center" id="AccountDropDownMobile">
-                    <div class="dropdown">
+                    <div class="dropup">
                       <a class="d-flex align-items-center justify-content-center p-3 link-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="PHP/Graphics\AccountIcon.png" class="img-fluid" alt="Logo" id="AccountIcon">
                       </a>
                       
-                      <ul class="dropdown-menu">
+                      <ul class="dropdown-menu" id="#AccountDropDownMenu">
                         <li> <div class="d-flex justify-content-center"><?php echo $_SESSION['userName']?></div> </li>
                         <li> <div class="d-flex justify-content-center"><?php echo $_SESSION['userRole']?></div> </li>
                         <li> <hr class="dropdown-divider"> </li>

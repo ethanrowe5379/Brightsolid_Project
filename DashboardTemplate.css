@@ -341,7 +341,7 @@ body {
         border-radius: 10px;
     }
 
-    #NavBarLogo .dropdown-menu{
+    #NewNavBar .dropdown-menu:not(#AccountDropDownMenu){
         overflow: scroll;
         max-height: 256px;
         max-width: 280px;
@@ -349,18 +349,7 @@ body {
     
 }
 
-
-#NavBarLogo .dropdown-menu{
+#NewNavBar .dropdown-menu:not(#AccountDropDownMenu){
     overflow: scroll;
     max-height: 256px;
-    max-width: 300px;
 }
-
-#DesktopNavBar .dropdown-menu{
-    overflow: scroll;
-    max-height: 375px;
-
-}
-
-
-
