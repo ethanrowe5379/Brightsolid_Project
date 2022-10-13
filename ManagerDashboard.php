@@ -358,6 +358,7 @@
         else{
           $resourceTableID = "resourceTable_". $row['rule_id'];
           echo'
+          <div class="table-responsive">
             <table class="table table-detailed-view" id="'. $resourceTableID .'">
               <thead class="table-dark">
                 <tr>
@@ -399,7 +400,8 @@
               echo'  
               </tbody>
             </table>
-            ';
+          </div>
+          ';
           }
         echo'
         </div>
@@ -438,41 +440,43 @@
           else{
             $exceptionTableID = "exceptionTable_". $row['rule_id'];
             echo '
-            <table class="table table-detailed-view" id="'. $exceptionTableID .'">
-              <thead class="table-dark">
-                <tr>
-                  <th class="table-sort" scope="col" onclick="sortTable(0, '; echo "'$exceptionTableID'"; echo')">Resource ID</th>
-                  <th class="table-sort" scope="col" onclick="sortTable(1, '; echo "'$exceptionTableID'"; echo')">Justification</th>
-                  <th class="table-sort" scope="col" onclick="sortTable(2, '; echo "'$exceptionTableID'"; echo')">Review Date</th>
-                  <th class="table-sort" scope="col" onclick="sortTable(3, '; echo "'$exceptionTableID'"; echo')">Last Updated By</th>
-                  <th scope="col">Edit</th>
-                  <th scope="col">Suspend</th>
-                </tr>
-              </thead>
-              <tbody>
-                ';
-                
-                while ($rowExceptions = $resultExceptions->fetch_assoc()) {
+            <div class="table-responsive">
+              <table class="table table-detailed-view" id="'. $exceptionTableID .'">
+                <thead class="table-dark">
+                  <tr>
+                    <th class="table-sort" scope="col" onclick="sortTable(0, '; echo "'$exceptionTableID'"; echo')">Resource ID</th>
+                    <th class="table-sort" scope="col" onclick="sortTable(1, '; echo "'$exceptionTableID'"; echo')">Justification</th>
+                    <th class="table-sort" scope="col" onclick="sortTable(2, '; echo "'$exceptionTableID'"; echo')">Review Date</th>
+                    <th class="table-sort" scope="col" onclick="sortTable(3, '; echo "'$exceptionTableID'"; echo')">Last Updated By</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Suspend</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ';
+                  
+                  while ($rowExceptions = $resultExceptions->fetch_assoc()) {
 
-                  $currentResourceID = $rowExceptions['resource_id'];
-                  $currentExceptionID = $rowExceptions['exception_id'];
+                    $currentResourceID = $rowExceptions['resource_id'];
+                    $currentExceptionID = $rowExceptions['exception_id'];
 
-                  echo '<tr>';
-                    echo '<td scope="row"><strong>'. $rowExceptions['resource_id']  .'</strong></td>';
-                    echo '<td>'. $rowExceptions['justification'] . '</td>';
-                    echo '<td>'. $rowExceptions['review_date'] . '</td>';
-                    echo '<td>'. $rowExceptions['user_name'] . '</td>';
-                    
-                    
-                    echo editExceptionButton($dbc, $currentResourceID, $currentExceptionID);
-                    echo suspendExceptionButton($dbc, $currentExceptionID);
-                  echo '</tr>';
-                }
+                    echo '<tr>';
+                      echo '<td scope="row"><strong>'. $rowExceptions['resource_id']  .'</strong></td>';
+                      echo '<td>'. $rowExceptions['justification'] . '</td>';
+                      echo '<td>'. $rowExceptions['review_date'] . '</td>';
+                      echo '<td>'. $rowExceptions['user_name'] . '</td>';
+                      
+                      
+                      echo editExceptionButton($dbc, $currentResourceID, $currentExceptionID);
+                      echo suspendExceptionButton($dbc, $currentExceptionID);
+                    echo '</tr>';
+                  }
+                  
                 
-              
-              echo'
-            </tbody>
-          </table>
+                echo'
+                </tbody>
+              </table>
+            </div>
           ';
           }
           echo '
