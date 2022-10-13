@@ -104,7 +104,7 @@
               <tr>
                 <th class="table-sort" scope="col" onclick="sortTable(0, 'ruleTable')">ID</th>
                 <th class="table-sort" scope="col" onclick="sortTable(1, 'ruleTable')">Rule Name</th>
-                <th scope="col">Rule Description</th>
+                <th class="table-rule-desc" scope="col">Rule Description</th>
                 <th scope="col">Compliance Status</th>
                 <th scope="col"></th>
               </tr>
@@ -151,7 +151,7 @@
         <tr>
           <td><strong>'. $row['rule_id'] .'</strong></td>
           <td>'. $row['rule_name'] .'</td>
-          <td>'. $row['rule_description'] .'</td>';
+          <td class="table-rule-desc">'. $row['rule_description'] .'</td>';
 
           ?>
 
