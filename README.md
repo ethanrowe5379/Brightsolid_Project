@@ -488,7 +488,7 @@ n/a
 n/a
 
 ### Summary of Conversation:
-Ethan 
+Daniel 
 - Yesterday I noticed we had made some mistakes such as the customer was able to view other customers resources not taking into account customerID 
 and suspending an exception doesn't create an audit so I've updated these and made a pull request.
 - Today I will be working on creating new issues for the clients' suggestions from the client meeting on 10th Oct.
