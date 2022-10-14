@@ -22,7 +22,7 @@
     <content>
 
       <div class="text-center"> 
-        <img src="Graphics\BrightSolidLogo.png" class="img-fluid" alt="Logo" id="BrightSolidLogo">
+        <img src="Graphics\BrightSolidLogo.png" class="img-fluid" alt="BrightSolid" id="BrightSolidLogo">
       </div> 
             
       <div id = "LoginForm">
