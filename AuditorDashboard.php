@@ -46,14 +46,14 @@
         <div>
           <div>
             <div class="position-absolute top-0 start-0" id="SideBarLogo">
-              <img src="PHP/Graphics\SmallLogo.png" class="img-fluid" alt="Logo" id="SmallBrightSolidLogo">
+              <img src="PHP/Graphics\SmallLogo.png" class="img-fluid" alt="BrightSolid" id="SmallBrightSolidLogo">
             </div>
 
             <!-- Dropdown -->
             <div class="position-absolute bottom-0 end-0" id="AccountDropDown">
               <div class="dropup">
                 <a class="d-flex align-items-center justify-content-center p-3 link-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                  <img src="PHP/Graphics\AccountIcon.png" class="img-fluid" alt="Logo" id="AccountIcon">
+                  <img src="PHP/Graphics\AccountIcon.png" class="img-fluid" alt="Click to view account details and options" id="AccountIcon">
                 </a>
                 
                 <ul class="dropdown-menu" id="#AccountDropDownMenu">
@@ -92,7 +92,7 @@
                   <div class="d-flex align-items-center" id="AccountDropDownMobile">
                     <div class="dropup">
                       <a class="d-flex align-items-center justify-content-center p-3 link-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="PHP/Graphics\AccountIcon.png" class="img-fluid" alt="Logo" id="AccountIcon">
+                        <img src="PHP/Graphics\AccountIcon.png" class="img-fluid" alt="Click to view account details and options" id="AccountIcon">
                       </a>
                       
                       <ul class="dropdown-menu" id="#AccountDropDownMenu">
@@ -114,7 +114,7 @@
 
             </div>
 
-            <img src="PHP/Graphics\BrightSolidLogo.png" class="img-fluid" alt="Logo" id="NavBarBrightSolidLogo">
+            <img src="PHP/Graphics\BrightSolidLogo.png" class="img-fluid" alt="BrightSolid" id="NavBarBrightSolidLogo">
 
           </div>
           

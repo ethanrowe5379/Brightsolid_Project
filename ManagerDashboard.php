@@ -59,12 +59,12 @@
           <div id="DesktopNavBar">
 
             <div class="position-absolute top-0 start-0" id="SideBarLogo">
-              <img src="PHP/Graphics\SmallLogo.png" class="img-fluid" alt="Logo" id="SmallBrightSolidLogo">
+              <img src="PHP/Graphics\SmallLogo.png" class="img-fluid" alt="BrightSolid" id="SmallBrightSolidLogo">
             </div>
   
             <!-- Passed -->
             <a class="d-flex align-items-center justify-content-center p-3 link-dark dropdown-toggle" data-bs-toggle="modal" data-bs-target="#PassedModal" id="AccountDropDown">
-              <img src="PHP/Graphics\Bell.png" class="img-fluid" alt="Logo" id="AccountIcon">
+              <img src="PHP/Graphics\Bell.png" class="img-fluid" alt="Click to view exceptions that have passed their review date" id="AccountIcon">
             </a>
 
             <div class="modal fade" id="PassedModal" aria-labelledby="UpComingModal" aria-hidden="true">
@@ -114,7 +114,7 @@
 
             <!-- Upcoming -->
             <a class="d-flex align-items-center justify-content-center p-3 link-dark dropdown-toggle" data-bs-toggle="modal" data-bs-target="#UpComingModal" id="AccountDropDown">
-              <img src="PHP/Graphics\30Days.png" class="img-fluid" alt="Logo" id="AccountIcon">
+              <img src="PHP/Graphics\30Days.png" class="img-fluid" alt="Click to view exceptions that have upcomming review dates" id="AccountIcon">
             </a>
 
             <div class="modal fade" id="UpComingModal" aria-labelledby="UpComingModal" aria-hidden="true">
@@ -167,7 +167,7 @@
             <div class="position-absolute bottom-0 end-0" id="AccountDropDown">
               <div class="dropup">
                 <a class="d-flex align-items-center justify-content-center p-3 link-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                  <img src="PHP/Graphics\AccountIcon.png" class="img-fluid" alt="Logo" id="AccountIcon">
+                  <img src="PHP/Graphics\AccountIcon.png" class="img-fluid" alt="Click to view account details and options" id="AccountIcon">
                 </a>
                 
                 <ul class="dropdown-menu" id="AccountDropDownMenu">
@@ -208,7 +208,7 @@
                 <div id="PassedDropDownMobile">            
                   <div class="dropdown">
                     <a class="d-flex align-items-center justify-content-center p-3 link-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="PHP/Graphics\Bell.png" class="img-fluid" alt="Logo" id="AccountIcon">
+                        <img src="PHP/Graphics\Bell.png" class="img-fluid" alt="Click to view exceptions that have passed their review date" id="AccountIcon">
                     </a>
                     
                     <ul class="dropdown-menu review-dropdown">
@@ -260,7 +260,7 @@
                   <div id="UpcomingDropDownMobile"> 
                     <div class="dropdown">
                       <a class="d-flex align-items-center justify-content-center p-3 link-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="PHP/Graphics\30Days.png" class="img-fluid" alt="Logo" id="AccountIcon">
+                        <img src="PHP/Graphics\30Days.png" class="img-fluid" alt="Click to view exceptions that have upcomming review dates" id="AccountIcon">
                       </a>
                       <ul class="dropdown-menu review-dropdown">
                         <li class="review-dropdown-li"> 
@@ -308,7 +308,7 @@
                     <div class="dropup">
 
                       <a class="d-flex align-items-center justify-content-center p-3 link-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="PHP/Graphics\AccountIcon.png" class="img-fluid" alt="Logo" id="AccountIcon">
+                        <img src="PHP/Graphics\AccountIcon.png" class="img-fluid" alt="Click to view account details and options" id="AccountIcon">
                       </a>
                       
                       <ul class="dropdown-menu">
@@ -329,7 +329,7 @@
               </div>
 
             </div>
-            <img src="PHP/Graphics\BrightSolidLogo.png" class="img-fluid" alt="Logo" id="NavBarBrightSolidLogo">
+            <img src="PHP/Graphics\BrightSolidLogo.png" class="img-fluid" alt="BrightSolid" id="NavBarBrightSolidLogo">
           </div>
           
         </div>
