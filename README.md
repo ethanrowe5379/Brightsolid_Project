@@ -593,4 +593,33 @@ DJ
 - obviously I’m adding to these if anything comes to mind but there in a good place right now.
 - continue working on the report need to see the sections that are most important to get started.
 
+## Meeting (13th Oct)
+### Members Present:
+DJ Dorren,  Jamie Fergus, Daniel Jakubek, John Harrow
 
+### Members Not Present:
+Ethan Rowe
+
+### Apologies:
+Ethan Rowe was unable to make the meeting due to wifi issues 
+
+### Summary of Conversation:
+An issue was based about how we’re suspending the exceptions 
+Jamie demonstrates what we have so far
+
+Daniel
+- Yesterday I worked one the Nav bar and allowing the user to see the passed and upcoming reviews.
+- Issue is that the code is repeated over the mobile nav bar and normal
+
+Jamie
+- Yesterday I worked on the mobile view mostly
+- Had some issues with the chats but all working now
+- Helped Daniel with some of his stuff
+
+DJ
+- Yesterday I worked more on report stuff and made a couple icons for the nav bar for Daniel
+- Need to find out what Ethan has done for the report and start combining it.
+
+John
+- Started writing the designs section for the report from what Daniel 
+- I did will be continuing with this today.
