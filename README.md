@@ -554,4 +554,43 @@ DJ
 - No issues.
 
 
+## Meeting (13th Oct)
+### Members Present:
+DJ Dorren, Ethan Rowe, Jamie Fergus, Daniel Jakubek, John Harrow
+
+### Members Not Present:
+N/a
+
+### Apologies:
+n/a
+
+### Summary of Conversation:
+
+Daniel 
+- Yesterday I helped John with the creating customers so that’s done 
+- Fixed a few issues with Jamie like the data race.
+- plans for today might work on the nav bar making it a bit nicer but waiting on Jamies stuff so there’s no conflicts.
+- was a few issues with CSS yesterday but all fixed now.
+
+Jamie 
+- Fist thing I did was sort out the database with the new stuff Daniel and John needed.
+- worked on the data race with Daniel so should be fixed now.
+- Messed about the graphs and button css so everything is a little bit more compact.
+- One issue is the size of the exception table in the detailed view.
+- Plans for today is finishing up the graph css then maybe some report work.
+
+John
+- Yesterday I worked with Daniel on the customer report page and the admin login.
+- Today will probably continue with work on the report.
+
+Ethan
+- Yesterday I was fixing and sorting out the user survey stuff he suggested MS forms so guessing google forms should be fine.
+- Issue with the one they originally suggested is that they are now charging for the surveys.
+- should be goos to start user testing today.
+
+DJ
+- I’ve been working on the report the background, specification and design sections are now all finished.
+- obviously I’m adding to these if anything comes to mind but there in a good place right now.
+- continue working on the report need to see the sections that are most important to get started.
+
 
