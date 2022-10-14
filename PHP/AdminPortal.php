@@ -40,7 +40,7 @@
     <content class="AdminPortal">
 
         <div class="text-center"> 
-            <img src="Graphics\BrightSolidLogo.png" class="img-fluid" alt="Logo" id="BrightSolidLogo">
+            <img src="Graphics\BrightSolidLogo.png" class="img-fluid" alt="BrightSolid" id="BrightSolidLogo">
             <h1>Admin Portal</h1>
         </div> 
 
