@@ -2,6 +2,11 @@
 <?php 
 
   session_start();
+  $loginstatus ="";
+  if (isset($_SESSION['loginstatus'])) {
+    $loginstatus = $_SESSION['loginstatus'];
+    unset($_SESSION['loginstatus']);
+  }
   session_unset();
  
 ?>
@@ -22,7 +27,7 @@
     <content>
 
       <div class="text-center"> 
-        <img src="Graphics\BrightSolidLogo.png" class="img-fluid" alt="Logo" id="BrightSolidLogo">
+        <img src="Graphics\BrightSolidLogo.png" class="img-fluid" alt="BrightSolid" id="BrightSolidLogo">
       </div> 
 
       <div class="container">
@@ -43,12 +48,8 @@
             <button class="btn btn-primary" type="submit" id="LoginSubmit" name="AdminLoginSubmit">Login</button>
                 <div>
                     <p class="text-center" id="LoginStatus">
-                        <?php 
-                            if (isset($_SESSION['loginstatus'])) {
-                            $loginstatus = $_SESSION['loginstatus'];
+                        <?php
                             echo $loginstatus;
-                            unset($_SESSION['loginstatus']);
-                            }
                         ?>
                     </p>
                 </div>
