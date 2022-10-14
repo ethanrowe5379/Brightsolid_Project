@@ -2,6 +2,11 @@
 <?php 
 
   session_start();
+  $loginstatus ="";
+  if (isset($_SESSION['loginstatus'])) {
+    $loginstatus = $_SESSION['loginstatus'];
+    unset($_SESSION['loginstatus']);
+  }
   session_unset();
  
 ?>
@@ -35,11 +40,7 @@
             <div>
               <p class="text-center" id="LoginStatus">
                 <?php 
-                  if (isset($_SESSION['loginstatus'])) {
-                    $loginstatus = $_SESSION['loginstatus'];
-                    echo $loginstatus;
-                    unset($_SESSION['loginstatus']);
-                  }
+                  echo $loginstatus;
                 ?>
               </p>
             </div>
