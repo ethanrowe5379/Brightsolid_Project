@@ -275,6 +275,11 @@ body {
 
 @media screen and (max-width: 700px) {
 
+    #DashboardHeading{
+        margin-top: 4rem;
+        margin-bottom: 3rem;
+    }
+
     .sidebar {
         width: 100%;
         height: auto;
@@ -357,4 +362,9 @@ body {
         margin-left: -14px;
     }
     
+}
+
+#DashboardHeading{
+    text-align: center;
+    margin-bottom: 5rem;
 }
