@@ -34,7 +34,7 @@
             getUsername($username, $password, $dbc);
         }
         else{
-            errorMessage();
+            errorMessage("Index.php");
         }
     }
 
@@ -74,11 +74,11 @@
                 getUserRole($row["role_id"], $dbc);  
             }
             else{
-                errorMessage(); 
+                errorMessage("Index.php"); 
             }
         }
         else{
-            errorMessage();
+            errorMessage("Index.php");
         }
     }
 
@@ -95,11 +95,11 @@
                 header("refresh:1;url=AdminPortal.php");
             }
             else{
-                errorMessage(); 
+                errorMessage("AdminLogin.php"); 
             }
         }
         else{
-            errorMessage();
+            errorMessage("AdminLogin.php");
         }
     }
 
@@ -132,9 +132,9 @@
     }
 
     //Sends the login error message but also redirects the user
-    function errorMessage(){
+    function errorMessage($location){
         $_SESSION['loginstatus'] = "Incorrect username or password.";
-        header("refresh:2;url=Index.php"); //Goes back to login page after x seconds
+        header("refresh:2;url=$location"); //Goes back to login page after x seconds
     }
 
     mysqli_close($dbc);

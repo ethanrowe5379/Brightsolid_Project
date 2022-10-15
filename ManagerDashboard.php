@@ -949,12 +949,22 @@
   function upComingReviews($dbc, $reviewDate){
 
     $customerID = $_SESSION['customerID'];
-  
-    $sqlQuery = "SELECT * FROM exception 
+    $lookFor = "";
+
+    if($reviewDate == 0)
+      $lookFor = "< '" . date('Y-m-d H:i:s') . "'"; //Passed
+    else{
+      $tempDate = date('Y-m-d H:i:s', strtotime('+30 days'));
+      $lookFor = "BETWEEN '" .date('Y-m-d H:i:s'). "' AND '". $tempDate  ."'";
+    }
+   
+    $sqlQuery =
+    "SELECT * FROM exception 
     LEFT JOIN resource
     ON resource.resource_id = exception.resource_id
-    WHERE customer_id = '$customerID'";
-    
+    WHERE review_date $lookFor AND customer_id = '$customerID'
+    ORDER BY review_date ASC;";
+
     $upcomingReviewsResult = $dbc->query($sqlQuery);
 
     if($upcomingReviewsResult){
@@ -964,8 +974,7 @@
 
           $currentExceptionID = $upcomingExceptions['exception_id'];
           $currentResourceID = $upcomingExceptions['resource_id'];
-
-          if(reviewDatePassed($dbc, $upcomingExceptions['review_date']) == $reviewDate){
+          
             echo '<tr>';
             echo '<th scope="row">'. $upcomingExceptions['rule_id']  . '</th>';
             echo '<td>'. $upcomingExceptions['resource_id']  . '</td>';
@@ -973,36 +982,10 @@
             echo '<td>'. $upcomingExceptions['justification']  . '</td>';
             echo '<td>'. $upcomingExceptions['review_date'] . '</td>';
             echo '</tr>';
-          }
+          
         }
       }
     }
-  }
-
-  //Checks if the date is in the past or future and returns true(in future/upcoming) or false(passed)
-  function reviewDatePassed($dbc, $reviewDate){
-
-    //Subtracts the BST VS GMT difference at the end of string
-    if (strpos($reviewDate, '+0000')) {
-      $reviewDate = trim($reviewDate, "+0000");
-      $currentTime = date('Y-m-d H:i:s');
-    }
-    else{
-      $reviewDate = trim($reviewDate, "+0100");
-      $currentTime = date('Y-m-d H:i:s');
-    }
-  
-    //Date 30 days in the future
-    $compareUpcoming = date('Y-m-d H:i:s', strtotime('+30 days'));
-
-    if(strtotime($reviewDate) < strtotime($currentTime))
-      return 0;//passed
-
-    //If the date is within 30 days
-    if(strtotime($reviewDate) < strtotime($compareUpcoming))
-      return 1;//Upcoming
-  
-    return 3; //way in the future
   }
 
   //Sets if the current time is in BST or GMT
