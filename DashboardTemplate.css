@@ -1,0 +1,370 @@
+body{
+    background-color: #ffffff;
+}
+
+header{
+    background-color: #045157;
+    width: 100%;
+}
+
+/* .container{
+    background-color: #797978 ;
+} */
+
+#innerCard{
+    margin-bottom: 5px;
+    margin-right:-10px;
+    margin-left:-10px;
+}
+
+.graph{
+    display: inline-block;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .container{
+        margin-top: 10px;
+    }
+
+
+    *{
+        font-size: 14px;
+    }
+
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    .container{
+        margin-top: 50px;
+    }
+
+    *{
+        font-size: 16px;
+    }
+
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    /* .container{
+        width: 30%;
+        display:inline-block;
+        font-size: medium;
+    } */
+
+
+    *{
+        font-size: 18px;
+    }
+
+}
+
+/* Medium devices (landscape tablets, 768px and down) */
+@media only screen and (max-width: 768px) {
+    
+    .graph1{
+        max-width: 277px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #DashboardHeading{
+        text-align: center;
+    }
+
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    
+    *{
+        font-size: 20px;
+    }
+
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (max-width: 992px) {
+
+    .table-rule-desc{
+        display: none !important;
+    }
+
+}
+
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+
+}
+
+.accordion-body,
+.review-dropdown-li,
+.review-dropdown
+{
+    padding-top: 0;
+    padding-bottom: 0 ;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.table-detailed-view{
+    margin-bottom: 0;
+}
+
+.table-detailed-view tr{
+    border: rgb(80, 80, 80) solid 1px;
+}
+
+.noExceptionHeading,
+.noResourceHeading{
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.noPassedDiv h6,
+.noUpcomingDiv h6{
+    text-align: center;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+#resourceNonCompliant{
+    background-color: rgb(255, 127, 127);
+}
+#resourceCompliant{
+    background-color: rgb(204, 255, 204);
+}
+
+/* IMPORTANT */
+.offcanvas{
+    z-index: 1500!important;
+}
+
+input[type=datetime-local], input[type=text], input[type=password], input[type=number]{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 2px solid rgb(0, 0, 0);
+    box-sizing: border-box;
+}
+
+#LoginStatus{
+    color: red;
+  }
+  
+#LoginSubmit, #CreateUser, #createExceptionConfirm, .btn {
+    background-color: #212529;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.navbar{
+    background-color: rgb(241, 180, 52);
+}
+
+
+.table-sort {
+	position: relative;
+}
+
+.table-sort:before,
+.table-sort:after {
+	border: 4px solid transparent;
+	content: "";
+	display: block;
+	right: 0px;
+	top: 50%;
+	position: absolute;
+}
+
+.table-sort:before {
+	border-bottom-color: white;
+	margin-top: -9px;
+}
+
+.table-sort:after {
+	border-top-color: white;
+	margin-top: 1px;
+}
+
+.table-btn{
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+}
+
+.table>:not(caption)>*>* {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    vertical-align: middle;
+}
+
+/* NAVBAR */
+
+body {
+    margin: 0;
+}
+  
+  .sidebar {
+    margin: 0;
+    padding: 0;
+    width: 100px;
+    background-color: #045157;
+    position: fixed;
+    height: 100%;
+    overflow: visible;
+  }
+ 
+  div.content {
+    margin-left: 100px;
+    padding: 1px 16px;
+    height: 1000px;
+  }
+  
+  
+#SmallBrightSolidLogo{
+    border-radius: 4px;
+    min-width: 1%;
+    width: 50%;
+    margin-top: 1rem;
+    border: 2px solid rgb(241, 180, 52);
+}
+
+#SideBarLogo{
+    text-align: center;
+}
+
+#NavBarLogo{
+    display: none;
+}
+
+#NavBarLogo .offcanvas{
+    max-width: 6rem;
+    position: fixed;
+}
+
+#NavBarLogo .offcanvas-body{
+    padding-left: 14px;
+    padding-right: 14px;
+}
+
+.dropdown-toggle{
+    color: rgb(241, 180, 52) !important;
+}
+
+#NewNavBar .dropdown-menu:not(#AccountDropDownMenu){
+    overflow: scroll;
+    max-height: 600px
+}
+
+
+#AccountDropDown .dropend{
+    top: 0;
+}
+
+.modal-backdrop{
+    display: none;
+}
+
+@media screen and (max-width: 700px) {
+
+    #DashboardHeading{
+        margin-top: 4rem;
+        margin-bottom: 3rem;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: fixed;
+        background-color: rgb(241, 180, 52);
+    }
+
+    div.content {margin-left: 0;}
+
+    #SmallBrightSolidLogo{
+        border-radius: 4px;
+        min-width: 1%;
+        width: 10%;
+        margin-top: 1rem;
+        margin-left: 1rem;
+        border: 2px solid rgb(241, 180, 52);
+    }
+
+    #SideBarLogo{
+        text-align: left;
+        display: none;
+    }
+
+    #AccountDropDown {
+        display: none !important;
+    }
+
+    #UpcomingDropDownMobile{
+ 
+        /* position: fixed; */
+        position: absolute!important;
+        margin-top: 40px;
+    }
+
+    #PassedDropDownMobile{
+ 
+        /* position: fixed; */
+        position: absolute!important;
+        margin-top: 100px;
+    }
+
+    #AccountDropDownMobile{
+        position: absolute!important;
+        bottom: 0;
+    }
+
+    #MobileOffCanvas{
+        background-color:#045157 !important;
+        border: none;
+    }
+
+    #NavBarLogo{
+        display: block;
+        text-align: center;
+    }
+
+    #NavBarBrightSolidLogo{
+        width: 40%;
+        margin-bottom: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .Hamburger{
+        width: 25px;
+        height: 2px;
+        background-color: #045157;
+        margin: 0.2rem;
+    }
+
+    #HamburgerButton{
+        background-color: Transparent;
+        background-repeat: no-repeat;
+        border: 1px solid #045157;
+        border-radius: 10px;
+    }
+
+    #NewNavBar .dropdown-menu:not(#AccountDropDownMenu){
+        width: 100vw;
+        max-height: 256px;
+        margin-left: -14px;
+    }
+    
+}
+
+#DashboardHeading{
+    text-align: center;
+    margin-bottom: 5rem;
+}
