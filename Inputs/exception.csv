@@ -1,3 +1,0 @@
-exception_id,customer_id,rule_id,last_updated_by,exception_value,justification,review_date,last_updated,resource_id
-1,1,4,1,bs-quorum-dropbox,Enabled by system,2022-12-12 16:23:59.759 +0000,2022-09-12 17:25:36.091 +0100,1321
-3,1,4,1,bsol-dev-bakery-assets,Enabled by system,2022-12-12 16:23:59.759 +0000,2022-09-12 17:25:36.091 +0100,1324
