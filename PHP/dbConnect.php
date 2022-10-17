@@ -9,10 +9,11 @@
 
     //Zeno server
     $dbc = new mysqli(
-        "silva.computing.dundee.ac.uk",
-        "jamiefergus", //username
-        "AC32006", //password
-        "jamiefergusdb" //database name
+        // Removed database connect detials for security concerns, add back in locally if you wish to test
+        "", 
+        "", //username
+        "", //password
+        "" //database name
     );
 
     if (!$dbc) {
