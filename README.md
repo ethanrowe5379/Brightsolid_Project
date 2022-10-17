@@ -206,6 +206,21 @@ Daniel
 Ethan 
 - we'll [Jamie DJ Ethan] will be working on connecting the database and the queries.
 
+## Meeting Managment meeting 2 (3rd oct)
+### Members Present:
+DJ Dorren, Ethan Rowe, Jamie Fergus, Daniel Jakubek, John Harrow
+
+### Members Not Present:
+n/a
+
+### Apologies:
+n/a
+
+### Summary of Conversation:
+Brain - For the next presentations try have someone setting up and the rest of the group can start just to make things more effiecnt
+Brain - have you started the report
+team - no but we've discussed it
+
 ## Meeting (5th oct)
 ### Members Present:
 DJ Dorren, Ethan Rowe, Jamie Fergus, Daniel Jakubek, John Harrow
@@ -475,7 +490,22 @@ Client suggestions
 
 - Showing the number of exceptions on the dashboard. 
 
+## Meeting Managment meeting 3 (3rd oct)
+### Members Present:
+DJ Dorren, Ethan Rowe, Jamie Fergus, Daniel Jakubek, John Harrow
 
+### Members Not Present:
+n/a
+
+### Apologies:
+n/a
+
+### Summary of Conversation:
+Brain - Have you started the report
+Team - yes
+Brain - Have you thought about the ethics
+Ethan - yes we but haven't filled in the form yet
+Brain - need to fill that in and send it to me
 
 ## Meeting (11th oct)
 ### Members Present:
